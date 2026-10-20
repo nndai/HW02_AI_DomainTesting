@@ -526,3 +526,99 @@ Tôi sẽ đưa lại ca `-1` và ô rỗng vào bảng testcase, cập nhật �
 
 Bộ hiện hành có **8 ca**; đã đồng bộ phân lớp, đại diện và truy vết. Ghi chú D04 giữ nguyên. Chưa chạy test hay commit; lượt này được ghi nguyên văn vào log.
 `````
+
+
+## Tương tác 9
+
+- Công cụ: OpenAI Codex.
+- Thời gian: 20-10-2026 22:21
+
+### Prompt — nguyên văn
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:671 -->
+<!-- prompt-timestamp: 20-10-2026 22:21:06.805 +07:00; source: chat-transcript -->
+`````text
+làm fr07, dùng skill domain-testing-bva, đọc yêu cầu fr07 trong readme của sut, xác định input output và ràng buộc, điền mục 3.1 trong report, log nguyên văn prompt và output vào file prompt log hiện tại, chưa test, không sửa sut, dừng để tôi review
+
+`````
+
+
+### Output 1 — commentary — 20-10-2026 22:21:15.863 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:674 -->
+`````text
+Tôi sẽ dùng skill `domain-testing-bva`, đọc FR-07 trong README của đúng checkout SUT và chỉ điền phần input/output, ràng buộc ở mục 3.1. Tôi sẽ ghi log nguyên văn, chưa chạy test hay sửa SUT, rồi dừng để bạn review.
+
+`````
+
+
+### Output 2 — commentary — 20-10-2026 22:23:11.996 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:712 -->
+`````text
+FR-07 nêu sáu nhóm yêu cầu về hiển thị giỏ, chỉnh số lượng, thêm trùng, xác nhận xóa, tiếp tục mua sắm và trạng thái trống. Mục này chưa quy định cận số lượng hay công thức tiền chi tiết; tôi sẽ tách những điểm đó khỏi các ràng buộc trực tiếp, không tự kế thừa min 1 từ FR-06 sang giỏ hàng.
+
+`````
+
+
+### Output 3 — final_answer — 20-10-2026 22:25:18.745 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:739 -->
+`````text
+Đã điền [mục 3.1 trong Report.md](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/23120226_HW02_AI_DomainTesting_work/Report.md:157): sáu yêu cầu FR-07 từ README SUT, input/output, trạng thái và ràng buộc.
+
+Các điểm cần bạn review:
+
+- Bước tăng/giảm, min/max và xử lý số lượng 0.
+- Công thức tiền, làm tròn và lượng cộng khi thêm trùng.
+- Hành vi hủy xóa, giỏ khách và lưu giỏ qua refresh.
+
+Các phần khác giữ nguyên. Chưa chia EP, làm BVA/testcase, chạy test, sửa SUT hay commit.
+
+[Prompt log](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/23120226_HW02_AI_DomainTesting_work/Appendix_A_Prompt_Log.md) được bổ sung nguyên văn lượt này. **Dừng tại Bước 1 để bạn review.**
+`````
+
+
+## Tương tác 10
+
+- Công cụ: OpenAI Codex.
+- Thời gian: 20-10-2026 22:43
+
+### Prompt — nguyên văn
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:750 -->
+<!-- prompt-timestamp: 20-10-2026 22:43:46.706 +07:00; source: chat-transcript -->
+`````text
+làm lại fr07 theo cấu trúc fr06 hiện tại, dùng skill domain-testing-bva và yêu cầu fr07 trong readme của sut, bắt đầu với yêu cầu và input output, viết thành nội dung báo cáo hoàn chỉnh của bước này, bỏ lời nhắc chờ review và các lưu ý thừa, giữ giới hạn đặc tả cần thiết, không tự đặt yêu cầu, chưa điền kết quả test, không sửa fr06 hoặc mã nguồn sut, log nguyên văn prompt và output, dừng sau bước này để tôi kiểm tra
+
+`````
+
+
+### Output 1 — commentary — 20-10-2026 22:43:56.256 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:753 -->
+`````text
+Tôi sẽ viết lại phần yêu cầu và input/output của FR-07 theo cách trình bày FR-06 hiện tại, bỏ lời nhắc quy trình và các lưu ý lặp. Tôi chỉ sửa mục 3.1, giữ các giới hạn đặc tả cần thiết; chưa làm bước tiếp theo, điền kết quả test hay sửa FR-06/mã SUT.
+
+`````
+
+
+### Output 2 — commentary — 20-10-2026 22:45:55.658 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:781 -->
+`````text
+Mục 3.1 đã được viết lại với bảng yêu cầu, bảng input/output ba cột và một đoạn giới hạn đối chiếu, cùng cách trình bày với FR-06. Tôi đã kiểm tra: không còn lời nhắc chờ review trong mục này; FR-06 và các mục từ 3.2 trở đi giữ nguyên.
+
+`````
+
+
+### Output 3 — final_answer — 20-10-2026 22:46:40.403 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:791 -->
+`````text
+Đã viết lại [mục 3.1](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/23120226_HW02_AI_DomainTesting_work/Report.md:160) theo cấu trúc FR-06: nguồn yêu cầu, sáu yêu cầu FR-07, bảng input/output và giới hạn đặc tả cần thiết.
+
+Đã bỏ lời nhắc chờ review và lưu ý lặp. FR-06, các mục sau và mã SUT giữ nguyên; chưa điền kết quả hay chạy test.
+
+Lượt này được ghi nguyên văn vào prompt log. Tôi dừng sau mục 3.1.
+`````

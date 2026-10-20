@@ -8,13 +8,13 @@ Chưa điền. Phân biệt dữ liệu tham khảo trước đây với lần t
 
 ## 2. FR-06 — Chi tiết sản phẩm
 
-Phạm vi kiểm thử là trang chi tiết sản phẩm trên Web: thông tin sản phẩm, số lượng và thao tác thêm giỏ có phản hồi trực quan. Thiết kế được hỗ trợ bởi [skill domain-testing-bva](skills/domain-testing-bva/SKILL.md).
+Phạm vi kiểm thử là trang chi tiết sản phẩm trên Web, gồm thông tin sản phẩm, số lượng và thao tác thêm vào giỏ hàng. Thiết kế được hỗ trợ bởi [skill domain-testing-bva](skills/domain-testing-bva/SKILL.md).
 
-Bộ kiểm thử hiện hành gồm **8 ca**, bao phủ thông tin sản phẩm, số lượng hợp lệ, biên dưới, số âm, phần lẻ, chuỗi sai kiểu và ô rỗng. Các quan sát được giữ đúng theo lượt thao tác đã ghi; thao tác điều tra tiếp được trình bày riêng ở ghi chú thực thi.
+Quy trình thiết kế: xác định yêu cầu và input/output → phân lớp tương đương → chọn đại diện → phân tích biên → tổng hợp testcase, kết quả và bằng chứng → truy vết và kết luận. Bộ kiểm thử gồm **8 ca F06-D01–D08**.
 
-### 2.1. Input/output và ràng buộc
+### 2.1. Yêu cầu, input/output và dữ liệu kiểm thử
 
-Nguồn yêu cầu: file `README.md` trong `eshop-sut`, mục SRS, FR-06. Phương pháp: slide “S04 — Domain Testing”. Mã R06 là mã truy vết cục bộ của thiết kế này.
+Nguồn yêu cầu: file `README.md` trong `eshop-sut`, mục SRS, FR-06. Phương pháp: slide “S04 — Domain Testing”. Các mã R06 dùng để truy vết trong báo cáo.
 
 | Mã     | Yêu cầu FR-06                                                                                |
 | ------ | -------------------------------------------------------------------------------------------- |
@@ -22,18 +22,20 @@ Nguồn yêu cầu: file `README.md` trong `eshop-sut`, mục SRS, FR-06. Phươ
 | R06-02 | Có ô Số lượng, chỉ nhận số nguyên dương, tối thiểu 1.                                        |
 | R06-03 | Có thao tác Thêm vào giỏ hàng; sau khi bấm có phản hồi trực quan: toast hoặc badge cập nhật. |
 
-Phạm vi kiểm thử gồm ba yêu cầu FR-06 nêu trên. Sau thao tác thêm, đối chiếu sản phẩm và số lượng trong giỏ, đồng thời kiểm tra phản hồi trực quan bằng toast notification hoặc badge cập nhật.
+Sau thao tác thêm, đối chiếu sản phẩm và số lượng trong giỏ, đồng thời kiểm tra phản hồi trực quan. Các nghiệp vụ sửa/xóa giỏ, gộp dòng và checkout nằm ngoài phạm vi FR-06.
 
-| ID    | Loại / biến                          | Ràng buộc hoặc kỳ vọng có căn cứ                                                                      | Phần chưa được quy định                                         |
-| ----- | ------------------------------------ | ----------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
-| I06-P | Input: sản phẩm P được chọn trên Web | P = iPhone 15 Pro Max, ID 1 trên cơ sở dữ liệu seed sạch.                                             | Hành vi với sản phẩm không tồn tại nằm ngoài phạm vi bộ ca này. |
-| I06-S | Input: chuỗi s nhập vào ô Số lượng   | Phân biệt chuỗi được gõ/dán với số lượng hiệu lực q sau khi rời ô/submit.                             | Mặc định, rỗng, khoảng trắng, cú pháp số và cách chuẩn hóa.     |
-| I06-Q | Input: số lượng hiệu lực q           | Phần miền đã biết: q là số nguyên và q ≥ 1; cận dưới đóng tại 1.                                      | Cận trên, giới hạn kỹ thuật và tồn kho.                         |
-| I06-A | Input: bấm Thêm vào giỏ một lần      | Sau khi bấm có toast notification hoặc badge cập nhật theo R06-03; với q hợp lệ, thêm đúng P/q.       | Không tự đặt nội dung/thời lượng thông báo hoặc HTTP status.    |
-| S06   | Trạng thái / tiền điều kiện          | Phiên đã đăng nhập theo thống nhất; giỏ trống trước mỗi lần thêm để cô lập ca.                        | Không đánh giá chính sách giỏ khách trong bộ ca này.            |
-| O06-D | Output: chi tiết sản phẩm            | Đủ năm thành phần, nội dung tương ứng dữ liệu P; ảnh lớn của trang chi tiết hiển thị được.            | Chưa có ngưỡng pixel hoặc quy tắc fallback ảnh thiếu.           |
-| O06-A | Output: kết quả thêm và phản hồi     | Sau khi bấm có toast notification hoặc badge cập nhật; việc thêm P/q chỉ hợp lệ khi q đáp ứng R06-02. | Câu chữ, thời gian và kiểu đếm badge không được quy định.       |
-| O06-V | Output: kiểm soát q sai              | Không dùng chính q không nguyên dương để thêm giỏ, suy từ R06-02.                                     | Chặn nhập, chặn submit, tự sửa hay báo lỗi chưa được quy định.  |
+| ID | Loại / biến | Ràng buộc hoặc kỳ vọng |
+| --- | --- | --- |
+| I06-P | Input: sản phẩm P được chọn trên Web | P = iPhone 15 Pro Max, ID 1 trên cơ sở dữ liệu seed sạch. |
+| I06-S | Input: chuỗi s nhập vào ô Số lượng | Phân biệt nội dung được thử nhập với giá trị thực tế còn lại trong ô. |
+| I06-Q | Input: giá trị số lượng q được đối chiếu | Miền hợp lệ: q là số nguyên và q ≥ 1; cận dưới đóng tại 1. |
+| I06-A | Input: bấm Thêm vào giỏ một lần | Sau khi bấm có toast notification hoặc badge cập nhật theo R06-03; với q hợp lệ, thêm đúng P/q. |
+| S06 | Trạng thái / tiền điều kiện | Đã đăng nhập; giỏ trống; trang P tải xong trước mỗi ca thêm. |
+| O06-D | Output: chi tiết sản phẩm | Đủ năm thành phần, nội dung tương ứng dữ liệu P; ảnh lớn của trang chi tiết hiển thị được. |
+| O06-A | Output: kết quả thêm và phản hồi | Sau khi bấm có toast notification hoặc badge cập nhật; việc thêm P/q chỉ hợp lệ khi q đáp ứng R06-02. |
+| O06-V | Output: kiểm soát q sai | Không dùng chính q không nguyên dương để thêm giỏ, suy từ R06-02. |
+
+**Giới hạn đối chiếu:** SRS không quy định cận trên của số lượng hoặc cơ chế xử lý ô rỗng. Bộ ca không đặt giới hạn tồn kho, giá trị mặc định hay nội dung thông báo cụ thể. Với ô rỗng, đánh giá phản hồi theo R06-03 và số lượng thực tế trong giỏ theo R06-02 nếu có thêm sản phẩm.
 
 #### 2.1.1. Dữ liệu kiểm thử và baseline
 
@@ -47,7 +49,7 @@ P là sản phẩm **iPhone 15 Pro Max**. Dữ liệu kỳ vọng được lấy
 | SHA-256 file seed        | `50012F35C2CF0776DD837482D76ADF701F0EE40CDCB9D80143278FCCDE034717`                          |
 | P.ID                     | `1` trên cơ sở dữ liệu được khởi tạo lại từ seed.                                           |
 | P.name                   | `iPhone 15 Pro Max`                                                                         |
-| P.price                  | `30000000` ₫; FR-06 không chỉ định kiểu dấu phân cách tiền.                                 |
+| P.price                  | `30000000` ₫                                 |
 | P.description            | `Điện thoại cao cấp của Apple`                                                              |
 | P.category               | `Điện thoại`, `category_id = 1`                                                             |
 | P.image                  | `https://placehold.co/300x300/png?text=iPhone+15`; ảnh placeholder có nội dung “iPhone 15”. |
@@ -55,25 +57,30 @@ P là sản phẩm **iPhone 15 Pro Max**. Dữ liệu kỳ vọng được lấy
 | Tài khoản thử            | `test@eshop.com`, vai trò người dùng theo seed.                                             |
 | Trạng thái trước ca thêm | Đăng nhập hợp lệ; trang P tải xong; giỏ trống trước mỗi ca.                                 |
 
-Seed tạo lại bảng và dữ liệu khi backend khởi động. Fixture trên mô tả baseline chuẩn, không xác nhận server đã được khởi chạy hoặc ca nào đã thực thi.
-
 ### 2.2. Phân lớp tương đương
 
-Hai điều kiện của số lượng: **C1** là số nguyên; **C2** là ≥ 1 khi đã là số nguyên. Với ca sai kiểu, không so sánh chuỗi với cận số. Các ca chỉ thay đổi số lượng; giữ nguyên P, phiên đăng nhập và điều kiện giỏ để cô lập mục tiêu.
+Số lượng hợp lệ thỏa hai điều kiện: **C1** là số nguyên; **C2** là ≥ 1 khi đã là số nguyên. Chuỗi phi số được xét theo kiểu dữ liệu, không so sánh trực tiếp với cận số. Các ca số lượng giữ nguyên P, phiên đăng nhập và trạng thái giỏ ban đầu để cô lập mục tiêu.
 
-| EC-ID            | Miền/lớp                                                         | Kỳ vọng theo ba yêu cầu FR-06                                                                                                                                                  |
-| ---------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| E06-P            | P tồn tại, có dữ liệu seed chuẩn                                 | Đối chiếu đủ ảnh lớn, tên, giá, mô tả, danh mục; R06-01.                                                                                                                       |
-| E06-Q1           | q nguyên, q ≥ 1 trong phần miền SRS đã quy định                  | Nhận q hợp lệ; thêm đúng P/q và có toast hoặc badge cập nhật; R06-02/03.                                                                                                       |
-| E06-Q2           | q nguyên, q ≤ 0                                                  | Không thêm chính q không dương; R06-02. Đại diện 0 đồng thời là điểm BVA sát biên; -1 bổ sung tình huống số âm trong cùng lớp.                                                 |
-| E06-Q3           | Số có phần lẻ, đại diện 1.5                                      | Không thêm q có phần lẻ; R06-02. 1.5 chỉ sai C1, không chọn thêm giá trị dưới 1.                                                                                               |
-| E06-Q4           | Chuỗi không phải số nguyên, đại diện abc                         | Không dùng chuỗi sai kiểu làm số lượng; R06-02. Tách khỏi số lẻ vì hai đường nhập có thể xử lý khác nhau; bản ghi đã có cũng phân biệt ô giữ 1.5 với abc bị chuyển thành rỗng. |
-| X06-EMPTY        | Chuỗi rỗng, độ dài 0                                             | Chính sách required/default/chuẩn hóa chưa được quy định; phản hồi sau khi bấm vẫn được đối chiếu R06-03.                                                                      |
-| E06-O1 / O2 / O3 | Output hiển thị P / phản hồi sau bấm và thêm hợp lệ / ngăn q sai | Truy vết tương ứng R06-01 / R06-03 / R06-02; lỗi/thông báo đúng kỳ vọng không phải output sai.                                                                                 |
+| EC-ID | Miền/lớp | Phân loại và kỳ vọng |
+|---|---|---|
+| E06-P | Sản phẩm P tồn tại, có dữ liệu seed chuẩn | Đầu vào hợp lệ; đối chiếu đủ năm thành phần theo R06-01. |
+| E06-Q1 | q là số nguyên, q ≥ 1 | Hợp lệ; thêm đúng P/q và có phản hồi theo R06-02/03. |
+| E06-Q2 | q là số nguyên, q ≤ 0 | Không hợp lệ; không thêm với chính số lượng không dương. |
+| E06-Q3 | Giá trị số có phần lẻ, đại diện 1.5 | Không hợp lệ do vi phạm C1; không thêm số lượng có phần lẻ. |
+| E06-Q4 | Chuỗi không rỗng, không biểu diễn giá trị số, đại diện abc | Không hợp lệ; không dùng chuỗi phi số làm số lượng trong giỏ. |
+| X06-EMPTY | Nội dung ô rỗng sau khi xóa trực tiếp | Nhóm bổ sung; đối chiếu phản hồi sau bấm và số lượng trong giỏ nếu có thêm sản phẩm. |
 
-Q1 và Q2 rời nhau, phủ miền số nguyên; Q3 xét số có phần lẻ, Q4 xét chuỗi sai kiểu. Ô rỗng được giữ như nhóm khám phá X06-EMPTY, chưa phải lớp valid/invalid đã xác nhận. Khoảng trắng, các cách viết số và ngưỡng số lượng lớn vẫn là khoảng trống đặc tả, không có ca riêng trong bộ hiện hành. Không tự đặt max, tồn kho hoặc thông báo lỗi.
+Q1 và Q2 rời nhau, phủ miền số nguyên; Q3 xét số có phần lẻ, Q4 xét chuỗi phi số. X06-EMPTY được tách để phân biệt thao tác xóa trực tiếp với việc thử nhập abc. Bộ ca không khảo sát khoảng trắng, các cách viết số khác hoặc giá trị rất lớn; điều này không thay đổi miền hợp lệ q nguyên, q ≥ 1 theo SRS.
 
-### 2.3. Chọn đại diện và gộp mục tiêu
+Các lớp đầu ra kỳ vọng được xác định theo biến và điều kiện đầu vào:
+
+| EC-ID | Biến / điều kiện | Lớp đầu ra kỳ vọng |
+|---|---|---|
+| E06-O1 | O06-D, mở sản phẩm P | Thông tin đủ năm thành phần và đúng dữ liệu P. |
+| E06-O2 | O06-A, thêm với q thuộc Q1 | Giỏ có đúng P/q và có toast notification hoặc badge cập nhật. |
+| E06-O3 | O06-V và phản hồi, thử dữ liệu thuộc Q2/Q3/Q4 | Không ghi số lượng ngoài miền nguyên dương vào giỏ; có phản hồi sau khi bấm. Việc từ chối dữ liệu không hợp lệ là kết quả đúng kỳ vọng. |
+
+### 2.3. Chọn đại diện
 
 | REP-ID      | Đại diện                         | Phủ / lý do giữ                                                                                  |
 | ----------- | -------------------------------- | ------------------------------------------------------------------------------------------------ |
@@ -95,40 +102,40 @@ Q1 và Q2 rời nhau, phủ miền số nguyên; Q3 xét số có phần lẻ, Q
 | B06-AT    |     1 = LB | E06-Q1, hợp lệ      | D02          |
 | B06-ABOVE | 2 = LB + Δ | E06-Q1, hợp lệ      | D03          |
 
-Không có UB được SRS quy định nên không đặt biên 99/100 hay giới hạn tồn kho. -1 được giữ để thử số âm trong cùng lớp không dương, không phải điểm BVA mới ngoài 0–1–2. Rỗng là ca khám phá, không phải một giá trị số dùng cho BVA; 1.5 và abc là ca EP sai kiểu. Các trường sản phẩm chỉ được xem ở FR-06, không có đầu vào chỉnh giá/tên hay biên định lượng ảnh để thiết kế thêm BVA.
+SRS không quy định UB nên bộ ca chỉ phân tích cận dưới có căn cứ. Giá trị -1 là đại diện bổ sung của Q2; 1.5 và abc kiểm tra điều kiện kiểu/miền; ô rỗng kiểm tra thao tác xóa nội dung. Các ca này không được tính thành điểm BVA mới. Các trường thông tin sản phẩm chỉ được xem, không có thao tác chỉnh sửa để thiết kế biên đầu vào trong FR-06.
 
-### 2.5. Bảng testcase rút gọn
+### 2.5. Testcase, kết quả và bằng chứng
 
-#### 2.5.1. Tiền điều kiện và cách đọc kết quả
+#### 2.5.1. Tiền điều kiện và tiêu chí đánh giá
 
-**PC:** P theo fixture trên; phiên đăng nhập hợp lệ; trang P tải xong; giỏ trống trước mỗi ca thêm. Mỗi ca thêm độc lập, không bấm lặp hoặc dùng giỏ còn dữ liệu từ ca trước.
+**PC:** P theo fixture; đã đăng nhập; giỏ trống; trang chi tiết P tải xong và chưa bấm Thêm trong lượt mở trang đó. Mỗi ca thêm độc lập. Bảng testcase đánh giá một lần bấm; quan sát bấm tiếp lần thứ hai được ghi riêng ở mục 2.5.3.
 
-**Mục tiêu phản hồi R06-03:** SRS yêu cầu sau khi bấm Thêm có phản hồi trực quan bằng toast notification hoặc badge cập nhật, không nêu điều kiện chỉ áp dụng cho số lượng hợp lệ. Các ca D02–D08 đều kiểm tra mục tiêu này sau một lần bấm. Nếu không có cả hai hình thức phản hồi thì mục tiêu R06-03 không đạt; không bắt buộc cả hai cùng xuất hiện và không tự đặt nội dung thông báo cụ thể.
+**R06-03:** Sau một lần bấm, có toast notification hoặc badge cập nhật là đạt mục tiêu phản hồi; không có toast và cũng không có badge cập nhật là không đạt. Tiêu chí áp dụng cho D02–D08 theo câu chữ “sau khi bấm” của FR-06. Chỉ cần một trong hai hình thức, không bắt buộc đồng thời có cả hai.
 
-**Mục tiêu số lượng R06-02:** không ghi số lượng ngoài miền nguyên dương vào giỏ. Việc không có phản hồi đã đủ để đánh giá R06-03, nhưng không tự chứng minh validation số lượng đúng hoặc sai. Với dữ liệu sai/rỗng, giữ riêng nhận định về giá trị hiệu lực và kết quả giỏ; chính sách mặc định, chuẩn hóa hoặc nguyên văn thông báo lỗi chưa được đặc tả.
+**R06-02:** Với dữ liệu hợp lệ, đối chiếu sản phẩm và số lượng được thêm. Với dữ liệu không hợp lệ hoặc rỗng, không ghi số lượng ngoài miền nguyên dương vào giỏ. Giỏ trống sau một lần bấm không tự chứng minh cơ chế kiểm tra số lượng hoạt động đúng, vì D02/D03 với số lượng hợp lệ cũng không thêm được. Với D08, không yêu cầu tự điền mặc định hoặc một thông báo lỗi cụ thể.
 
-Actual Result trình bày các quan sát thực thi; kết quả bấm lần thứ hai được ghi riêng bên dưới, phân biệt với kết quả của một lần bấm. Cột Bằng chứng / Issue dành cho ảnh/video và liên kết tương ứng.
+#### 2.5.2. Bảng testcase
 
-| TC-ID   | Mục tiêu / dữ liệu / truy vết                                                                                           | Bước chạy cụ thể                                                                                                                                                        | Expected Result / điều cần quan sát                                                                                                                                                                                                                                                                          | Actual Result                                                                                                                                                                                                       | Verdict | Bằng chứng / Issue                                                                            |
-| ------- | ----------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | --------------------------------------------------------------------------------------------- |
-| F06-D01 | Kiểm tra đủ thông tin sản phẩm và điều khiển; P; R06-01/02/03; REP06-P; E06-P/O1                                        | 1. Chọn P từ danh sách, mở trang chi tiết. 2. Đối chiếu ảnh, tên, giá, mô tả, danh mục với fixture P. 3. Kiểm tra có ô Số lượng và nút Thêm.                            | Đủ năm thành phần của đúng P; ảnh lớn của trang chi tiết hiển thị được; tên/giá/mô tả/danh mục đúng nguồn chuẩn; có ô Số lượng và thao tác Thêm. Không đặt ngưỡng pixel hoặc quy tắc định dạng giá ngoài FR-06.                                                                                              | Ảnh, tên, giá và mô tả đúng fixture; có ô Số lượng và nút Thêm; không thấy danh mục Điện thoại.                                                                                                                     | FAIL    | [Trang chi tiết sản phẩm](screenshots/FR06/D01.png)                                           |
-| F06-D02 | Kiểm tra thêm q = 1 và phản hồi toast notification hoặc badge cập nhật; q = 1; R06-02/03; E06-Q1/O2; REP06-V; B06-AT    | Thay toàn bộ nội dung ô bằng 1, rời ô, bấm Thêm một lần, quan sát toast notification hoặc badge cập nhật và P/q trong giỏ.                                              | Nhận 1; thêm đúng P với q = 1; có toast notification hoặc badge cập nhật. Không yêu cầu cả hai hay một giá trị badge cố định.                                                                                                                                                                                | Ô giữ 1; sau một lần bấm Thêm, không quan sát thấy toast notification và không thấy badge cập nhật; giỏ vẫn trống.                                                                                                  | FAIL    | [Ô số lượng 1](screenshots/FR06/D02-1.png)<br>[Giỏ hàng trống](screenshots/FR06/D02-2.png)    |
-| F06-D03 | Kiểm tra thêm q = 2 và phản hồi toast notification hoặc badge cập nhật; q = 2; R06-02/03; E06-Q1/O2; REP06-V; B06-ABOVE | Thay toàn bộ nội dung ô bằng 2, rời ô, bấm Thêm một lần, quan sát toast notification hoặc badge cập nhật và P/q trong giỏ.                                              | Nhận 2; thêm đúng P với q = 2; có toast notification hoặc badge cập nhật.                                                                                                                                                                                                                                    | Ô giữ 2; sau một lần bấm Thêm, không quan sát thấy toast notification và không thấy badge cập nhật; giỏ vẫn trống.                                                                                                  | FAIL    | [Ô số lượng 2](screenshots/FR06/D03-1.png)<br>[Giỏ hàng trống](screenshots/FR06/D03-2.png)    |
-| F06-D04 | Kiểm tra số lượng 0 và kiểm tra phản hồi sau bấm Thêm; q = 0; R06-02/03; E06-Q2/O3; REP06-LB; B06-LOW                   | Thay nội dung ô bằng 0, rời ô; thử Thêm một lần; quan sát giá trị hiệu lực, toast notification/badge và giỏ.                                                            | Sau một lần bấm phải có toast notification hoặc badge cập nhật (R06-03). Không thêm P với q = 0. Chặn hoặc tự sửa được đối chiếu với oracle ở 2.5.1; cơ chế cụ thể chưa được quy định.                                                                                                                       | Ô giữ 0; sau một lần bấm Thêm, không quan sát thấy toast notification và không thấy badge cập nhật; giỏ vẫn trống. Chưa tách được validation do ca số lượng hợp lệ cũng không thêm được.                            | FAIL    | [Ô số lượng 0](screenshots/FR06/D04-1.png)<br>[Giỏ hàng trống](screenshots/FR06/D04-2.png)    |
-| F06-D05 | Kiểm tra số lượng âm và kiểm tra phản hồi sau bấm Thêm; q = -1; R06-02/03; E06-Q2/O3; REP06-N                           | Thay nội dung ô bằng -1, rời ô; bấm Thêm một lần; quan sát điểm chặn/giá trị giữ lại, toast notification/badge và giỏ.                                                  | Sau một lần bấm phải có toast notification hoặc badge cập nhật (R06-03). Không thêm P với q = -1; không tự yêu cầu một thông báo lỗi cụ thể.                                                                                                                                                                 | Ô giữ -1; sau một lần bấm Thêm, không quan sát thấy toast notification và không thấy badge cập nhật; giỏ vẫn trống. Chưa tách được validation do ca số lượng hợp lệ cũng không thêm được.                           | FAIL    | [Ô số lượng -1](screenshots/FR06/D05-1.png)<br>[Giỏ hàng trống](screenshots/FR06/D05-2.png)   |
-| F06-D06 | Kiểm tra số lượng có phần lẻ và kiểm tra phản hồi sau bấm Thêm; q = 1.5; R06-02/03; E06-Q3/O3; REP06-F                  | Thay nội dung ô bằng 1.5, rời ô; quan sát phần lẻ; bấm Thêm một lần, đối chiếu q và toast notification/badge.                                                           | Sau một lần bấm phải có toast notification hoặc badge cập nhật (R06-03). Không thêm P với số lượng có phần lẻ 1.5. Nếu UI biến đổi dữ liệu, đối chiếu số lượng hiệu lực, không coi chuỗi ban đầu đã được chấp nhận nguyên trạng.                                                                             | Ô giữ 1.5; sau một lần bấm Thêm, không quan sát thấy toast notification và không thấy badge cập nhật; giỏ vẫn trống. Chưa tách được validation do ca số lượng hợp lệ cũng không thêm được.                          | FAIL    | [Ô số lượng 1.5](screenshots/FR06/D06-1.png)<br>[Giỏ hàng trống](screenshots/FR06/D06-2.png)  |
-| F06-D07 | Kiểm tra chuỗi sai kiểu và kiểm tra phản hồi sau bấm Thêm; s = abc; R06-02/03; E06-Q4/O3; REP06-T                       | Thay nội dung ô bằng abc, rời ô; bấm Thêm một lần; quan sát dữ liệu giữ lại, toast notification/badge và giỏ.                                                           | Sau một lần bấm phải có toast notification hoặc badge cập nhật (R06-03). Không dùng abc làm số lượng thêm giỏ. Nếu ô thành rỗng, chính sách xử lý rỗng chưa được SRS quy định; không tự gán lỗi mới.                                                                                                         | UI không giữ chuỗi abc, ô thành rỗng; sau một lần bấm Thêm, không quan sát thấy toast notification và không thấy badge cập nhật; giỏ vẫn trống. Chưa kết luận được xử lý giá trị rỗng; chưa quan sát NaN trong giỏ. | FAIL    | [Ô số lượng rỗng](screenshots/FR06/D07-1.png)<br>[Giỏ hàng trống](screenshots/FR06/D07-2.png) |
-| F06-D08 | Kiểm tra ô rỗng và kiểm tra phản hồi sau bấm Thêm; Chuỗi rỗng, độ dài 0; X06-EMPTY; REP06-EMPTY; R06-02/03              | Chọn toàn bộ nội dung ô rồi Delete, không nhập thay thế; rời ô; bấm Thêm một lần; quan sát giá trị còn lại, toast notification/badge và số lượng trong giỏ nếu có thêm. | Sau một lần bấm phải có toast notification hoặc badge cập nhật (R06-03). Ô giữ rỗng, khôi phục giá trị hay đi mặc định? Nếu thêm, q hiệu lực là gì? Chưa có quy tắc xử lý rỗng nên không buộc mặc định về 1 hoặc hiện một lỗi cụ thể; vẫn đối chiếu R06-02 nếu quan sát được q không nguyên dương được thêm. | Sau khi xóa toàn bộ nội dung, ô Số lượng vẫn rỗng. Bấm Thêm một lần, không quan sát thấy toast notification và không thấy badge cập nhật. Giỏ hàng trống.                                                           | FAIL    | [Ô số lượng rỗng](screenshots/FR06/D08-1.png)<br>[Giỏ hàng trống](screenshots/FR06/D08-2.png) |
+| TC-ID | Mục tiêu / dữ liệu / truy vết | Bước chạy cụ thể | Expected Result | Actual Result | Verdict | Bằng chứng |
+|---|---|---|---|---|---|---|
+| F06-D01 | Kiểm tra đủ thông tin sản phẩm và điều khiển; P; R06-01/02/03; REP06-P; E06-P/O1 | 1. Chọn P từ danh sách, mở trang chi tiết. 2. Đối chiếu ảnh, tên, giá, mô tả, danh mục với fixture P. 3. Kiểm tra có ô Số lượng và nút Thêm. | Hiển thị đủ ảnh lớn, tên, giá, mô tả và danh mục của P theo dữ liệu chuẩn; có ô Số lượng và nút Thêm vào giỏ hàng. | Ảnh, tên, giá và mô tả đúng fixture; có ô Số lượng và nút Thêm; không thấy danh mục Điện thoại. | FAIL | [Trang chi tiết sản phẩm](screenshots/FR06/D01.png) |
+| F06-D02 | Kiểm tra thêm q = 1 và phản hồi toast notification hoặc badge cập nhật; q = 1; R06-02/03; E06-Q1/O2; REP06-V; B06-AT | Thay toàn bộ nội dung ô bằng 1, rời ô, bấm Thêm một lần, quan sát toast notification hoặc badge cập nhật và P/q trong giỏ. | Nhận số lượng 1; thêm đúng P với số lượng 1; có toast notification hoặc badge cập nhật. | Ô giữ 1; sau một lần bấm Thêm, không quan sát thấy toast notification và không thấy badge cập nhật; giỏ vẫn trống. | FAIL | [Ô số lượng 1](screenshots/FR06/D02-1.png)<br>[Giỏ hàng trống](screenshots/FR06/D02-2.png) |
+| F06-D03 | Kiểm tra thêm q = 2 và phản hồi toast notification hoặc badge cập nhật; q = 2; R06-02/03; E06-Q1/O2; REP06-V; B06-ABOVE | Thay toàn bộ nội dung ô bằng 2, rời ô, bấm Thêm một lần, quan sát toast notification hoặc badge cập nhật và P/q trong giỏ. | Nhận số lượng 2; thêm đúng P với số lượng 2; có toast notification hoặc badge cập nhật. | Ô giữ 2; sau một lần bấm Thêm, không quan sát thấy toast notification và không thấy badge cập nhật; giỏ vẫn trống. | FAIL | [Ô số lượng 2](screenshots/FR06/D03-1.png)<br>[Giỏ hàng trống](screenshots/FR06/D03-2.png) |
+| F06-D04 | Kiểm tra số lượng 0 và kiểm tra phản hồi sau bấm Thêm; q = 0; R06-02/03; E06-Q2/O3; REP06-LB; B06-LOW | Thay nội dung ô bằng 0, rời ô; thử Thêm một lần; quan sát giá trị hiệu lực, toast notification/badge và giỏ. | Có toast notification hoặc badge cập nhật sau một lần bấm (R06-03). Không thêm P với số lượng 0 (R06-02). | Ô giữ 0; sau một lần bấm Thêm, không quan sát thấy toast notification và không thấy badge cập nhật; giỏ vẫn trống. | FAIL | [Ô số lượng 0](screenshots/FR06/D04-1.png)<br>[Giỏ hàng trống](screenshots/FR06/D04-2.png) |
+| F06-D05 | Kiểm tra số lượng âm và kiểm tra phản hồi sau bấm Thêm; q = -1; R06-02/03; E06-Q2/O3; REP06-N | Thay nội dung ô bằng -1, rời ô; bấm Thêm một lần; quan sát điểm chặn/giá trị giữ lại, toast notification/badge và giỏ. | Có toast notification hoặc badge cập nhật sau một lần bấm (R06-03). Không thêm P với số lượng -1 (R06-02). | Ô giữ -1; sau một lần bấm Thêm, không quan sát thấy toast notification và không thấy badge cập nhật; giỏ vẫn trống. | FAIL | [Ô số lượng -1](screenshots/FR06/D05-1.png)<br>[Giỏ hàng trống](screenshots/FR06/D05-2.png) |
+| F06-D06 | Kiểm tra số lượng có phần lẻ và kiểm tra phản hồi sau bấm Thêm; q = 1.5; R06-02/03; E06-Q3/O3; REP06-F | Thay nội dung ô bằng 1.5, rời ô; quan sát phần lẻ; bấm Thêm một lần, đối chiếu q và toast notification/badge. | Có toast notification hoặc badge cập nhật sau một lần bấm (R06-03). Không thêm P với số lượng có phần lẻ 1.5 (R06-02); nếu giá trị được chuyển đổi, đối chiếu số lượng thực tế trong giỏ với miền nguyên dương. | Ô giữ 1.5; sau một lần bấm Thêm, không quan sát thấy toast notification và không thấy badge cập nhật; giỏ vẫn trống. | FAIL | [Ô số lượng 1.5](screenshots/FR06/D06-1.png)<br>[Giỏ hàng trống](screenshots/FR06/D06-2.png) |
+| F06-D07 | Kiểm tra chuỗi sai kiểu và kiểm tra phản hồi sau bấm Thêm; s = abc; R06-02/03; E06-Q4/O3; REP06-T | Thay nội dung ô bằng abc, rời ô; bấm Thêm một lần; quan sát dữ liệu giữ lại, toast notification/badge và giỏ. | Có toast notification hoặc badge cập nhật sau một lần bấm (R06-03). Không dùng abc làm số lượng trong giỏ; nếu có thêm sản phẩm, số lượng phải là số nguyên dương (R06-02). | UI không giữ chuỗi abc, ô thành rỗng; sau một lần bấm Thêm, không quan sát thấy toast notification và không thấy badge cập nhật; giỏ vẫn trống. | FAIL | [Ô số lượng rỗng](screenshots/FR06/D07-1.png)<br>[Giỏ hàng trống](screenshots/FR06/D07-2.png) |
+| F06-D08 | Kiểm tra ô rỗng và kiểm tra phản hồi sau bấm Thêm; Chuỗi rỗng, độ dài 0; X06-EMPTY; REP06-EMPTY; R06-02/03 | Chọn toàn bộ nội dung ô rồi Delete, không nhập thay thế; rời ô; bấm Thêm một lần; quan sát giá trị còn lại, toast notification/badge và số lượng trong giỏ nếu có thêm. | Có toast notification hoặc badge cập nhật sau một lần bấm (R06-03). Nếu có thêm sản phẩm, số lượng trong giỏ phải là số nguyên dương (R06-02). | Sau khi xóa toàn bộ nội dung, ô Số lượng vẫn rỗng. Bấm Thêm một lần, không quan sát thấy toast notification và không thấy badge cập nhật. Giỏ hàng trống. | FAIL | [Ô số lượng rỗng](screenshots/FR06/D08-1.png)<br>[Giỏ hàng trống](screenshots/FR06/D08-2.png) |
 
-**Ghi chú thực thi — thử ấn tiếp lần thứ hai**
+#### 2.5.3. Quan sát bổ sung sau hai lần bấm
 
-Thử ấn tiếp lần thứ hai trên cùng trang để kiểm tra thêm.
+Các quan sát sau được ghi nhận khi bấm tiếp lần thứ hai trên cùng trang; chúng được tách khỏi kết quả một lần bấm trong bảng testcase.
 
 - **F06-D04 — số lượng `0`:** Nhập `0`, ấn hai lần thì vẫn thêm được sản phẩm vào giỏ với số lượng `0`. [Ảnh giỏ có số lượng 0](screenshots/FR06/D04-3.png).
 - **F06-D05 — số lượng `-1`:** Nhập `-1`, ấn hai lần thì vẫn thêm được sản phẩm vào giỏ với số lượng `-1`. [Ảnh giỏ có số lượng -1](screenshots/FR06/D08-3.png).
 - **F06-D08 — ô rỗng:** Xóa ô nhập cho rỗng, ấn hai lần thì số lượng, thành tiền và tổng tiền trong giỏ hiện `NaN`. [Ảnh giỏ hiển thị NaN](screenshots/FR06/D08-3.png).
 
-#### 2.5.2. Truy vết và số ca
+### 2.6. Truy vết và kết luận
 
 | Yêu cầu / lớp / biên                                                    | Ca hiện hành    |
 | ----------------------------------------------------------------------- | --------------- |
@@ -140,23 +147,48 @@ Thử ấn tiếp lần thứ hai trên cùng trang để kiểm tra thêm.
 | R06-02: E06-Q4; REP06-T                                                 | D07             |
 | R06-03: có nút Thêm / có toast notification hoặc badge cập nhật sau bấm | D01 / D02–D08   |
 | B06-LOW / B06-AT / B06-ABOVE                                            | D04 / D02 / D03 |
-| Khám phá X06-EMPTY; REP06-EMPTY                                         | D08             |
+| X06-EMPTY; REP06-EMPTY (ô rỗng)                                        | D08             |
 
-Bộ hiện hành có **8 ca = 1 ca thông tin/điều khiển + 2 ca nguyên dương/BVA + 2 ca không dương (0 và -1) + 1 ca phần lẻ + 1 ca chuỗi sai kiểu + 1 ca khám phá rỗng**. Ba điểm BVA vẫn là 0–1–2; X02–X09 không thuộc bộ hiện hành. Bộ hiện hành dùng mã F06-D01–D08; log lịch sử giữ nguyên mã tại thời điểm ghi nhận. Đây là độ phủ thiết kế, không phải tuyên bố đã thực thi thành công.
+Bộ kiểm thử gồm **8 ca = 1 ca thông tin/điều khiển + 2 ca nguyên dương/BVA + 2 ca không dương + 1 ca phần lẻ + 1 ca chuỗi phi số + 1 ca ô rỗng**. Ba điểm BVA là 0–1–2.
 
-### 2.6. Kết luận
+**Kết quả: 8 ca đã thực thi, 0 PASS, 8 FAIL.** D01 thiếu danh mục theo R06-01. D02/D03 không thêm sản phẩm với số lượng hợp lệ và không có phản hồi; D04–D08 không có phản hồi sau một lần bấm theo R06-03. Các ghi chú D04/D05/D08 cho thấy số lượng 0, -1 và NaN xuất hiện trong giỏ sau hai lần bấm, không đáp ứng miền nguyên dương của R06-02. Không suy diễn kết quả hai lần bấm cho D06 hoặc D07.
 
-Phần sử dụng AI và đánh giá artifact được trình bày tại [AI Critique và Audit](AI_Critique_and_Audit.md), các tương tác đã lưu ở [prompt log](Appendix_A_Prompt_Log.md).
-
-Kết quả một lần bấm được trình bày trong bảng testcase. Các quan sát hai lần bấm của D04, D05 và D08 được ghi riêng phía trên; không suy diễn kết quả hai lần bấm cho D06 hoặc D07. Ảnh/video, thời điểm thực thi và liên kết issue được bổ sung theo bằng chứng thực tế; không đặt trước tên ảnh hoặc URL issue.
-
-Bộ hiện hành có **8 ca với verdict FAIL**: D01 vi phạm R06-01 do thiếu danh mục; D02–D08 không đáp ứng phản hồi sau khi bấm theo R06-03. Nhận định về validation được giữ riêng trong Actual Result và các ghi chú D04, D05, D08. Nhiều ca cùng thất bại về một hành vi không đồng nghĩa có tám lỗi độc lập; số bug được tổng hợp từ báo cáo lỗi và GitHub Issues thực tế.
+Số testcase FAIL không được dùng làm số bug độc lập. Nhật ký hỗ trợ thiết kế được lưu tại [Appendix_A_Prompt_Log.md](Appendix_A_Prompt_Log.md).
 
 ## 3. FR-07 — Giỏ hàng
 
-### 3.1. Input/output và yêu cầu nguồn
+### 3.1. Yêu cầu, input/output và ràng buộc
 
-Chưa thực hiện.
+Nguồn yêu cầu: [README.md trong eshop-sut](../eshop-sut/README.md), mục SRS, FR-07, dòng 93–100. Phương pháp: [slide S04 — Domain Testing](references/S04_Domain_Testing.txt), bước xác định input/output. Các mã R07 dùng để truy vết trong báo cáo.
+
+| Mã | Yêu cầu FR-07 |
+|---|---|
+| R07-01 | Hiển thị danh sách sản phẩm với các cột Sản phẩm, Đơn giá, Số lượng, Thành tiền, Thao tác; có nút +/− để chỉnh số lượng. |
+| R07-02 | Thêm cùng một sản phẩm làm tăng số lượng, không tạo dòng mới. |
+| R07-03 | Nút Xóa sản phẩm phải có dialog xác nhận trước khi thực hiện. |
+| R07-04 | Có nút Tiếp tục mua sắm để quay về trang chủ. |
+| R07-05 | Tổng tiền dùng nhãn chính xác “Tổng cộng”, không phải “Tổng tạm tính”. |
+| R07-06 | Giỏ hàng trống có hình minh họa và thông báo rõ ràng. |
+
+Phạm vi là giỏ hàng trên Web: hiển thị giỏ, điều chỉnh số lượng, thêm trùng sản phẩm, xóa có xác nhận và tiếp tục mua sắm. Sản phẩm được thêm từ luồng mua hàng là đầu vào của giỏ; các nghiệp vụ checkout và mã giảm giá nằm ngoài FR-07.
+
+| ID | Loại / biến | Ràng buộc hoặc kỳ vọng |
+|---|---|---|
+| I07-P | Input: sản phẩm/dòng được chọn | Xác định sản phẩm mục tiêu của thao tác chỉnh số lượng hoặc xóa; đối chiếu với dữ liệu hiện có trong giỏ. |
+| I07-Q | Input: bấm + hoặc − trên dòng sản phẩm | Số lượng có thể được điều chỉnh bằng các nút theo R07-01. |
+| I07-ADD | Input: thêm một sản phẩm đã có trong giỏ | Số lượng sản phẩm đó tăng, không tạo dòng mới theo R07-02. |
+| I07-DELETE | Input: yêu cầu Xóa và lựa chọn trên dialog | Yêu cầu xóa hiển thị dialog trước thao tác xóa theo R07-03; lựa chọn trên dialog là đầu vào của bước xác nhận. |
+| I07-CONTINUE | Input: bấm Tiếp tục mua sắm | Điều hướng về trang chủ theo R07-04. |
+| S07-CART | Trạng thái / dữ liệu giỏ | Danh sách sản phẩm, định danh, đơn giá, số lượng hiện tại; trạng thái giỏ trống/có hàng và sản phẩm thêm đã có/chưa có trong giỏ. |
+| S07-DIALOG | Trạng thái xác nhận xóa | Phân biệt trước yêu cầu xóa, dialog đang hiển thị và quyết định của người dùng để đối chiếu thứ tự thực hiện. |
+| O07-LIST | Output: nội dung giỏ | Hiển thị đủ năm cột và nút +/−; dữ liệu trên từng dòng tương ứng sản phẩm trong giỏ theo R07-01. |
+| O07-QUANTITY | Output: số lượng và dòng sản phẩm sau thao tác | Số lượng thể hiện kết quả điều chỉnh; thêm trùng làm tăng số lượng trên dòng hiện có, không tạo dòng mới theo R07-01/02. |
+| O07-DELETE | Output: dialog và kết quả thao tác xóa | Dialog xác nhận xuất hiện trước khi xóa sản phẩm mục tiêu theo R07-03. |
+| O07-TOTAL | Output: tổng tiền | Nhãn hiển thị là “Tổng cộng” theo R07-05. |
+| O07-EMPTY | Output: giỏ trống | Có hình minh họa và thông báo rõ ràng theo R07-06. |
+| O07-NAV | Output: trang sau Tiếp tục mua sắm | Hiển thị trang chủ theo R07-04. |
+
+**Giới hạn đối chiếu:** FR-07 chưa quy định miền số lượng, bước tăng/giảm, xử lý số lượng 0, nhập trực tiếp hoặc giới hạn tồn kho; không tự áp min 1 của FR-06 hay đặt cận trên cho giỏ. Công thức thành tiền, tổng tiền, lượng cộng khi thêm trùng và quy tắc làm tròn chưa được nêu cụ thể. Nội dung dialog và hành vi hủy cũng chưa được mô tả chi tiết. Thiết kế chưa đặt kỳ vọng định lượng hoặc cơ chế xử lý cụ thể cho các nội dung này.
 
 ### 3.2. Equivalence partitions
 
