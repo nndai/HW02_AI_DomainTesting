@@ -157,7 +157,7 @@ Số testcase FAIL không được dùng làm số bug độc lập. Nhật ký 
 
 ## 3. FR-07 — Giỏ hàng
 
-### 3.1. Yêu cầu, input/output và ràng buộc
+### 3.1. Yêu cầu, input/output và dữ liệu kiểm thử
 
 Nguồn yêu cầu: [README.md trong eshop-sut](../eshop-sut/README.md), mục SRS, FR-07, dòng 93–100. Phương pháp: [slide S04 — Domain Testing](references/S04_Domain_Testing.txt), bước xác định input/output. Các mã R07 dùng để truy vết trong báo cáo.
 
@@ -190,7 +190,7 @@ Phạm vi là giỏ hàng trên Web: hiển thị giỏ, điều chỉnh số l�
 
 **Giới hạn đối chiếu:** FR-07 chưa quy định miền số lượng, bước tăng/giảm, xử lý số lượng 0, nhập trực tiếp hoặc giới hạn tồn kho; không tự áp min 1 của FR-06 hay đặt cận trên cho giỏ. Công thức thành tiền, tổng tiền, lượng cộng khi thêm trùng và quy tắc làm tròn chưa được nêu cụ thể. Nội dung dialog và hành vi hủy cũng chưa được mô tả chi tiết. Thiết kế chưa đặt kỳ vọng định lượng hoặc cơ chế xử lý cụ thể cho các nội dung này.
 
-### 3.2. Equivalence partitions
+### 3.2. Phân lớp tương đương
 
 Nguồn yêu cầu: file `README.md` trong `eshop-sut`, mục SRS, FR-07. Phương pháp: slide “S04 — Domain Testing”. Các lớp được xác định theo input/output và trạng thái ở mục 3.1; hai tình huống cùng lớp có cùng cách xử lý hoặc cùng loại kết quả kỳ vọng, không nhất thiết có cùng giá trị số lượng hay số tiền.
 
@@ -292,17 +292,17 @@ PC1/PC2 là tiền điều kiện **giỏ đã có hàng**, không phải kết 
 
 | TC-ID | Mục tiêu / dữ liệu / truy vết | Bước chạy cụ thể | Expected Result | Actual Result | Verdict | Bằng chứng |
 |---|---|---|---|---|---|---|
-| F07-D01 | Giỏ trống hợp lệ; PC0, n = 0; R07-06; REP07-EMPTY; E07-C0, E07-OEMPTY; B07-EMPTY | 1. Mở giỏ với PC0. 2. Quan sát hình minh họa và thông báo trạng thái trống. | Có hình minh họa và thông báo rõ ràng cho giỏ trống. 0 dòng là trạng thái hợp lệ. | | | |
-| F07-D02 | Hiển thị tại một dòng; PC1, P:3; R07-01; REP07-CART; E07-C1, E07-OLIST; B07-FIRST | 1. Mở giỏ với PC1. 2. Đếm dòng, đối chiếu tên P, đơn giá 30000000 ₫ và số lượng 3. 3. Kiểm tra năm cột và nút +/−. | Có một dòng P đúng tên, đơn giá và số lượng đã chuẩn bị; đủ Sản phẩm, Đơn giá, Số lượng, Thành tiền, Thao tác; có nút +/−. | | | |
-| F07-D03 | Hiển thị tại hai dòng; PC2, P:3 và Q:2; R07-01; REP07-CART; E07-C1, E07-OLIST; B07-NEXT | 1. Mở giỏ với PC2. 2. Đếm dòng; đối chiếu P/30000000 ₫/3 và Q/28000000 ₫/2. 3. Kiểm tra năm cột và nút +/− trên từng dòng. | Có hai dòng P/Q với tên, đơn giá, số lượng đúng dữ liệu đã chuẩn bị; đủ năm cột và nút +/−. | | | |
-| F07-D04 | Nhãn tổng tiền; lần lượt PC1 và PC2; R07-05; REP07-CART; E07-OTOTAL; B07-FIRST, B07-NEXT | 1. Mở giỏ đã chuẩn bị PC1, đọc nguyên văn nhãn tổng tiền. 2. Chuẩn bị riêng PC2, mở giỏ và đọc lại nhãn. Có thể dùng chung lượt quan sát trang với D02/D03 nhưng ghi kết quả nhãn ở ca này. | Ở cả trạng thái một dòng và hai dòng, nhãn hiển thị chính xác “Tổng cộng”, không phải “Tổng tạm tính”. | | | |
-| F07-D05 | Tăng số lượng; PC2, dòng P có số lượng 3; R07-01; REP07-CART; E07-QPLUS, E07-OINCREASE | 1. Mở giỏ với PC2, đối chiếu số lượng P trước thao tác là 3. 2. Bấm + trên dòng P một lần. 3. Quan sát số lượng P sau thao tác. | Số lượng P tăng so với 3; không đặt mức tăng cụ thể. | | | |
-| F07-D06 | Giảm số lượng; PC2 được chuẩn bị lại, P:3; R07-01; REP07-CART; E07-QMINUS, E07-ODECREASE | 1. Mở giỏ với đúng PC2, số lượng P là 3. 2. Bấm − trên dòng P một lần. 3. Quan sát số lượng P sau thao tác. | Số lượng P giảm so với 3; không đặt mức giảm, min hoặc cơ chế xử lý tại giới hạn. | | | |
-| F07-D07 | Thêm trùng đúng P; PC2, P ban đầu có một dòng với số lượng 3; R07-02; REP07-DUP; E07-P1, E07-ODUPLICATE | 1. Mở giỏ với PC2, ghi nhận P đang có một dòng với số lượng 3. 2. Thực hiện thao tác thêm lại đúng sản phẩm P qua luồng mua hàng. 3. Trở lại giỏ, đếm số dòng của P và đối chiếu số lượng P với 3 trước thao tác. | Số lượng trên dòng P tăng so với 3, P vẫn chỉ có một dòng; không tạo dòng P mới. |  |  |  |
-| F07-D08 | Dialog trước khi xóa P; PC2, dialog chưa mở; R07-03; REP07-DELETE; E07-DEL, E07-D0, E07-D1, E07-ODELETE | 1. Mở giỏ với PC2, xác định dòng P và trạng thái chưa có dialog. 2. Bấm Xóa sản phẩm trên dòng P một lần. 3. Quan sát dialog và thời điểm xóa P; chưa chọn xác nhận/hủy/đóng. | Có dialog xác nhận trước khi thực hiện xóa P; không xóa P trước bước xác nhận. | | | |
-| F07-D09 | Tiếp tục mua sắm; PC2; R07-04; REP07-NAV; E07-NAV, E07-ONAV | 1. Mở giỏ với PC2. 2. Bấm Tiếp tục mua sắm một lần. 3. Quan sát trang được hiển thị. | Hiển thị trang chủ; không đặt URL đích cụ thể. | | | |
+| F07-D01 | Giỏ trống hợp lệ; PC0, n = 0; R07-06; REP07-EMPTY; E07-C0, E07-OEMPTY; B07-EMPTY | 1. Mở giỏ với PC0. 2. Quan sát hình minh họa và thông báo trạng thái trống. | Có hình minh họa và thông báo rõ ràng cho giỏ trống. 0 dòng là trạng thái hợp lệ. | Hiển thị “Giỏ hàng của bạn đang trống” và liên kết “Tiếp tục mua sắm”; không thấy hình minh họa/icon cho trạng thái trống. | FAIL | [Giỏ trống thiếu hình minh họa](screenshots/FR07/D01.png) |
+| F07-D02 | Hiển thị tại một dòng; PC1, P:3; R07-01; REP07-CART; E07-C1, E07-OLIST; B07-FIRST | 1. Mở giỏ với PC1. 2. Đếm dòng, đối chiếu tên P, đơn giá 30000000 ₫ và số lượng 3. 3. Kiểm tra năm cột và nút +/−. | Có một dòng P đúng tên, đơn giá và số lượng đã chuẩn bị; đủ Sản phẩm, Đơn giá, Số lượng, Thành tiền, Thao tác; có nút +/−. | Có 1 dòng iPhone 15 Pro Max, đơn giá 30.000.000 ₫, số lượng 3, thành tiền 90.000.000 ₫. Có các cột Sản phẩm, Giá, Số lượng, Thành tiền, Thao tác; không có nút +/− trên dòng P. | FAIL | [Giỏ một dòng thiếu nút +/−](screenshots/FR07/D02.png) |
+| F07-D03 | Hiển thị tại hai dòng; PC2, P:3 và Q:2; R07-01; REP07-CART; E07-C1, E07-OLIST; B07-NEXT | 1. Mở giỏ với PC2. 2. Đếm dòng; đối chiếu P/30000000 ₫/3 và Q/28000000 ₫/2. 3. Kiểm tra năm cột và nút +/− trên từng dòng. | Có hai dòng P/Q với tên, đơn giá, số lượng đúng dữ liệu đã chuẩn bị; đủ năm cột và nút +/−. | Có 2 dòng: iPhone 15 Pro Max — đơn giá 30.000.000 ₫, q=3, thành tiền 90.000.000 ₫; Samsung Galaxy S24 Ultra — đơn giá 28.000.000 ₫, q=2, thành tiền 56.000.000 ₫. Có 5 cột nhưng không có nút +/− trên cả hai dòng. | FAIL | [Giỏ hai dòng thiếu nút +/−](screenshots/FR07/D03.png) |
+| F07-D04 | Nhãn tổng tiền; lần lượt PC1 và PC2; R07-05; REP07-CART; E07-OTOTAL; B07-FIRST, B07-NEXT | 1. Mở giỏ đã chuẩn bị PC1, đọc nguyên văn nhãn tổng tiền. 2. Chuẩn bị riêng PC2, mở giỏ và đọc lại nhãn. Có thể dùng chung lượt quan sát trang với D02/D03 nhưng ghi kết quả nhãn ở ca này. | Ở cả trạng thái một dòng và hai dòng, nhãn hiển thị chính xác “Tổng cộng”, không phải “Tổng tạm tính”. | PC1 hiển thị “Tổng tạm tính: 90.000.000 ₫”; PC2 hiển thị “Tổng tạm tính: 146.000.000 ₫”. Cả hai đều không dùng nhãn “Tổng cộng”. | FAIL | [Nhãn ở giỏ một dòng](screenshots/FR07/D04-2.png)<br>[Nhãn ở giỏ hai dòng](screenshots/FR07/D04-1.png) |
+| F07-D05 | Tăng số lượng; PC2, dòng P có số lượng 3; R07-01; REP07-CART; E07-QPLUS, E07-OINCREASE | 1. Mở giỏ với PC2, đối chiếu số lượng P trước thao tác là 3. 2. Bấm + trên dòng P một lần. 3. Quan sát số lượng P sau thao tác. | Số lượng P tăng so với 3; không đặt mức tăng cụ thể. | Giỏ đúng PC2, P có số lượng 3. Không có nút + trên dòng P hoặc trong giỏ; không thể thực hiện bước bấm tăng. Không ghi nhận kết quả tăng sau thao tác vì thao tác không thực hiện được. | FAIL | [Không có nút tăng số lượng](screenshots/FR07/D05.png) |
+| F07-D06 | Giảm số lượng; PC2 được chuẩn bị lại, P:3; R07-01; REP07-CART; E07-QMINUS, E07-ODECREASE | 1. Mở giỏ với đúng PC2, số lượng P là 3. 2. Bấm − trên dòng P một lần. 3. Quan sát số lượng P sau thao tác. | Số lượng P giảm so với 3; không đặt mức giảm, min hoặc cơ chế xử lý tại giới hạn. | Giỏ đúng PC2, P có số lượng 3. Không có nút − trên dòng P hoặc trong giỏ; không thể thực hiện bước bấm giảm. Không ghi nhận kết quả giảm sau thao tác vì thao tác không thực hiện được. | FAIL | [Không có nút giảm số lượng](screenshots/FR07/D06.png) |
+| F07-D07 | Thêm trùng đúng P; PC2, P ban đầu có một dòng với số lượng 3; R07-02; REP07-DUP; E07-P1, E07-ODUPLICATE | 1. Mở giỏ với PC2, ghi nhận P đang có một dòng với số lượng 3. 2. Thực hiện thao tác thêm lại đúng sản phẩm P qua luồng mua hàng. 3. Trở lại giỏ, đếm số dòng của P và đối chiếu số lượng P với 3 trước thao tác. | Số lượng trên dòng P tăng so với 3, P vẫn chỉ có một dòng; không tạo dòng P mới. | Sau khi lượt thêm được xử lý, giỏ có 3 dòng: P q=3 (90.000.000 ₫), Q q=2 (56.000.000 ₫), và một dòng P mới q=2 (60.000.000 ₫). P xuất hiện thành hai dòng riêng, dòng P ban đầu vẫn q=3; không gộp vào dòng hiện có. Lượt thêm thực tế dùng lượng nhập 2 và cần hai lần bấm do lỗi FR-06 đã biết. | FAIL | [P xuất hiện thành hai dòng riêng](screenshots/FR07/D07.png) |
+| F07-D08 | Dialog trước khi xóa P; PC2, dialog chưa mở; R07-03; REP07-DELETE; E07-DEL, E07-D0, E07-D1, E07-ODELETE | 1. Mở giỏ với PC2, xác định dòng P và trạng thái chưa có dialog. 2. Bấm Xóa sản phẩm trên dòng P một lần. 3. Quan sát dialog và thời điểm xóa P; chưa chọn xác nhận/hủy/đóng. | Có dialog xác nhận trước khi thực hiện xóa P; không xóa P trước bước xác nhận. | Ngay sau một lần bấm Xóa trên P, dòng P biến mất; giỏ chỉ còn Q q=2. Không xuất hiện dialog xác nhận và không thực hiện lựa chọn xác nhận/hủy/đóng nào. | FAIL | [Giỏ sau khi xóa P, chỉ còn Q](screenshots/FR07/D08.png) |
+| F07-D09 | Tiếp tục mua sắm; PC2; R07-04; REP07-NAV; E07-NAV, E07-ONAV | 1. Mở giỏ với PC2. 2. Bấm Tiếp tục mua sắm một lần. 3. Quan sát trang được hiển thị. | Hiển thị trang chủ; không đặt URL đích cụ thể. | Giỏ có liên kết “← Mua tiếp”. Bấm một lần điều hướng đến http://localhost:5173/ và hiển thị trang chủ “Danh sách sản phẩm”. | PASS |  |
 
-### 3.6. Truy vết và phạm vi thiết kế
+### 3.6. Truy vết và kết luận
 
 | Yêu cầu / lớp / biên | Ca hiện hành |
 |---|---|
@@ -320,10 +320,6 @@ PC1/PC2 là tiền điều kiện **giỏ đã có hàng**, không phải kết 
 Bộ thiết kế gồm **9 ca F07-D01–D09**. EP và BVA dùng chung ba trạng thái 0–1–2 dòng; không sinh bộ ca biên trùng với ca EP. Nhãn tổng tiền dùng chung lượt quan sát với hai ca danh sách nhưng có dòng kết quả riêng; tăng và giảm bắt đầu độc lập từ PC2. Hai trạng thái dialog thuộc cùng một yêu cầu xóa nên dùng chung D08. Điều hướng D09 dùng giỏ có hàng và tách khỏi D01 để kết quả không phụ thuộc mục tiêu giỏ trống.
 
 Giới hạn thiết kế giữ theo mục 3.1 và 3.4: không đặt min/max số lượng, bước tăng/giảm, giới hạn tồn kho, công thức tiền hoặc hành vi hủy/đóng dialog ngoài đặc tả.
-
-### 3.7. Liên kết bug report và GitHub Issues
-
-### 3.8. AI audit và gap quan sát được
 
 ## 4. FR-14 — Danh mục Admin
 
