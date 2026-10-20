@@ -1057,3 +1057,49 @@ Chưa làm BVA hay chạy test; các FR trước và SUT giữ nguyên. Prompt/o
 Dừng tại đây.
 `````
 
+
+## Tương tác 19
+
+- Công cụ: OpenAI Codex.
+- Thời gian: 21-10-2026 01:15
+
+### Prompt — nguyên văn
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1268 -->
+<!-- prompt-timestamp: 21-10-2026 01:15:09.549 +07:00; source: chat-transcript -->
+`````text
+làm tiếp mục 4.4 bva của fr14 theo srs và skill, xét biên độ dài tên bắt buộc với "", "A", "AB" tương ứng 0, 1, 2 ký tự, tái sử dụng ca ep nếu phù hợp, không tự đặt giới hạn tối đa hay quy tắc ngoài srs, trình bày ngắn gọn và đồng bộ với fr06, chỉ thiết kế chưa chạy test, không sửa sut và các fr khác, log đầy đủ prompt và đầu ra
+`````
+
+
+### Output 1 — commentary — 21-10-2026 01:15:13.836 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1271 -->
+`````text
+Tôi sẽ dùng skill `domain-testing-bva` để điền riêng mục 4.4, xét ba giá trị `""`, `"A"`, `"AB"` cho độ dài 0–1–2 ký tự và liên kết với EP hiện có. Tôi sẽ giữ phần này ngắn theo FR-06, không đặt cận trên hay quy tắc ngoài SRS, chưa chạy test và ghi log đầy đủ lượt này.
+`````
+
+
+### Output 2 — commentary — 21-10-2026 01:16:31.578 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1297 -->
+`````text
+Mục 4.4 đã có ba điểm biên 0–1–2 ký tự. Chuỗi rỗng dùng lại REP14-EMPTYNAME; `A` và `AB` dùng biến thể của REP14-ADDVIEW, giữ các dữ liệu thử cũ. Tôi đã kiểm tra chỉ mục 4.4 thay đổi, không có kết quả thực thi hay giới hạn tối đa mới.
+`````
+
+
+### Output 3 — final_answer — 21-10-2026 01:17:10.990 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1308 -->
+`````text
+Đã điền [mục 4.4 — BVA FR-14](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/23120226_HW02_AI_DomainTesting_work/Report.md:413):
+
+- Biên dưới đóng **1 ký tự**, xét `""`, `"A"`, `"AB"` tương ứng 0–1–2 ký tự.
+- Liên kết với EP hiện có, kèm kỳ vọng và truy vết.
+- Không đặt giới hạn tối đa; giữ dữ liệu thử cũ.
+
+Chưa chạy test; SUT và các mục khác giữ nguyên. Prompt và đầu ra được ghi nguyên văn vào [log](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/23120226_HW02_AI_DomainTesting_work/Appendix_A_Prompt_Log.md).
+
+**Bước 4 — chờ review.**
+`````
+

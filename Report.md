@@ -412,6 +412,18 @@ Nguồn yêu cầu: file `README.md` trong `eshop-sut`, mục SRS, FR-14. Phươ
 
 ### 4.4. Giá trị biên (BVA)
 
+Nguồn: file `README.md` trong `eshop-sut` và `references/SRS.md`, FR-14; slide “S04 — Domain Testing”.
+
+**Biến: độ dài tên I14-N; LB = 1 ký tự, biên đóng; Δ = 1 ký tự**, suy từ yêu cầu tên bắt buộc, không được để trống (R14-04). Giữ phiên Admin, danh sách nền và cách cô lập dữ liệu theo mục 4.1; chỉ thay tên khi Thêm.
+
+| BVA-ID | Dữ liệu / độ dài | Lớp | Ca EP dùng chung | Kỳ vọng |
+|---|---|---|---|---|
+| B14-LOW | `""`; 0 = LB − Δ | E14-N0, E14-OVALIDATION | REP14-EMPTYNAME, cùng dữ liệu rỗng | Không tạo danh mục có tên rỗng (R14-04). |
+| B14-AT | `"A"`; 1 = LB | E14-N1, E14-OCREATE, E14-OLIST | Biến thể REP14-ADDVIEW, thay tên bằng `A` | Thêm được danh mục tên `A`; xem lại danh sách có danh mục tương ứng (R14-01/02/04). |
+| B14-ABOVE | `"AB"`; 2 = LB + Δ | E14-N1, E14-OCREATE, E14-OLIST | Biến thể REP14-ADDVIEW, thay tên bằng `AB` | Thêm được danh mục tên `AB`; xem lại danh sách có danh mục tương ứng (R14-01/02/04). |
+
+Ba điểm 0–1–2 ký tự dùng chung luồng và kỳ vọng EP, không sinh bộ ca biên trùng. `A` và `AB` là dữ liệu bổ sung cho cùng lớp E14-N1; không thay dữ liệu C14-ADD/C14-DEL ở mục 4.3. SRS không quy định UB nên chỉ phân tích cận dưới có căn cứ; các giới hạn đối chiếu và việc giữ nguyên seed theo mục 4.1.
+
 ### 4.5. Testcase và kết quả
 
 ### 4.6. Truy vết và kết luận
