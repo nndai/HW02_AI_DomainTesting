@@ -1103,3 +1103,58 @@ Chưa chạy test; SUT và các mục khác giữ nguyên. Prompt và đầu ra 
 **Bước 4 — chờ review.**
 `````
 
+
+## Tương tác 20
+
+- Công cụ: OpenAI Codex.
+- Thời gian: 21-10-2026 01:22
+
+### Prompt — nguyên văn
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1316 -->
+<!-- prompt-timestamp: 21-10-2026 01:22:08.857 +07:00; source: chat-transcript -->
+`````text
+chỉnh đoạn cuối mục 4.4 theo góp ý vừa rồi, làm tiếp mục 4.5 tổng hợp testcase fr14 theo skill, gộp ep và bva thành bộ ca tối giản gồm tên rỗng, tên A, tên AB và xóa danh mục thử, kết hợp kiểm tra xem danh sách trước và sau thao tác, không tạo thêm ca riêng cho tên dài nếu mục tiêu đã được phủ, ghi rõ tiền điều kiện, dữ liệu, bước chạy và expected result, để trống actual, verdict và bằng chứng, thêm truy vết thiết kế ở mục 4.6 nhưng chưa kết luận kết quả kiểm thử, giữ rõ phần danh sách trống chưa triển khai, đồng bộ cách trình bày với fr06, không chạy test, không sửa sut hoặc các fr khác, log đầy đủ prompt và đầu ra
+`````
+
+
+### Output 1 — commentary — 21-10-2026 01:22:13.614 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1319 -->
+`````text
+Tôi sẽ chỉnh đoạn cuối 4.4 để dùng chung EP/BVA với bộ ca tối giản, rồi viết 4.5 gồm tên rỗng, `A`, `AB` và xóa danh mục thử; mỗi ca kết hợp xem danh sách trước/sau. Tôi cũng sẽ thêm truy vết thiết kế ở 4.6, giữ rõ phần danh sách trống chưa triển khai, để trống kết quả và ghi log đầy đủ.
+`````
+
+
+### Output 2 — commentary — 21-10-2026 01:23:04.213 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1334 -->
+`````text
+Tôi sẽ dùng `A` và `AB` làm hai ca Thêm/Xem dùng chung EP/BVA, không thêm ca riêng cho tên mẫu dài ở 4.3. Ca xóa vẫn dùng C14-DEL được chuẩn bị độc lập, không có sản phẩm tham chiếu. C0/OEMPTY sẽ được giữ trong truy vết với trạng thái chưa triển khai.
+`````
+
+
+### Output 3 — commentary — 21-10-2026 01:24:27.402 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1352 -->
+`````text
+Bảng 4.5 đã có đúng 4 ca F14-D01–D04, dùng chung EP/BVA và kết hợp xem danh sách trước/sau. Ba cột Actual, Verdict và Bằng chứng đều trống. Truy vết 4.6 ghi rõ phạm vi thiết kế 8/10 lớp và C0/OEMPTY chưa triển khai; tôi đã kiểm tra các FR khác và tài liệu nguồn giữ nguyên.
+`````
+
+
+### Output 4 — final_answer — 21-10-2026 01:25:06.850 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1363 -->
+`````text
+Đã chỉnh đoạn cuối 4.4 và hoàn thành [mục 4.5–4.6](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/23120226_HW02_AI_DomainTesting_work/Report.md:427):
+
+- **4 ca:** tên rỗng, `A`, `AB` và xóa danh mục thử; kết hợp Xem trước/sau.
+- Có tiền điều kiện, dữ liệu, bước chạy, expected và truy vết EP/BVA.
+- Actual, Verdict, Bằng chứng để trống.
+- Ghi rõ phạm vi thiết kế **8/10 lớp**; C0/OEMPTY chưa triển khai.
+
+Chưa chạy test; SUT và các FR khác giữ nguyên. Prompt và đầu ra được ghi nguyên văn vào [log](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/23120226_HW02_AI_DomainTesting_work/Appendix_A_Prompt_Log.md).
+
+**Bước 5 — chờ review.**
+`````
+

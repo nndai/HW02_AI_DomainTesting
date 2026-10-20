@@ -422,11 +422,46 @@ Nguồn: file `README.md` trong `eshop-sut` và `references/SRS.md`, FR-14; slid
 | B14-AT | `"A"`; 1 = LB | E14-N1, E14-OCREATE, E14-OLIST | Biến thể REP14-ADDVIEW, thay tên bằng `A` | Thêm được danh mục tên `A`; xem lại danh sách có danh mục tương ứng (R14-01/02/04). |
 | B14-ABOVE | `"AB"`; 2 = LB + Δ | E14-N1, E14-OCREATE, E14-OLIST | Biến thể REP14-ADDVIEW, thay tên bằng `AB` | Thêm được danh mục tên `AB`; xem lại danh sách có danh mục tương ứng (R14-01/02/04). |
 
-Ba điểm 0–1–2 ký tự dùng chung luồng và kỳ vọng EP, không sinh bộ ca biên trùng. `A` và `AB` là dữ liệu bổ sung cho cùng lớp E14-N1; không thay dữ liệu C14-ADD/C14-DEL ở mục 4.3. SRS không quy định UB nên chỉ phân tích cận dưới có căn cứ; các giới hạn đối chiếu và việc giữ nguyên seed theo mục 4.1.
+Ba điểm 0–1–2 ký tự dùng chung luồng và kỳ vọng EP. Khi tổng hợp testcase, `A` và `AB` là hai dữ liệu Thêm/Xem vừa phủ E14-N1 vừa phủ BVA; không tạo ca riêng cho tên mẫu C14-ADD ở mục 4.3 vì không bổ sung mục tiêu cần phủ. Dữ liệu xóa C14-DEL được giữ riêng. SRS không quy định UB nên chỉ phân tích cận dưới có căn cứ; các giới hạn đối chiếu và việc giữ nguyên seed theo mục 4.1.
 
 ### 4.5. Testcase và kết quả
 
+**Tiền điều kiện và tiêu chí đánh giá:**
+
+**PC chung:** Web dùng baseline và dữ liệu nền ở mục 4.1; đã đăng nhập bằng tài khoản `admin@eshop.com`, vai trò `admin`; trang quản lý danh mục tải xong. Trước mỗi ca, xác định danh sách nền để đối chiếu khi Xem trước/sau thao tác; giữ nguyên ba danh mục seed. Mỗi ca có tiền điều kiện riêng, không phụ thuộc kết quả ca trước.
+
+| Mã PC | Dữ liệu cần chuẩn bị |
+|---|---|
+| PC14-NAME | Danh sách có danh mục nền. Trước ca Thêm tên `A` hoặc `AB`, tên tương ứng chưa có để dễ nhận diện dữ liệu mới; đây là cách cô lập dữ liệu, không phải quy tắc cấm trùng tên. |
+| PC14-DELETE | Danh sách đã có C14-DEL, tên `Danh mục thử xóa FR14 23120226`; đã xác định đúng mục tiêu và không có sản phẩm tham chiếu. Mục tiêu được chuẩn bị riêng, không lấy dữ liệu sinh ra từ D02/D03 làm tiền điều kiện; không mặc định ID từ seed. |
+
+Chỉ đối chiếu điều kiện tên bắt buộc và kết quả Thêm/Xem/Xóa theo SRS; không yêu cầu nguyên văn thông báo, hình thức phản hồi hoặc dialog. Danh sách trống không được chuẩn bị thực thi trong bộ ca này.
+
+**Bảng testcase:**
+
+| TC-ID | Mục tiêu / dữ liệu / truy vết | Bước chạy cụ thể | Expected Result | Actual Result | Verdict | Bằng chứng |
+|---|---|---|---|---|---|---|
+| F14-D01 | Tên rỗng và Xem; PC14-NAME; tên `""`, 0 ký tự; R14-02/04; REP14-EMPTYNAME; E14-N0, E14-OVALIDATION, E14-C1, E14-OLIST; B14-LOW | 1. Xem danh sách, đối chiếu với dữ liệu nền trước ca. 2. Mở thao tác Thêm, xóa hết nội dung ô tên, không nhập ký tự nào. 3. Thử Thêm một lần. 4. Xem lại danh sách, đối chiếu với danh sách trước thao tác. | Xem được các danh mục tương ứng dữ liệu nền trước/sau thao tác; không tạo danh mục có tên rỗng. | | | |
+| F14-D02 | Thêm/Xem tên `A`; PC14-NAME, tên `A` chưa có; 1 ký tự; R14-01/02/04; biến thể REP14-ADDVIEW; E14-N1, E14-OCREATE, E14-C1, E14-OLIST; B14-AT | 1. Xem và đối chiếu danh sách nền, xác định tên `A` chưa có theo tiền điều kiện. 2. Mở thao tác Thêm, nhập `A`, thực hiện Thêm một lần. 3. Xem lại danh sách, đối chiếu tên vừa thêm. | Danh sách trước thao tác phản ánh dữ liệu nền; thêm được danh mục tên `A`, danh sách sau thao tác hiển thị danh mục tương ứng tên đã nhập. | | | |
+| F14-D03 | Thêm/Xem tên `AB`; PC14-NAME, tên `AB` chưa có; 2 ký tự; R14-01/02/04; biến thể REP14-ADDVIEW; E14-N1, E14-OCREATE, E14-C1, E14-OLIST; B14-ABOVE | 1. Xem và đối chiếu danh sách nền, xác định tên `AB` chưa có theo tiền điều kiện. 2. Mở thao tác Thêm, nhập `AB`, thực hiện Thêm một lần. 3. Xem lại danh sách, đối chiếu tên vừa thêm. | Danh sách trước thao tác phản ánh dữ liệu nền; thêm được danh mục tên `AB`, danh sách sau thao tác hiển thị danh mục tương ứng tên đã nhập. | | | |
+| F14-D04 | Xóa/Xem danh mục thử; PC14-DELETE; C14-DEL = `Danh mục thử xóa FR14 23120226`; R14-02/03; REP14-DELVIEW; E14-D0, E14-ODELETE, E14-C1, E14-OLIST | 1. Xem danh sách, đối chiếu C14-DEL với tên/định danh mục tiêu đã chuẩn bị; bảo đảm điều kiện không có sản phẩm tham chiếu. 2. Thực hiện Xóa đúng C14-DEL. 3. Xem lại danh sách, đối chiếu mục tiêu với trước thao tác. | Xem được C14-DEL trong danh sách trước thao tác; xóa được danh mục thử, mục tiêu không còn trong danh sách sau thao tác. Danh sách vẫn có các danh mục seed. | | | |
+
 ### 4.6. Truy vết và kết luận
+
+**Truy vết thiết kế:**
+
+| Yêu cầu / lớp / biên | Ca hiện hành / phạm vi triển khai |
+|---|---|
+| R14-04: E14-N0, E14-OVALIDATION; REP14-EMPTYNAME; B14-LOW | F14-D01 |
+| R14-01/04: E14-N1, E14-OCREATE; biến thể REP14-ADDVIEW; B14-AT, B14-ABOVE | F14-D02, F14-D03 |
+| R14-02: E14-C1, E14-OLIST; Xem trước/sau thao tác | F14-D01–D04 |
+| R14-03: E14-D0, E14-ODELETE; REP14-DELVIEW | F14-D04 |
+| B14-LOW / B14-AT / B14-ABOVE: độ dài tên 0–1–2 ký tự | F14-D01 / F14-D02 / F14-D03 |
+| R14-02: E14-C0, E14-OEMPTY; REP14-EMPTYLIST, 0 danh mục | Giữ trong thiết kế, chưa triển khai thành ca thực thi vì giữ nguyên seed; không tính vào phạm vi phủ dự kiến của bộ ca trên. |
+
+Bộ thiết kế gồm **4 ca F14-D01–D04 = 1 ca tên rỗng + 2 ca Thêm/Xem tại các điểm BVA hợp lệ + 1 ca Xóa/Xem danh mục thử**. Ba điểm BVA dùng chung ca EP; không giữ ca riêng cho tên mẫu dài cùng lớp E14-N1. Kiểm tra Xem được kết hợp trước/sau mỗi thao tác, không tạo ca Xem riêng.
+
+Bốn ca ánh xạ **8/10 lớp** của ba nhóm đại diện dự kiến triển khai ở mục 4.3; **E14-C0/E14-OEMPTY nằm ngoài phần phủ dự kiến**. Đây là truy vết và phạm vi thiết kế, không phải kết luận kết quả kiểm thử.
 
 ## 5. FR-20 — Hồ sơ Mobile
 
