@@ -175,3 +175,354 @@ Cách dùng ở lượt sau:
 
 Đã chuẩn hóa [nhật ký hiện tại](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/23120226_HW02_AI_DomainTesting_work/Appendix_A_Prompt_Log.md), giữ nguyên nội dung cũ và ghi prompt mới cùng timestamp gốc. Bộ ghi log đang tự sao chép nguyên văn phản hồi cuối này.
 `````
+
+
+## Tương tác 3
+
+- Công cụ: OpenAI Codex.
+- Thời gian: 20-10-2026 16:15
+
+### Prompt — nguyên văn
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:287 -->
+<!-- prompt-timestamp: 20-10-2026 16:15:04.356 +07:00; source: chat-transcript -->
+`````text
+dùng skill domain-testing-bva làm toàn bộ phần thiết kế kiểm thử fr-06 trên web, đọc srs và slide trong references, xác định input output và ràng buộc, không tự đặt quy tắc khi srs chưa quy định, chỗ chưa đủ căn cứ thì hỏi lại.
+viết toàn bộ vào mục fr-06 trong Report.md, chia rõ từng bước, cuối cùng đưa bộ testcase và hướng dẫn để tôi tự test, để trống actual result và verdict
+chưa commit, log nguyên văn prompt và output vào file log đang dùng, làm xong liệt kê các file và những điểm tôi cần review
+
+`````
+
+
+### Output 1 — commentary — 20-10-2026 16:15:11.005 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:290 -->
+`````text
+Tôi sẽ đọc lại skill, SRS và slide rồi viết toàn bộ phần thiết kế FR-06 Web vào `Report.md`, gồm từng bước, test case và hướng dẫn tự kiểm thử. Tôi hiểu yêu cầu “làm toàn bộ” lần này là cho phép hoàn thành các bước thiết kế trong một lượt; những chỗ thiếu căn cứ sẽ được hỏi rõ, không tự đặt quy tắc. Tôi sẽ để trống Actual Result/Verdict, chưa chạy SUT, chưa commit và ghi log nguyên văn.
+
+`````
+
+
+### Output 2 — commentary — 20-10-2026 16:18:03.598 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:329 -->
+`````text
+SRS quy định số lượng là số nguyên dương, tối thiểu 1, nhưng chưa nêu cận trên, tồn kho hay cách chuẩn hóa dữ liệu nhập. Tôi sẽ dùng các giá trị 0–1–2 cho biên dưới; các tình huống thiếu quy tắc sẽ nằm trong nhóm chờ xác nhận. Phần kiểm tra giao diện chung chỉ áp dụng trên trang chi tiết sản phẩm, không mở rộng sang thiết kế FR-07.
+
+`````
+
+
+## Tương tác 4
+
+- Công cụ: OpenAI Codex.
+- Thời gian: 20-10-2026 16:19
+
+### Prompt — nguyên văn
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:332 -->
+<!-- prompt-timestamp: 20-10-2026 16:19:43.648 +07:00; source: chat-transcript -->
+`````text
+<send_user_message_question_reply>
+[{"questionItemId":"[\"request_user_input_async\",\"call_e3a4269cfb204935a0eacf5f29986813\",0]","question":"Bạn có yêu cầu bổ sung cho FR-06 về số lượng tối đa/tồn kho, giá trị mặc định, cách xử lý ô trống hoặc cách viết như “1.0”, “+1”, “1e2” không? SRS hiện chỉ quy định số nguyên dương, tối thiểu 1.","answer":"Chưa có; ghi rõ phần chưa đủ căn cứ và chờ xác nhận."},{"questionItemId":"[\"request_user_input_async\",\"call_e3a4269cfb204935a0eacf5f29986813\",1]","question":"Bạn đã có dữ liệu sản phẩm chuẩn và chính sách thêm giỏ trên Web khi chưa đăng nhập chưa? API yêu cầu JWT, còn FR-06 chưa nói rõ hành vi dành cho khách. Nếu chưa có, tôi sẽ dùng sản phẩm tham số P cần bạn điền từ nguồn chuẩn, thiết kế ca thêm giỏ với phiên đã đăng nhập và để hành vi khách chờ xác nhận.","answer":"dùng sản phẩm p để tôi điền khi test, ca thêm giỏ dùng phiên đã đăng nhập, hành vi khách để chờ xác nhận, không tự bịa dữ liệu, tiếp tục thiết kế"}]
+</send_user_message_question_reply>
+
+`````
+
+
+### Output 1 — commentary — 20-10-2026 16:20:01.520 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:337 -->
+`````text
+Tôi sẽ dùng sản phẩm tham số `P` để bạn điền từ nguồn chuẩn khi chuẩn bị test, và dùng phiên đã đăng nhập cho các ca thêm giỏ như bạn vừa xác nhận. Hành vi khách và các quy tắc số lượng chưa có nguồn vẫn để chờ xác nhận.
+
+`````
+
+
+### Output 2 — commentary — 20-10-2026 16:24:13.968 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:358 -->
+`````text
+Phần FR-06 đã có đủ năm bước, 17 test case và hướng dẫn tự kiểm thử, kèm 8 mục chờ bổ sung yêu cầu. Tôi đã kiểm tra các mã test case, liên kết nguồn và xác nhận toàn bộ ô Actual Result/Verdict còn trống. Các mục FR-07, FR-14 và FR-20 không bị thay đổi.
+
+`````
+
+
+### Output 3 — final_answer — 20-10-2026 16:25:10.141 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:372 -->
+`````text
+Đã cập nhật hai file:
+
+- [Report.md — FR-06](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/23120226_HW02_AI_DomainTesting_work/Report.md:9): đủ năm bước, **17 test case**, bảng truy vết, **8 mục chờ xác nhận** và hướng dẫn tự kiểm thử. Actual Result/Verdict đều để trống.
+- [Appendix_A_Prompt_Log.md](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/23120226_HW02_AI_DomainTesting_work/Appendix_A_Prompt_Log.md:180): ghi nguyên văn prompt, câu trả lời xác nhận và phản hồi cùng timestamp; phản hồi cuối này được tự sao chép vào log.
+
+Bạn cần review:
+
+- Điền sản phẩm **P**, nguồn dữ liệu chuẩn và môi trường trước khi test.
+- Các phân hoạch, đại diện và biên dưới **0–1–2**.
+- Cách phân biệt UI chặn dữ liệu với tự chuẩn hóa số lượng.
+- Các mục thiếu căn cứ: max/tồn kho, ô trống, cách viết số, hành vi khách, ID sai và fallback.
+- Điều kiện áp dụng các ca GUI, đặc biệt TC16/TC17.
+
+Đã kiểm tra cấu trúc bảng và ô kết quả trống. Chưa chạy SUT, chưa viết bug report, chưa commit; các feature khác giữ nguyên.
+`````
+
+
+## Tương tác 5
+
+- Công cụ: OpenAI Codex.
+- Thời gian: 20-10-2026 16:55
+
+### Prompt — nguyên văn
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:383 -->
+<!-- prompt-timestamp: 20-10-2026 16:55:27.683 +07:00; source: chat-transcript -->
+`````text
+viết lại phần fr-06 trong report, chỉ tập trung hiển thị ảnh lớn tên giá mô tả danh mục, ô số lượng và thao tác thêm giỏ có phản hồi, bỏ các kiểm tra riêng của fr-21 đến fr-24 như màu nút h1 tab order breadcrumb
+làm đầy đủ input output, phân lớp, đại diện, bva và bảng testcase với dữ liệu và bước chạy cụ thể, trình bày gọn, không ép số ca, dùng sản phẩm p và phiên đã đăng nhập như đã thống nhất
+ô trống, khoảng trắng, cách viết số và số lượng lớn vẫn thiết kế ca khám phá, ghi rõ điều cần quan sát và phần chưa có quy định, không tự đặt max tồn kho hay thông báo lỗi, không dừng hỏi lại các điểm này
+để trống actual và verdict, chưa chạy test hay commit, không viết bug report, giữ nguyên srs và log cũ, ghi nguyên văn lượt này vào log
+
+`````
+
+
+### Output 1 — commentary — 20-10-2026 16:55:34.976 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:386 -->
+`````text
+Tôi sẽ viết lại FR-06 theo đúng phạm vi bạn vừa chốt: thông tin sản phẩm, số lượng và thêm giỏ có phản hồi. Tôi sẽ bỏ các ca GUI riêng của FR-21–FR-24, giữ các ca khám phá với phần kỳ vọng chưa được quy định ghi rõ, và chỉ bổ sung lượt này vào log cũ.
+
+`````
+
+
+### Output 2 — commentary — 20-10-2026 16:56:50.864 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:411 -->
+`````text
+Tôi sẽ gộp các ca đại diện trùng với ca BVA để tránh lặp. Ô trống, khoảng trắng, các dạng `1.0`, `+1`, `01`, `1e2` và số lượng lớn sẽ có dữ liệu cùng bước thử cụ thể, nhưng phần quy tắc chưa có trong SRS sẽ chỉ ghi mục tiêu quan sát, chưa gán kỳ vọng PASS/FAIL.
+
+`````
+
+
+### Output 3 — commentary — 20-10-2026 16:59:35.223 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:432 -->
+`````text
+Bản viết lại đã bỏ các ca GUI ngoài phạm vi và có đủ năm bước thiết kế. Tôi đã kiểm tra bảng test case: dữ liệu và bước chạy đã có, các ô Actual/Verdict đều trống. Phần ngoài FR-06, SRS và nội dung log cũ được giữ nguyên; tôi đang bổ sung nguyên văn lượt này vào log.
+
+`````
+
+
+### Output 4 — final_answer — 20-10-2026 17:00:34.129 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:445 -->
+`````text
+Đã viết lại [FR-06 trong Report.md](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/23120226_HW02_AI_DomainTesting_work/Report.md:9):
+
+- Chỉ giữ thông tin sản phẩm, số lượng và thêm giỏ có phản hồi.
+- Đủ input/output, phân lớp, đại diện, BVA và test case có dữ liệu/bước chạy cụ thể.
+- Có ca khám phá ô trống, khoảng trắng, cách viết số và số lượng lớn; ghi rõ giới hạn của oracle.
+- Actual/Verdict đều trống.
+
+Đã giữ nguyên SRS, các mục khác và từng byte log cũ. Lượt này được bổ sung vào [nhật ký](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/23120226_HW02_AI_DomainTesting_work/Appendix_A_Prompt_Log.md); phản hồi cuối đang được tự ghi nguyên văn.
+
+Chưa chạy test, viết bug report hoặc commit.
+`````
+
+
+## Tương tác 6
+
+- Công cụ: OpenAI Codex.
+- Thời gian: 20-10-2026 17:12
+
+### Prompt — nguyên văn
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:453 -->
+<!-- prompt-timestamp: 20-10-2026 17:12:36.149 +07:00; source: chat-transcript -->
+`````text
+chuẩn bị để tôi tự test fr-06, chọn iphone 15 pro max làm sản phẩm p, lấy thông tin chuẩn từ seed của đúng bản sut sẽ dùng và điền vào báo cáo, hướng dẫn tôi mở web, đăng nhập và chuẩn bị giỏ trống, sau đó hướng dẫn chạy ca d01 trước và ảnh cần chụp nếu có lỗi, chưa tự chạy test hay điền kết quả, các hướng dẫn nằm trong phiên chat, ko thêm hướng dẫn vào báo cáo, xóa các hướng dẫn trong báo cáo đi, log nguyên văn prompt và output như hiện tại
+
+`````
+
+
+### Output 1 — commentary — 20-10-2026 17:12:40.724 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:456 -->
+`````text
+Tôi sẽ xác định đúng checkout SUT sẽ dùng, đọc seed của iPhone 15 Pro Max và điền dữ liệu chuẩn cùng phiên bản vào báo cáo. Tôi cũng sẽ bỏ phần hướng dẫn thao tác khỏi báo cáo; cách mở Web, đăng nhập, chuẩn bị giỏ và chạy D01 sẽ nằm trong chat. Tôi chưa khởi chạy SUT, thực hiện ca test hay điền kết quả.
+
+`````
+
+
+### Output 2 — commentary — 20-10-2026 17:13:55.479 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:485 -->
+`````text
+Checkout `HW2/eshop-sut` đang ở commit `85af3ba…` và không có thay đổi cục bộ. Seed chứa iPhone 15 Pro Max, giá 30.000.000, mô tả “Điện thoại cao cấp của Apple”, danh mục “Điện thoại”. Tôi cũng thấy khởi động backend sẽ tạo lại dữ liệu seed, nên sẽ nêu rõ điều này trước lệnh chạy để bạn chủ động thực hiện.
+
+`````
+
+
+### Output 3 — commentary — 20-10-2026 17:15:16.878 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:502 -->
+`````text
+Tôi sẽ chọn `HW2/eshop-sut` làm bản SUT cho lần tự test này và ghi rõ commit, file seed cùng ảnh placeholder trong fixture P. Tôi sẽ giữ bước thực hiện trong bảng testcase, nhưng bỏ các đoạn hướng dẫn thao tác chung khỏi báo cáo; phần mở ứng dụng và chạy D01 sẽ chỉ có trong chat.
+
+`````
+
+
+### Output 4 — commentary — 20-10-2026 17:17:35.039 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:523 -->
+`````text
+Fixture P đã được điền từ seed và các đoạn hướng dẫn chung đã được bỏ khỏi báo cáo. Tôi đã kiểm tra: các testcase vẫn đủ dữ liệu/bước thực hiện, không còn tham chiếu thủ tục bị xóa, và Actual/Verdict vẫn trống. Hướng dẫn D01 trong chat sẽ chỉ yêu cầu xem thông tin và chụp bằng chứng nếu có sai lệch, chưa bấm Thêm vào giỏ.
+
+`````
+
+
+### Output 5 — final_answer — 20-10-2026 17:18:48.255 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:538 -->
+`````text
+Đã điền fixture P từ seed vào [Report.md](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/23120226_HW02_AI_DomainTesting_work/Report.md:36), gồm commit và nguồn dữ liệu. Đã bỏ hướng dẫn chung khỏi báo cáo, giữ bước thực hiện trong bảng testcase. Actual/Verdict vẫn trống.
+
+Bản SUT sẽ dùng là `HW2\eshop-sut`, commit `85af3ba…`. **Khởi động backend này sẽ tạo lại dữ liệu seed và xóa dữ liệu hiện có trong database của checkout đó.**
+
+1. **Mở backend** trong một cửa sổ PowerShell:
+
+   ```powershell
+   cd "C:\Users\daila\Documents\HocTap\N4K1\Testing\HW2\eshop-sut\backend"
+   npm.cmd ci
+   node server.js
+   ```
+
+   Giữ cửa sổ chạy. Không cần chạy riêng `database.js`, vì server đã nạp file này.
+
+2. **Mở Web** trong cửa sổ PowerShell thứ hai:
+
+   ```powershell
+   cd "C:\Users\daila\Documents\HocTap\N4K1\Testing\HW2\eshop-sut\frontend-web"
+   npm.cmd ci
+   npm.cmd run dev -- --port 5173 --strictPort
+   ```
+
+3. **Đăng nhập và chuẩn bị giỏ:**
+
+   - Mở cửa sổ ẩn danh, vào [trang đăng nhập](http://localhost:5173/login).
+   - Ô **Username**: `test@eshop.com`.
+   - Mật khẩu: `Test1234!`; bấm **Sign In**.
+   - Bấm **Giỏ hàng**, kiểm tra giỏ trống. Nếu còn sản phẩm, xóa từng dòng rồi kiểm tra lại.
+   - Bấm **EShop** về trang chủ, chọn **iPhone 15 Pro Max**.
+
+4. **Chỉ chạy F06-D01 trước:** đối chiếu trang chi tiết với dữ liệu [seed](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/eshop-sut/backend/database.js:98):
+
+   | Thành phần | Dữ liệu chuẩn |
+   |---|---|
+   | Tên | iPhone 15 Pro Max |
+   | Giá | 30.000.000 ₫ |
+   | Mô tả | Điện thoại cao cấp của Apple |
+   | Danh mục | Điện thoại |
+   | Ảnh | Placeholder theo URL seed, có tham số `text=iPhone+15`; không phải ảnh chụp điện thoại |
+
+   Kiểm tra thêm có ô **Số lượng** và nút **Thêm vào giỏ**. **Chưa bấm Thêm** trong D01.
+
+Nếu thấy sai lệch, chụp toàn trang có thanh địa chỉ và tên sản phẩm; thêm ảnh cận phần sai/thiếu, hoặc ảnh phần dưới nếu phải cuộn. Nếu ảnh không tải, có thể chụp thêm request ảnh trong Network để thấy URL và trạng thái. Đặt tên như `F06-D01_01.png`, ghi giờ thực tế; tránh chụp mật khẩu/token.
+
+Tôi chưa chạy SUT/test, điền kết quả hay commit. [Log](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/23120226_HW02_AI_DomainTesting_work/Appendix_A_Prompt_Log.md) giữ nguyên phần cũ và đang tự ghi nguyên văn lượt này.
+`````
+
+
+## Tương tác 7
+
+- Công cụ: OpenAI Codex.
+- Thời gian: 20-10-2026 19:25
+
+### Prompt — nguyên văn
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:546 -->
+<!-- prompt-timestamp: 20-10-2026 19:25:57.988 +07:00; source: chat-transcript -->
+`````text
+review lại fr-06, rút gọn bộ testcase theo đúng ba yêu cầu của fr-06 và phương pháp domain testing bva, giữ các ca cần thiết để phủ các lớp và biên, gộp ca trùng mục tiêu, bỏ các biến thể không bổ sung độ phủ đáng kể hoặc thiếu căn cứ để đánh giá, không cố giữ đủ 16 ca và không ép số ca cố định, trình bày một bảng testcase gọn để tôi tự test, giữ đúng các kết quả đã ghi nhận và ghi chú d04, cập nhật đồng bộ phân lớp, đại diện, bva, truy vết và số ca, giải thích ngắn những ca đã gộp hoặc bỏ, không thêm yêu cầu gui ngoài fr-06, không sửa srs hay mã nguồn sut, chưa chạy test hay commit, log lượt này như hiện tại
+
+`````
+
+
+### Output 1 — commentary — 20-10-2026 19:26:06.086 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:549 -->
+`````text
+Tôi sẽ đọc lại FR-06 và các kết quả bạn đã ghi, đặc biệt ghi chú D04, rồi rút gọn theo độ phủ lớp và biên. Tôi sẽ cập nhật đồng bộ các bảng thiết kế, giữ nguyên kết quả đã có và giải thích ngắn các ca gộp/bỏ. Tôi chưa chạy test, sửa SRS/mã SUT hay commit.
+
+`````
+
+
+### Output 2 — commentary — 20-10-2026 19:27:23.607 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:572 -->
+`````text
+D05 (`-1`) và D04 (`0`) cùng phủ lớp số nguyên không dương; D04 còn là điểm sát biên dưới nên sẽ đại diện cho lớp này. Tôi sẽ lưu riêng kết quả D05 đã có, bỏ chín ca khám phá khỏi bộ chạy chính vì chưa bổ sung lớp/biên có oracle rõ ràng, và giữ nguyên ghi chú D04 về lần bấm thứ hai.
+
+`````
+
+
+### Output 3 — commentary — 20-10-2026 19:30:41.254 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:606 -->
+`````text
+Bộ hiện hành còn D01, D02, D03, D04, D06 và D07, đủ các lớp đã xác định và ba điểm biên 0–1–2. Tôi đã đối chiếu để giữ nguyên Actual Result, Verdict, bằng chứng của các ca này, bản ghi D05 và nguyên văn ghi chú D04; các bảng thiết kế và số ca cũng đã đồng bộ.
+
+`````
+
+
+### Output 4 — final_answer — 20-10-2026 19:31:26.432 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:619 -->
+`````text
+Đã rút gọn [FR-06 trong Report.md](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/23120226_HW02_AI_DomainTesting_work/Report.md:97) còn **6 ca: D01, D02, D03, D04, D06, D07**.
+
+- Gộp độ phủ D05 (`-1`) vào D04 (`0`): cùng lớp không dương, còn `0` phủ thêm biên dưới. Kết quả D05 vẫn lưu riêng.
+- Giữ D02/D03 vì phủ hai điểm biên khác nhau.
+- Bỏ X01–X09 khỏi bộ chính vì chưa bổ sung lớp/biên có oracle rõ ràng.
+
+Đã đồng bộ phân lớp, đại diện, BVA, truy vết và số ca; giữ nguyên kết quả đã ghi và **nguyên văn ghi chú D04**.
+
+SRS, mã SUT và log cũ không đổi. [Log lượt này](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/23120226_HW02_AI_DomainTesting_work/Appendix_A_Prompt_Log.md) đang ghi nguyên văn phản hồi cuối. Chưa chạy test hay commit.
+`````
+
+
+## Tương tác 8
+
+- Công cụ: OpenAI Codex.
+- Thời gian: 20-10-2026 19:40
+
+### Prompt — nguyên văn
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:627 -->
+<!-- prompt-timestamp: 20-10-2026 19:40:01.219 +07:00; source: chat-transcript -->
+`````text
+thêm cho tôi -1 và rỗng
+
+`````
+
+
+### Output 1 — commentary — 20-10-2026 19:40:05.158 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:630 -->
+`````text
+Tôi sẽ đưa lại ca `-1` và ô rỗng vào bảng testcase, cập nhật đại diện, truy vết và số ca. Tôi sẽ giữ nguyên kết quả cũ của D05; ca rỗng để dạng khám phá với kết quả trống, rồi ghi nguyên văn lượt này vào log.
+
+`````
+
+
+### Output 2 — final_answer — 20-10-2026 19:41:58.645 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:660 -->
+`````text
+Đã bổ sung vào [Report.md](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/23120226_HW02_AI_DomainTesting_work/Report.md):
+
+- **D05: `-1`** — giữ nguyên kết quả đã ghi.
+- **X01: ô rỗng** — ca khám phá, Actual/Verdict để trống.
+
+Bộ hiện hành có **8 ca**; đã đồng bộ phân lớp, đại diện và truy vết. Ghi chú D04 giữ nguyên. Chưa chạy test hay commit; lượt này được ghi nguyên văn vào log.
+`````
