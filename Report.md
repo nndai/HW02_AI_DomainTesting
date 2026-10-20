@@ -192,7 +192,39 @@ Phạm vi là giỏ hàng trên Web: hiển thị giỏ, điều chỉnh số l�
 
 ### 3.2. Equivalence partitions
 
-Chưa thực hiện.
+Nguồn yêu cầu: file `README.md` trong `eshop-sut`, mục SRS, FR-07. Phương pháp: slide “S04 — Domain Testing”. Các lớp được xác định theo input/output và trạng thái ở mục 3.1; hai tình huống cùng lớp có cùng cách xử lý hoặc cùng loại kết quả kỳ vọng, không nhất thiết có cùng giá trị số lượng hay số tiền.
+
+Các lớp input và trạng thái được chia riêng theo từng biến/điều kiện. Một tình huống có thể đồng thời thuộc lớp giỏ có hàng, sản phẩm đã có trong giỏ và thao tác tăng; đây là sự kết hợp giữa các biến, không phải chồng lấn trong cùng một phép phân hoạch.
+
+| EC-ID | Biến / điều kiện | Miền/lớp | Phân loại và kỳ vọng |
+|---|---|---|---|
+| E07-C0 | S07-CART, trạng thái giỏ | Giỏ không chứa sản phẩm | **Trạng thái hợp lệ**; hiển thị hình minh họa và thông báo giỏ trống rõ ràng theo R07-06. Không coi thiếu sản phẩm là đầu vào lỗi. |
+| E07-C1 | S07-CART, trạng thái giỏ | Giỏ chứa sản phẩm | Trạng thái hợp lệ; hiển thị các dòng sản phẩm, đủ năm cột và nút +/− theo R07-01; nhãn tổng tiền là “Tổng cộng” theo R07-05. |
+| E07-P1 | I07-ADD và S07-CART, quan hệ sản phẩm thêm với giỏ trước thao tác | Sản phẩm thêm đã có trong giỏ | Đầu vào/trạng thái hợp lệ; tăng số lượng trên dòng hiện có, không tạo dòng mới cho cùng sản phẩm theo R07-02. Không đặt lượng tăng cụ thể. |
+| E07-P2 | I07-ADD và S07-CART, cùng điều kiện nhận diện sản phẩm | Sản phẩm thêm chưa có trong giỏ | Trạng thái đầu vào hợp lệ để chuẩn bị giỏ; không áp kỳ vọng gộp vào dòng cũ của R07-02. Khi giỏ có sản phẩm, đối chiếu hiển thị theo R07-01/05; FR-07 không mô tả riêng chi tiết xử lý thao tác thêm mới. |
+| E07-QPLUS | I07-Q, thao tác chỉnh số lượng trên dòng đang có | Bấm nút + | Thao tác hợp lệ được FR-07 nêu; số lượng có thể được điều chỉnh theo hướng tăng theo R07-01. Chưa xác định mức tăng hoặc phản ứng tại giới hạn số lượng chưa được đặc tả. |
+| E07-QMINUS | I07-Q, cùng điều kiện chọn dòng | Bấm nút − | Thao tác hợp lệ được FR-07 nêu; số lượng có thể được điều chỉnh theo hướng giảm theo R07-01. Chưa đặt cận dưới, lượng giảm hoặc hành vi khi giảm tới giới hạn chưa được đặc tả. |
+| E07-DEL | I07-DELETE, yêu cầu thao tác trên sản phẩm đang có | Bấm Xóa sản phẩm mục tiêu | Thao tác hợp lệ; xuất hiện dialog xác nhận trước khi thực hiện xóa theo R07-03. |
+| E07-D0 | S07-DIALOG, sản phẩm mục tiêu đang có | Dialog chưa hiển thị trước yêu cầu xóa | Trạng thái hợp lệ; yêu cầu Xóa phải đi qua bước hiển thị dialog trước thao tác xóa theo R07-03. |
+| E07-D1 | S07-DIALOG, cùng thao tác xóa | Dialog xác nhận đang hiển thị, chưa có quyết định | Trạng thái hợp lệ của bước xác nhận; đối chiếu thứ tự dialog xuất hiện trước thao tác xóa theo R07-03. Không gán sẵn kết quả cho lựa chọn hủy/đóng chưa được mô tả. |
+| E07-NAV | I07-CONTINUE | Bấm Tiếp tục mua sắm | Thao tác hợp lệ; điều hướng về trang chủ theo R07-04, không tự đặt URL đích cụ thể. |
+
+C0/C1 phân biệt giỏ trống và có hàng; P1/P2 phân biệt quan hệ đã có/chưa có của sản phẩm được thêm; QPLUS/QMINUS phân biệt hai thao tác chỉnh số lượng. D0/D1 xét trạng thái dialog trong luồng xóa sản phẩm đang có. Các điều kiện này thuộc các biến và thời điểm khác nhau; không dùng chúng như một danh sách lớp loại trừ nhau cho toàn bộ giỏ hàng.
+
+Các lớp đầu ra kỳ vọng được xác định theo điều kiện đầu vào và trạng thái tương ứng:
+
+| EC-ID | Biến / điều kiện | Lớp đầu ra kỳ vọng |
+|---|---|---|
+| E07-OEMPTY | O07-EMPTY, giỏ thuộc C0 | Hình minh họa và thông báo rõ ràng cho giỏ trống theo R07-06; đây là đầu ra đúng của trạng thái hợp lệ. Không yêu cầu một ảnh hoặc nguyên văn thông báo cụ thể. |
+| E07-OLIST | O07-LIST, giỏ thuộc C1 | Danh sách phản ánh dữ liệu giỏ với đủ Sản phẩm, Đơn giá, Số lượng, Thành tiền, Thao tác và nút +/− theo R07-01. |
+| E07-OINCREASE | O07-QUANTITY, chỉnh số lượng bằng QPLUS | Số lượng thể hiện kết quả tăng theo R07-01; mức tăng và cách xử lý giới hạn chưa có oracle định lượng. |
+| E07-ODECREASE | O07-QUANTITY, chỉnh số lượng bằng QMINUS | Số lượng thể hiện kết quả giảm theo R07-01; mức giảm và cách xử lý giới hạn chưa có oracle định lượng. |
+| E07-ODUPLICATE | O07-QUANTITY, thêm sản phẩm thuộc P1 | Số lượng của sản phẩm đã có tăng và không tạo dòng mới theo R07-02. Không đồng nhất kỳ vọng này với việc thêm sản phẩm khác. |
+| E07-ODELETE | O07-DELETE, yêu cầu DEL trong luồng D0 sang D1 | Có dialog xác nhận trước khi xóa sản phẩm mục tiêu theo R07-03; không tự quy định nội dung/nút hoặc hành vi hủy. |
+| E07-OTOTAL | O07-TOTAL, hiển thị tổng tiền giỏ | Nhãn là “Tổng cộng”, không phải “Tổng tạm tính”, theo R07-05. Chưa đặt công thức hoặc giá trị tổng cụ thể. |
+| E07-ONAV | O07-NAV, thao tác NAV | Trang chủ được hiển thị theo R07-04. |
+
+**Giới hạn phân lớp:** FR-07 chưa đủ căn cứ để chia miền số lượng thành các lớp valid/invalid theo min/max, kiểu số, ô rỗng hoặc nhập trực tiếp; không kế thừa các cận của FR-06. Các lựa chọn xác nhận/hủy/đóng dialog được nhận diện là đầu vào của bước xác nhận, nhưng chưa tách thành lớp có kỳ vọng xử lý chi tiết khi đặc tả chưa nêu. Giỏ trống không thuộc lớp invalid; nhãn sai, thiếu cột hoặc thêm trùng thành dòng mới là đầu ra không đáp ứng yêu cầu tương ứng, không phải lý do đổi phân loại đầu vào thành invalid.
 
 ### 3.3. Đại diện và test cases
 
