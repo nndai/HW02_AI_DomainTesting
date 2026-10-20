@@ -892,3 +892,67 @@ Chưa phân lớp hay chạy test; các FR trước và SUT giữ nguyên. Promp
 Dừng tại bước 1 để bạn kiểm tra.
 `````
 
+
+## Tương tác 16
+
+- Công cụ: OpenAI Codex.
+- Thời gian: 21-10-2026 00:43
+
+### Prompt — nguyên văn
+
+<!-- chat-message:01a15a08-17f9-7281-a6d3-30cf3ec72a30:304 -->
+<!-- prompt-timestamp: 21-10-2026 00:43:56.733 +07:00; source: chat-transcript -->
+`````text
+làm tiếp mục 4.2 phân lớp ep cho fr14 theo fr06 và fr07, dựa vào yêu cầu và dữ liệu ở 4.1, mỗi lớp có điều kiện và kỳ vọng rõ, không tự đặt max hoặc cấm trùng tên, ca xóa chính dùng danh mục không có sản phẩm tham chiếu, rút các câu chờ xác nhận thành giới hạn phạm vi, chưa chọn đại diện hoặc làm bva, không sửa các fr trước và sut, log nguyên văn rồi dừng để tôi kiểm tra
+`````
+
+
+### Output 1 — commentary — 21-10-2026 00:44:02.515 +07:00
+
+<!-- chat-message:01a15a08-17f9-7281-a6d3-30cf3ec72a30:307 -->
+`````text
+Tôi sẽ tìm mục 4.1, mẫu FR06/FR07 và phần FR14, rồi chỉ bổ sung phân lớp EP ở 4.2 theo các ràng buộc bạn nêu. Tôi sẽ ghi log nguyên văn yêu cầu và dừng sau khi sửa để bạn kiểm tra.
+`````
+
+
+### Output 2 — commentary — 21-10-2026 00:45:03.016 +07:00
+
+<!-- chat-message:01a15a08-17f9-7281-a6d3-30cf3ec72a30:356 -->
+`````text
+Tôi đã tìm thấy báo cáo đúng trong thư mục bài HW02 và mẫu FR06/FR07 hiện tại. Tôi sẽ dùng skill `domain-testing-bva`: phân lớp theo yêu cầu ở 4.1, giới hạn nhánh xóa chính ở danh mục không có sản phẩm tham chiếu, và chuyển các điểm chưa được đặc tả thành giới hạn phạm vi.
+`````
+
+
+### Output 3 — commentary — 21-10-2026 00:47:22.233 +07:00
+
+<!-- chat-message:01a15a08-17f9-7281-a6d3-30cf3ec72a30:393 -->
+`````text
+FR14 chỉ nêu Thêm/Xem/Xóa và tên không được để trống. Tôi sẽ tách lớp tên rỗng/không rỗng, danh sách trống/có danh mục và mục tiêu xóa tồn tại không có sản phẩm tham chiếu. Tên trùng, tên chỉ có khoảng trắng và xóa danh mục đang được tham chiếu sẽ nằm ngoài phạm vi đối chiếu lần này, không bị tự coi là dữ liệu sai.
+`````
+
+
+### Output 4 — commentary — 21-10-2026 00:48:51.846 +07:00
+
+<!-- chat-message:01a15a08-17f9-7281-a6d3-30cf3ec72a30:418 -->
+`````text
+Mục 4.2 đã có 5 lớp đầu vào/trạng thái và 5 lớp đầu ra, mỗi lớp có điều kiện, kỳ vọng và truy vết yêu cầu. Tôi cũng rút các câu chờ xác nhận ở 4.1 thành giới hạn phạm vi. Kiểm tra hash cho thấy các phần trước FR14, từ mục 4.3 trở đi và SUT giữ nguyên; tôi đang hoàn tất log nguyên văn.
+`````
+
+
+### Output 5 — final_answer — 21-10-2026 00:49:48.509 +07:00
+
+<!-- chat-message:01a15a08-17f9-7281-a6d3-30cf3ec72a30:431 -->
+`````text
+Đã điền [mục 4.2 — EP FR14](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/23120226_HW02_AI_DomainTesting_work/Report.md:366):
+
+- 5 lớp đầu vào/trạng thái và 5 lớp đầu ra, có điều kiện, kỳ vọng và nguồn.
+- Nhánh xóa chính dùng danh mục không có sản phẩm tham chiếu.
+- Chuyển các câu chờ xác nhận thành giới hạn phạm vi; không đặt max hoặc cấm trùng tên.
+
+Chưa chọn đại diện, làm BVA, chạy test hay commit. Các FR trước và SUT giữ nguyên.
+
+Prompt và phản hồi được ghi nguyên văn vào [log](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/23120226_HW02_AI_DomainTesting_work/Appendix_A_Prompt_Log.md).
+
+**Bước 2 — chờ review.**
+`````
+

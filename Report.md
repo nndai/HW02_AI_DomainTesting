@@ -351,7 +351,7 @@ Phạm vi là quản lý danh mục trên Web Admin, gồm Thêm/Xem/Xóa và r�
 | O14-DELETE | Output: danh mục sau thao tác xóa | Danh mục mục tiêu không còn trong danh sách sau khi thực hiện xóa theo R14-03. Chưa đặt kỳ vọng xóa thành công, từ chối hoặc xử lý sản phẩm đối với danh mục đang được tham chiếu. |
 | O14-VALIDATION | Output: kiểm soát tên rỗng | Không tạo danh mục có tên rỗng theo R14-04. Chưa quy định cơ chế chặn, nguyên văn thông báo hoặc hình thức phản hồi. |
 
-**Giới hạn đối chiếu:** FR-14 chưa quy định độ dài tối đa, trùng tên, phân biệt hoa/thường hoặc dấu, trim và cách xử lý tên chỉ gồm khoảng trắng. Không lấy giới hạn tên sản phẩm của FR-15 áp cho tên danh mục. Đặc tả cũng chưa nêu dialog xác nhận xóa, phản hồi thành công/lỗi, hoặc hành vi khi danh mục còn sản phẩm tham chiếu; các điểm này cần xác nhận trước khi đặt kỳ vọng chi tiết.
+**Giới hạn phạm vi:** Chỉ đối chiếu ràng buộc tên bắt buộc và các thao tác Thêm/Xem/Xóa đã nêu. Không thiết kế tình huống tên trùng, phân biệt hoa/thường hoặc dấu, chuẩn hóa khoảng trắng hay tên chỉ gồm khoảng trắng vì FR-14 chưa quy định cách xử lý; không suy ra tên trùng bị cấm hoặc thêm điều kiện tên phải duy nhất. Không đặt độ dài tối đa hoặc lấy giới hạn tên sản phẩm của FR-15 áp cho tên danh mục. Nhánh xóa chính giới hạn ở danh mục tồn tại, không có sản phẩm tham chiếu; xử lý danh mục đang được tham chiếu nằm ngoài phạm vi đối chiếu lần này. Không yêu cầu dialog xác nhận xóa, nguyên văn thông báo hay hình thức phản hồi thành công/lỗi khi đặc tả chưa nêu.
 
 **Dữ liệu nền:** Lấy từ file `backend/database.js`, cùng baseline SUT ở mục 2.1. Đây là dữ liệu seed để chuẩn bị và đối chiếu, không phải kết quả quan sát mới.
 
@@ -361,11 +361,35 @@ Phạm vi là quản lý danh mục trên Web Admin, gồm Thêm/Xem/Xóa và r�
 | C14-LT | 2 | Laptop | MacBook Pro M3 |
 | C14-PK | 3 | Phụ kiện | Tai nghe AirPods Pro 2; Bàn phím cơ Keychron Q1 |
 
-**Tiền điều kiện:** Web Admin truy cập được; đăng nhập bằng tài khoản seed `admin@eshop.com`, vai trò `admin`; trang quản lý danh mục tải xong. Trước ca thêm/xóa về sau, cần có danh sách nền và xác định trạng thái tham chiếu của danh mục mục tiêu để đối chiếu thay đổi. Với thao tác xóa, danh mục mục tiêu phải tồn tại. Ba danh mục seed đều có sản phẩm tham chiếu, nên không mặc định dùng chúng cho ca xóa thành công khi hành vi này chưa được quy định. Dữ liệu danh mục mới và mục tiêu cho từng ca sẽ được chọn ở bước đại diện.
+**Tiền điều kiện:** Web Admin truy cập được; đăng nhập bằng tài khoản seed `admin@eshop.com`, vai trò `admin`; trang quản lý danh mục tải xong. Trước ca thêm/xóa về sau, cần có danh sách nền và xác định trạng thái tham chiếu của danh mục mục tiêu để đối chiếu thay đổi. Với nhánh xóa chính, danh mục mục tiêu phải tồn tại và không có sản phẩm tham chiếu. Ba danh mục seed đều có sản phẩm tham chiếu nên dùng làm dữ liệu nền để đối chiếu hiển thị, không dùng làm mục tiêu xóa chính. Dữ liệu danh mục mới và mục tiêu cho từng ca sẽ được chọn ở bước đại diện; chưa chuẩn bị dữ liệu hoặc thao tác trên SUT ở bước này.
 
-### 4.2. Equivalence partitions
+### 4.2. Phân lớp (EP)
 
-Chưa thực hiện.
+Nguồn yêu cầu: file `README.md` trong `eshop-sut`, mục SRS, FR-14; đối chiếu bản nguồn `references/SRS.md`, cùng mục FR-14. Phương pháp: slide “S04 — Domain Testing”, bước xác định lớp input/output và các hướng dẫn chia lớp. Các lớp dưới đây dựa trên input/output, trạng thái và giới hạn phạm vi ở mục 4.1; cùng lớp có cùng cách xử lý hoặc cùng loại kết quả kỳ vọng, không nhất thiết có cùng tên hay số danh mục.
+
+Phiên Admin được giữ làm tiền điều kiện chung. Phân lớp riêng theo biến và thao tác: tên khi Thêm, dữ liệu danh sách khi Xem, mục tiêu và trạng thái tham chiếu khi Xóa. Không dùng các lớp của những biến khác nhau như một phép phân hoạch loại trừ nhau cho toàn bộ chức năng.
+
+| EC-ID | Biến / điều kiện | Miền/lớp | Phân loại và kỳ vọng |
+|---|---|---|---|
+| E14-N1 | I14-N, chọn Thêm theo I14-A | Tên không rỗng, chứa ít nhất một ký tự khác khoảng trắng; xét trong giới hạn đối chiếu tên ở mục 4.1 | **Đầu vào hợp lệ theo điều kiện tên bắt buộc** của R14-04; Admin thêm được danh mục và danh sách phản ánh danh mục được thêm theo R14-01/02. Không bổ sung giới hạn độ dài hoặc điều kiện tên duy nhất. |
+| E14-N0 | I14-N, cùng thao tác Thêm | Ô tên không có ký tự nào, do chưa nhập hoặc đã xóa hết nội dung | **Đầu vào không hợp lệ** do vi phạm R14-04; không tạo danh mục có tên rỗng. Không yêu cầu cơ chế chặn hay nguyên văn thông báo cụ thể. |
+| E14-C0 | S14-CATEGORIES, chọn Xem theo I14-A | Danh sách nền không có danh mục | **Trạng thái hợp lệ**; danh sách hiển thị không có danh mục, phù hợp dữ liệu nền trống theo R14-02. Không coi danh sách trống là lỗi; không tự yêu cầu hình minh họa hoặc thông báo trống. |
+| E14-C1 | S14-CATEGORIES, cùng thao tác Xem | Danh sách nền có danh mục | **Trạng thái hợp lệ**; Admin xem được các danh mục tương ứng dữ liệu nền đã chuẩn bị theo R14-02. Không đặt cột ID, thứ tự hoặc phân trang. |
+| E14-D0 | I14-C và S14-REFERENCE, chọn Xóa theo I14-A | Danh mục mục tiêu đang tồn tại và không có sản phẩm tham chiếu trước thao tác | **Đầu vào/trạng thái hợp lệ cho nhánh xóa chính**; xóa được đúng danh mục mục tiêu, danh mục đó không còn trong danh sách sau khi thực hiện xóa theo R14-03 và đối chiếu lại theo R14-02. Không tự thêm bước dialog xác nhận. |
+
+N1/N0 rời nhau trong miền tên được đối chiếu: có nội dung đáp ứng điều kiện bắt buộc và không có nội dung; tên chỉ gồm khoảng trắng được loại khỏi phạm vi này vì chưa có quy tắc chuẩn hóa hoặc xử lý. C0/C1 rời nhau và phân biệt hai trạng thái danh sách khi Xem; chúng không tạo min/max số danh mục. D0 là lớp mục tiêu trong miền xóa đã giới hạn ở danh mục tồn tại, không có sản phẩm tham chiếu; không khẳng định đã phủ miền xóa danh mục đang được tham chiếu.
+
+Các lớp đầu ra kỳ vọng được xác định theo điều kiện đầu vào và trạng thái tương ứng:
+
+| EC-ID | Biến / điều kiện | Lớp đầu ra kỳ vọng |
+|---|---|---|
+| E14-OCREATE | O14-CREATE và O14-LIST, thao tác Thêm với tên thuộc N1 | Thêm được danh mục với tên đáp ứng điều kiện bắt buộc trong phạm vi đã nêu; danh sách phản ánh danh mục vừa thêm theo R14-01/02/04. Đối chiếu tên tương ứng dữ liệu chuẩn bị, không gán quy tắc chuẩn hóa ngoài đặc tả. |
+| E14-OVALIDATION | O14-VALIDATION, thao tác Thêm với tên thuộc N0 | Không tạo danh mục có tên rỗng theo R14-04. Việc ngăn tạo dữ liệu rỗng là đầu ra đúng kỳ vọng của đầu vào invalid, không phải đầu ra sai; không yêu cầu một kiểu thông báo hoặc mã lỗi cụ thể. |
+| E14-OEMPTY | O14-LIST, thao tác Xem với trạng thái C0 | Không hiển thị danh mục ngoài dữ liệu nền trống theo R14-02; đây là đầu ra đúng của trạng thái hợp lệ. |
+| E14-OLIST | O14-LIST, thao tác Xem với trạng thái C1 | Các danh mục hiển thị tương ứng dữ liệu nền đã chuẩn bị theo R14-02; đối chiếu tên và mục tiêu tương ứng, không yêu cầu UI phải hiển thị ID. |
+| E14-ODELETE | O14-DELETE và O14-LIST, thao tác Xóa với mục tiêu thuộc D0 | Danh mục mục tiêu không còn trong danh sách sau khi xóa theo R14-03/02. Chỉ đánh giá kết quả xóa mục tiêu không có sản phẩm tham chiếu; không đặt kỳ vọng cascade, từ chối xóa hoặc xử lý sản phẩm. |
+
+**Giới hạn phân lớp:** Không chia lớp theo độ dài tối đa, tính duy nhất, phân biệt hoa/thường hoặc dấu, trim hay tên chỉ gồm khoảng trắng; không tự kết luận valid/invalid hoặc đặt kỳ vọng chấp nhận/từ chối cho những tình huống đó. Không khảo sát ID sai kiểu/không tồn tại qua API, thao tác Sửa, quyền của người không phải Admin hoặc lựa chọn xác nhận/hủy/đóng dialog. Danh mục có sản phẩm tham chiếu nằm ngoài nhánh xóa chính; cả ba danh mục seed C14-DT/C14-LT/C14-PK thuộc nhóm này nên chưa ánh xạ chúng tới D0. Chưa chọn tên hoặc danh mục đại diện, chưa thiết kế ca EP cụ thể và chưa phân tích BVA.
 
 ### 4.3. Đại diện và test cases
 
