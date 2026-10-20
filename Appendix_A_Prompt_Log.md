@@ -956,3 +956,104 @@ Prompt và phản hồi được ghi nguyên văn vào [log](C:/Users/daila/Docu
 **Bước 2 — chờ review.**
 `````
 
+
+## Tương tác 17
+
+- Công cụ: OpenAI Codex.
+- Thời gian: 21-10-2026 00:53
+
+### Prompt — nguyên văn
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1158 -->
+<!-- prompt-timestamp: 21-10-2026 00:53:21.741 +07:00; source: chat-transcript -->
+`````text
+làm tiếp mục 4.3 đại diện cho fr14 theo cấu trúc fr06 và fr07, chọn dữ liệu tên cụ thể và danh mục thử để thêm xem xóa, gộp các mục tiêu có thể kiểm tra chung, chỉ dùng danh mục thử không có sản phẩm tham chiếu làm mục tiêu xóa, không xóa danh mục seed để tạo danh sách trống, nêu rõ lớp nào chưa có đại diện khả thi, chưa làm bva hoặc chạy test, không sửa các fr trước và sut, log nguyên văn rồi dừng để tôi kiểm tra
+`````
+
+
+### Output 1 — commentary — 21-10-2026 00:53:25.445 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1161 -->
+`````text
+Tôi sẽ dùng skill `domain-testing-bva` để chọn đại diện cho mục 4.3 theo các lớp FR-14 hiện có, gộp các mục tiêu kiểm tra chung và chỉ chọn danh mục thử không có sản phẩm tham chiếu để xóa. Tôi sẽ ghi rõ lớp chưa có đại diện khả thi, chưa làm BVA hay chạy test, giữ nguyên các FR trước/SUT và ghi log nguyên văn.
+`````
+
+
+### Output 2 — commentary — 21-10-2026 00:54:16.762 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1176 -->
+`````text
+Tôi sẽ gộp Thêm với Xem, Xóa với Xem và dùng hai danh mục thử riêng để ca xóa không phụ thuộc kết quả ca thêm. Hai lớp E14-C0/E14-OEMPTY chưa có đại diện khả thi trên baseline hiện tại: xóa danh mục thử vẫn còn các danh mục seed, và tôi sẽ không xóa chúng để tạo danh sách trống.
+`````
+
+
+### Output 3 — commentary — 21-10-2026 00:55:33.452 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1195 -->
+`````text
+Mục 4.3 đã có đại diện Thêm/Xem, tên rỗng và Xóa/Xem, ánh xạ 8/10 lớp trong thiết kế. E14-C0 và E14-OEMPTY được ghi rõ là chưa có đại diện khả thi. Tôi đã kiểm tra nội dung ngoài mục 4.3 và tài liệu nguồn giữ nguyên; chưa thao tác trên SUT.
+`````
+
+
+### Output 4 — final_answer — 21-10-2026 00:56:13.276 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1206 -->
+`````text
+Đã điền [mục 4.3 — Đại diện FR-14](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/23120226_HW02_AI_DomainTesting_work/Report.md:394):
+
+- Chọn tên cụ thể, gộp Thêm/Xem và Xóa/Xem; tách ca tên rỗng.
+- Chỉ chọn danh mục thử không có sản phẩm tham chiếu để xóa.
+- Ánh xạ 8/10 lớp; **E14-C0 và E14-OEMPTY chưa có đại diện khả thi**.
+
+Chưa làm BVA hay chạy test; các FR trước và SUT giữ nguyên. Prompt/output được ghi nguyên văn vào [log](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/23120226_HW02_AI_DomainTesting_work/Appendix_A_Prompt_Log.md).
+
+**Bước 3 — chờ bạn kiểm tra.**
+`````
+
+
+## Tương tác 18
+
+- Công cụ: OpenAI Codex.
+- Thời gian: 21-10-2026 01:06
+
+### Prompt — nguyên văn
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1214 -->
+<!-- prompt-timestamp: 21-10-2026 01:06:29.081 +07:00; source: chat-transcript -->
+`````text
+sửa fr14 hiện tại, bỏ lời tiến độ lỗi thời ở 4.1 và 4.2, làm rõ đại diện danh sách trống là 0 danh mục nhưng không chuẩn bị thực thi vì giữ nguyên seed, giữ lớp c0 và oempty cùng giới hạn phủ, ghi rõ 8/10 lớp thuộc ba đại diện dự kiến triển khai, gom lưu ý lặp về 4.1, đồng bộ sáu đề mục với fr06 và fr07, bỏ 4.7 và 4.8 trống, giữ thiết kế và dữ liệu thử, chưa làm bva hoặc chạy test, không sửa các fr trước và sut, log nguyên văn rồi dừng
+`````
+
+
+### Output 1 — commentary — 21-10-2026 01:06:34.310 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1217 -->
+`````text
+Tôi sẽ sửa cách trình bày FR-14: bỏ lời tiến độ cũ, gom lưu ý về 4.1, làm rõ đại diện 0 danh mục và giới hạn phủ 8/10 lớp, rồi đồng bộ sáu đề mục với FR-06/FR-07. Tôi sẽ giữ thiết kế, dữ liệu thử và các lớp hiện có; chưa làm BVA hay chạy test, giữ nguyên các FR trước/SUT và ghi log nguyên văn.
+`````
+
+
+### Output 2 — commentary — 21-10-2026 01:08:21.745 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1241 -->
+`````text
+FR-14 đã được rút gọn về sáu đề mục. Đại diện danh sách trống được ghi rõ là **0 danh mục**, có trong thiết kế nhưng không chuẩn bị thực thi vì giữ nguyên seed. Mức 8/10 lớp được gắn với ba đại diện dự kiến triển khai; tên và mục tiêu thử giữ nguyên. Tôi đang kiểm tra tính đồng bộ và log.
+`````
+
+
+### Output 3 — final_answer — 21-10-2026 01:09:31.675 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1260 -->
+`````text
+Đã sửa [FR-14 trong Report.md](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/23120226_HW02_AI_DomainTesting_work/Report.md:326):
+
+- Bỏ lời tiến độ cũ, gom lưu ý về 4.1.
+- Giữ C0/OEMPTY với đại diện **0 danh mục**, không chuẩn bị thực thi vì giữ seed.
+- Ghi rõ **8/10 lớp thuộc ba đại diện dự kiến triển khai**.
+- Đồng bộ sáu đề mục, bỏ 4.7–4.8; giữ thiết kế và dữ liệu thử.
+
+Chưa làm BVA hay chạy test; các FR trước và SUT giữ nguyên. Prompt/output được ghi nguyên văn vào [log](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/23120226_HW02_AI_DomainTesting_work/Appendix_A_Prompt_Log.md).
+
+Dừng tại đây.
+`````
+
