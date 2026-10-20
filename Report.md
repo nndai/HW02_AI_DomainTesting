@@ -228,7 +228,23 @@ Các lớp đầu ra kỳ vọng được xác định theo điều kiện đầ
 
 ### 3.3. Đại diện và test cases
 
-Chưa thực hiện. Không điền Actual/Verdict trước khi chạy.
+Nguồn yêu cầu: file `README.md` trong `eshop-sut`, mục SRS, FR-07. Nguồn sản phẩm: file `backend/database.js`, cùng baseline seed với FR-06. Phương pháp: slide “S04 — Domain Testing”, chọn đại diện và kết hợp các lớp hợp lệ.
+
+| Ký hiệu | ID trên seed sạch | Tên sản phẩm | Đơn giá theo seed | Danh mục |
+|---|---|---|---:|---|
+| P | 1 | iPhone 15 Pro Max | 30000000 ₫ | Điện thoại |
+| Q | 2 | Samsung Galaxy S24 Ultra | 28000000 ₫ | Điện thoại |
+
+**Tiền điều kiện chung:** Web dùng baseline nêu tại mục 2.1.1; phiên đã đăng nhập bằng tài khoản `test@eshop.com`. Giỏ và số lượng dưới đây là dữ liệu cần chuẩn bị cho từng đại diện, không phải dữ liệu giỏ có sẵn trong seed hoặc trạng thái đã được xác minh. Chọn P có số lượng 3 và Q có số lượng 2 làm mẫu cụ thể để dễ đối chiếu hai dòng khác nhau; các số này không xác lập miền hợp lệ, min/max hoặc điểm BVA của FR-07.
+
+| REP-ID / ca EP nháp | Dữ liệu và thao tác đại diện | Lớp được phủ | Kỳ vọng theo yêu cầu | Lý do chọn / giới hạn |
+|---|---|---|---|---|
+| REP07-EMPTY | Giỏ trống, không có dòng sản phẩm. Mở giỏ, quan sát trạng thái trống rồi bấm Tiếp tục mua sắm. | E07-C0, E07-OEMPTY; E07-NAV, E07-ONAV | Có hình minh họa và thông báo giỏ trống rõ ràng (R07-06); bấm Tiếp tục mua sắm hiển thị trang chủ (R07-04). | Gộp trạng thái trống và điều hướng trong một luồng; không cần ca riêng chỉ để kiểm tra nút điều hướng. Không đặt nguyên văn thông báo, ảnh minh họa hoặc URL đích. |
+| REP07-CART | Giỏ ban đầu có P:3, chưa có Q; chọn Q với số lượng thêm 2 để chuẩn bị giỏ P:3, Q:2. Đối chiếu danh sách và nhãn tổng tiền. Với giỏ P:3, Q:2, bấm + trên dòng P một lần; chuẩn bị lại đúng giỏ P:3, Q:2 trước khi bấm − trên dòng P một lần. Quan sát riêng từng thao tác. | E07-P2, E07-C1, E07-OLIST, E07-OTOTAL; E07-QPLUS, E07-OINCREASE; E07-QMINUS, E07-ODECREASE | Khi đã chuẩn bị được giỏ: hiển thị P/Q tương ứng dữ liệu trên, đủ Sản phẩm, Đơn giá, Số lượng, Thành tiền, Thao tác và nút +/− (R07-01); nhãn “Tổng cộng” (R07-05). Sau +, số lượng P tăng so với 3; sau −, giảm so với 3 (R07-01). | Q khác P về định danh nên phủ nhánh chưa có trong giỏ; hai tên/giá khác nhau giúp đối chiếu từng dòng. Gộp hiển thị với chỉnh số lượng, nhưng mỗi chiều bắt đầu từ cùng tiền điều kiện để tránh che lỗi. Thêm Q là bước chuẩn bị; FR-07 chưa quy định chi tiết thêm mới, mức tăng/giảm hay giá trị thành tiền/tổng tiền. |
+| REP07-DUP | Tiền điều kiện: giỏ đã có P:3, Q:2. Thao tác: thêm lại cùng sản phẩm P, sau đó mở giỏ và đối chiếu số lượng, số dòng của P. | E07-P1, E07-ODUPLICATE | Số lượng trên dòng P tăng so với 3; P vẫn chỉ có một dòng, không tạo dòng P mới (R07-02). | Chọn cùng ID P để kiểm tra thêm trùng; Q giúp phân biệt với sản phẩm khác. Việc tạo giỏ ban đầu là bước chuẩn bị dữ liệu trước ca. |
+| REP07-DELETE | Giỏ P:3, Q:2; chưa mở dialog xóa. Bấm Xóa sản phẩm trên dòng P một lần; quan sát dialog và dòng P trước khi đưa ra quyết định xác nhận. | E07-DEL, E07-D0, E07-D1, E07-ODELETE | Có dialog xác nhận trước khi thực hiện xóa P (R07-03); không xóa P trước bước xác nhận. | Một yêu cầu xóa phủ cả chuyển trạng thái chưa có dialog → dialog đang mở và đầu ra tương ứng. Chưa chọn xác nhận/hủy/đóng hoặc đặt kỳ vọng chi tiết cho các lựa chọn chưa được mô tả. |
+
+Bốn nhóm đại diện trên phủ **10 lớp input/trạng thái và 8 lớp output** ở mục 3.2 trong thiết kế, không tạo một ca cho mỗi dòng phân lớp. Kiểm tra danh sách/nhãn dùng chung REP07-CART; hai trạng thái dialog dùng chung REP07-DELETE. Các điểm thiếu căn cứ ở mục 3.1–3.2 vẫn được giữ làm giới hạn đối chiếu; chưa bổ sung ca số lượng sai hoặc phân tích biên.
 
 ### 3.4. Boundary Value Analysis
 

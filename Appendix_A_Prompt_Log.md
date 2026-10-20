@@ -678,3 +678,57 @@ Mục 3.2 đã có bảng lớp input/trạng thái và bảng lớp output, m�
 
 Chưa chọn đại diện, làm BVA hay chạy test. FR-06 và SUT giữ nguyên. Lượt này được ghi nguyên văn vào prompt log; tôi dừng tại đây để bạn kiểm tra.
 `````
+
+## Tương tác 12
+
+- Công cụ: OpenAI Codex.
+- Thời gian: 20-10-2026 23:02
+
+### Prompt — nguyên văn
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:868 -->
+<!-- prompt-timestamp: 20-10-2026 23:02:01.708 +07:00; source: chat-transcript -->
+`````text
+làm tiếp mục 3.3 fr07, dùng skill domain-testing-bva, chọn đại diện cụ thể cho các lớp ở mục 3.2, lấy dữ liệu sản phẩm từ seed như fr06, gộp các mục tiêu có thể kiểm tra chung để tránh trùng ca, không tạo một testcase cho mỗi dòng phân lớp, giải thích ngắn lớp được phủ và lý do chọn, chưa làm bva hoặc điền kết quả test, không sửa fr06 và sut, log nguyên văn rồi dừng để tôi kiểm tra
+`````
+
+
+### Output 1 — commentary — 20-10-2026 23:02:12.565 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:871 -->
+`````text
+Tôi sẽ điền riêng mục 3.3: chọn dữ liệu cụ thể từ seed, kết hợp các lớp có thể kiểm tra chung thành ca EP nháp và ghi ngắn lý do chọn. Tôi sẽ giữ nguyên FR-06, SUT và các mục khác, chưa làm BVA hay điền kết quả test, rồi ghi log nguyên văn lượt này.
+`````
+
+
+### Output 2 — commentary — 20-10-2026 23:04:06.941 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:894 -->
+`````text
+Hai sản phẩm từ seed đủ để phân biệt thêm trùng và thêm sản phẩm khác. Tôi sẽ gộp kiểm tra hiển thị với thao tác tăng/giảm, giỏ trống với điều hướng; các kỳ vọng chỉ đối chiếu theo đặc tả, không đặt mức tăng/giảm hay tổng tiền cụ thể.
+`````
+
+
+### Output 3 — commentary — 20-10-2026 23:06:01.673 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:934 -->
+`````text
+Mục 3.3 đã có bốn nhóm đại diện, phủ đủ 10 lớp input/trạng thái và 8 lớp output ở mục 3.2. Tôi đã đối chiếu tên, giá với seed và kiểm tra nội dung ngoài mục 3.3 giữ nguyên. Chưa làm BVA hay chạy test; tôi đang ghi log nguyên văn lượt này.
+`````
+
+
+### Output 4 — final_answer — 20-10-2026 23:07:21.224 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:955 -->
+`````text
+Đã điền [mục 3.3 FR-07](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/23120226_HW02_AI_DomainTesting_work/Report.md:229) theo skill `domain-testing-bva`:
+
+- Dùng P = iPhone 15 Pro Max, Q = Samsung Galaxy S24 Ultra từ seed.
+- Chọn 4 nhóm đại diện, phủ 10 lớp input/trạng thái và 8 lớp output.
+- Gộp mục tiêu kiểm tra chung, ghi rõ kỳ vọng, lý do chọn và giới hạn đặc tả.
+
+Chưa làm BVA hoặc điền kết quả test; FR-06 và SUT giữ nguyên. Prompt/output được ghi nguyên văn vào [log hiện tại](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/23120226_HW02_AI_DomainTesting_work/Appendix_A_Prompt_Log.md).
+
+Dừng tại bước 3 để bạn kiểm tra.
+`````
+
