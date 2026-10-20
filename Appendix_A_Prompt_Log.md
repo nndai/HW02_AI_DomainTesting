@@ -732,3 +732,57 @@ Chưa làm BVA hoặc điền kết quả test; FR-06 và SUT giữ nguyên. Pro
 Dừng tại bước 3 để bạn kiểm tra.
 `````
 
+
+## Tương tác 13
+
+- Công cụ: OpenAI Codex.
+- Thời gian: 20-10-2026 23:20
+
+### Prompt — nguyên văn
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:969 -->
+<!-- prompt-timestamp: 20-10-2026 23:20:10.443 +07:00; source: chat-transcript -->
+`````text
+làm tiếp mục 3.4 fr07, dùng skill domain-testing-bva, dựa vào các lớp và đại diện đã có để phân tích biên có căn cứ, xem xét số dòng giỏ tại chuyển tiếp trống và có hàng, phân biệt 0 dòng là trạng thái hợp lệ, không tự đặt min max số lượng hoặc ép mọi thao tác phải có bva, giải thích ngắn phần áp dụng và không áp dụng, chưa điền kết quả test, không sửa fr06 và sut, log nguyên văn rồi dừng để tôi kiểm tra
+`````
+
+
+### Output 1 — commentary — 20-10-2026 23:20:15.760 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:972 -->
+`````text
+Tôi sẽ dùng skill `domain-testing-bva` để điền riêng mục 3.4, xét biên số dòng giữa giỏ trống và có hàng, đồng thời ghi rõ phần không đủ căn cứ áp dụng BVA. Tôi sẽ giữ nguyên FR-06 và SUT, chưa điền kết quả test, rồi ghi log nguyên văn lượt này.
+`````
+
+
+### Output 2 — commentary — 20-10-2026 23:21:10.656 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:996 -->
+`````text
+Biên có căn cứ là **0 ↔ 1 dòng sản phẩm**: 0 dòng thuộc lớp giỏ trống hợp lệ, 1 dòng bắt đầu lớp có hàng; 2 dòng là điểm kế tiếp. Tôi sẽ dùng lại giỏ trống và giỏ P/Q ở mục 3.3, bổ sung trạng thái chỉ có P, và giữ số dòng tách biệt với số lượng sản phẩm trên mỗi dòng.
+`````
+
+
+### Output 3 — commentary — 20-10-2026 23:22:01.333 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1013 -->
+`````text
+Mục 3.4 đã có ba điểm 0–1–2 dòng, truy vết tới các lớp và đại diện hiện có, kèm lý do không áp dụng BVA cho những mục tiêu khác. Tôi đã kiểm tra chỉ mục 3.4 thay đổi; FR-06, các mục còn lại và tài liệu nguồn giữ nguyên. Chưa có kết quả test mới.
+`````
+
+
+### Output 4 — final_answer — 20-10-2026 23:22:43.730 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1024 -->
+`````text
+Đã điền [mục 3.4 FR-07](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/23120226_HW02_AI_DomainTesting_work/Report.md:249):
+
+- Phân tích biên **0–1–2 dòng**, xác định 0 dòng là trạng thái hợp lệ.
+- Dùng lại đại diện hiện có, bổ sung điểm một dòng.
+- Giải thích phần áp dụng và chưa đủ căn cứ; không tự đặt min/max số lượng.
+
+Chưa chạy test, điền kết quả hay commit. FR-06 và SUT giữ nguyên. Prompt/output được ghi nguyên văn vào [log hiện tại](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/23120226_HW02_AI_DomainTesting_work/Appendix_A_Prompt_Log.md).
+
+Dừng tại bước 4 để bạn kiểm tra.
+`````
+

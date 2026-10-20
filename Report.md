@@ -248,7 +248,28 @@ Bốn nhóm đại diện trên phủ **10 lớp input/trạng thái và 8 lớp
 
 ### 3.4. Boundary Value Analysis
 
-Chưa thực hiện.
+Nguồn yêu cầu: file `README.md` trong `eshop-sut`, mục SRS, FR-07. Phương pháp: slide “S04 — Domain Testing”. Dữ liệu P/Q và tiền điều kiện đăng nhập dùng lại mục 3.3.
+
+**Biến áp dụng:** n là số dòng sản phẩm phân biệt trong giỏ (thuộc S07-CART), đơn vị là dòng, n là số nguyên không âm. Giỏ chỉ có P với số lượng 3 vẫn có n = 1, không phải 3 dòng. Hai lớp có căn cứ là E07-C0: n = 0 và E07-C1: n ≥ 1; cả hai đều hợp lệ.
+
+Chuyển tiếp cần xét là **0 ↔ 1 dòng**. Với lớp có hàng, cận dưới đóng LB = 1 dòng, bước lân cận Δ = 1 dòng; chọn 0–1–2 tương ứng ngay dưới, tại và ngay trên cận này. **0 dòng thuộc lớp giỏ trống hợp lệ**, không phải đầu vào lỗi. Số dòng âm không thể tạo qua thao tác giỏ trên Web nên không sinh ca n = −1 hoặc kỳ vọng thông báo lỗi cho giá trị đó. FR-07 chưa quy định cận trên số dòng; số sản phẩm trong seed không được dùng làm max của giỏ.
+
+| BVA-ID | Giá trị / dữ liệu cần chuẩn bị | Lớp được phủ | Kỳ vọng theo yêu cầu | Dùng chung với đại diện |
+|---|---|---|---|---|
+| B07-EMPTY | n = 0 = LB − Δ; giỏ không chứa sản phẩm | E07-C0, E07-OEMPTY | Có hình minh họa và thông báo giỏ trống rõ ràng (R07-06); không đặt nguyên văn thông báo hoặc ảnh cụ thể. | Trạng thái giỏ của REP07-EMPTY; không tạo thêm ca cùng mục tiêu. |
+| B07-FIRST | n = 1 = LB; giỏ chỉ có P:3, P là iPhone 15 Pro Max theo seed | E07-C1, E07-OLIST, E07-OTOTAL | Hiển thị dòng P đúng dữ liệu đã chuẩn bị, đủ năm cột và nút +/− (R07-01); nhãn tổng tiền là “Tổng cộng” (R07-05). | Bổ sung điểm một dòng từ trạng thái ban đầu của REP07-CART, trước bước thêm Q. |
+| B07-NEXT | n = 2 = LB + Δ; giỏ P:3, Q:2 theo seed | E07-C1, E07-OLIST, E07-OTOTAL | Hiển thị hai dòng P/Q tương ứng dữ liệu đã chuẩn bị, đủ năm cột và nút +/− (R07-01); nhãn “Tổng cộng” (R07-05). | Dùng chung trạng thái hai dòng của REP07-CART. |
+
+Ba điểm trên phân biệt đầu ra giỏ trống với đầu ra có hàng tại chuyển tiếp 0 ↔ 1, đồng thời kiểm tra điểm kế tiếp trong lớp có hàng. Đây là các trạng thái cần chuẩn bị, chưa phải kết quả thực thi. Không mặc định bấm − làm mất dòng hoặc đưa giỏ về trống; kiểm tra trình tự dialog trước khi xóa vẫn thuộc REP07-DELETE.
+
+**Phần không áp dụng hoặc chưa đủ căn cứ:**
+
+| Biến / mục tiêu | Quyết định và lý do |
+|---|---|
+| Số lượng trên mỗi dòng, thao tác +/− và lượng cộng khi thêm trùng | Chưa đủ căn cứ đặt biên số lượng: FR-07 chưa quy định min/max, bước tăng/giảm hoặc xử lý tại 0. Giữ các đại diện EP ở mục 3.3; không lấy min 1 của FR-06 làm biên của FR-07. |
+| Sản phẩm đã có/chưa có trong giỏ | Quan hệ định danh không có thứ tự số để áp BVA. Kiểm tra gộp dòng bằng REP07-DUP theo R07-02; ID và giá của P/Q không trở thành biên. |
+| Yêu cầu Xóa, trạng thái dialog và Tiếp tục mua sắm | Các thao tác/trạng thái được phân biệt theo loại và trình tự, không phải khoảng số có cận. Giữ kiểm tra EP tương ứng, không gán số để tạo BVA. |
+| Nhãn tổng tiền, thành tiền và tổng tiền | Nhãn là nội dung cần đối chiếu theo R07-05, không có biên độ dài được quy định. FR-07 chưa nêu công thức, giới hạn tiền hoặc quy tắc làm tròn để thiết kế biên tiền; chưa đặt giá trị tổng cụ thể. |
 
 ### 3.5. Đánh giá thiết kế
 
