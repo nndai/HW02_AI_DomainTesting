@@ -840,3 +840,55 @@ FR-06 và SUT giữ nguyên; chưa chạy test hay commit. Prompt/output đượ
 Dừng để bạn kiểm tra.
 `````
 
+
+## Tương tác 15
+
+- Công cụ: OpenAI Codex.
+- Thời gian: 21-10-2026 00:34
+
+### Prompt — nguyên văn
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1102 -->
+<!-- prompt-timestamp: 21-10-2026 00:34:24.583 +07:00; source: chat-transcript -->
+`````text
+làm fr14, dùng skill domain-testing-bva, đọc yêu cầu fr14 trong readme của sut, viết mục 4.1 yêu cầu và dữ liệu theo cấu trúc fr06 và fr07 hiện tại, xác định input output ràng buộc và tiền điều kiện, không tự đặt độ dài tối đa hoặc quy tắc trùng tên, chưa phân lớp hay chạy test, không sửa các fr trước và mã nguồn sut, log nguyên văn rồi dừng để tôi kiểm tra
+`````
+
+
+### Output 1 — commentary — 21-10-2026 00:34:29.946 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1105 -->
+`````text
+Tôi sẽ dùng skill `domain-testing-bva`, đọc FR-14 trong README của SUT và viết riêng mục 4.1 theo cấu trúc hiện tại: yêu cầu, dữ liệu, input/output, ràng buộc và tiền điều kiện. Tôi sẽ ghi rõ phần đặc tả chưa quy định, giữ nguyên các FR trước và SUT, rồi ghi log nguyên văn lượt này.
+`````
+
+
+### Output 2 — commentary — 21-10-2026 00:35:27.864 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1122 -->
+`````text
+FR-14 chỉ quy định Admin được Thêm/Xem/Xóa danh mục và tên không được để trống. README chưa nêu độ dài tối đa, quy tắc trùng tên, xử lý khoảng trắng hay việc xóa danh mục đang có sản phẩm. Các danh mục trong seed đều được sản phẩm tham chiếu, nên tôi sẽ ghi rõ giới hạn này thay vì đặt kỳ vọng xóa.
+`````
+
+
+### Output 3 — commentary — 21-10-2026 00:36:23.549 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1139 -->
+`````text
+Mục 4.1 đã có bốn yêu cầu, bảng input/output và trạng thái, dữ liệu seed cùng tiền điều kiện Admin. Tôi đã kiểm tra chỉ mục 4.1 thay đổi; chưa tạo phân lớp hay testcase. Những điểm cần xác nhận về tên và việc xóa danh mục có sản phẩm đã được ghi rõ.
+`````
+
+
+### Output 4 — final_answer — 21-10-2026 00:37:02.731 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1150 -->
+`````text
+Đã viết [mục 4.1 — Yêu cầu và dữ liệu FR-14](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/23120226_HW02_AI_DomainTesting_work/Report.md:328), gồm yêu cầu, input/output, ràng buộc, dữ liệu seed và tiền điều kiện Admin.
+
+Các điểm cần xác nhận được ghi rõ: độ dài tên, trùng tên, khoảng trắng và xóa danh mục đang có sản phẩm. Không tự đặt quy tắc cho các điểm này.
+
+Chưa phân lớp hay chạy test; các FR trước và SUT giữ nguyên. Prompt/output được ghi nguyên văn vào [log hiện tại](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/23120226_HW02_AI_DomainTesting_work/Appendix_A_Prompt_Log.md).
+
+Dừng tại bước 1 để bạn kiểm tra.
+`````
+

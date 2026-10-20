@@ -12,7 +12,7 @@ Phạm vi kiểm thử là trang chi tiết sản phẩm trên Web, gồm thông
 
 Quy trình thiết kế: xác định yêu cầu và input/output → phân lớp tương đương → chọn đại diện → phân tích biên → tổng hợp testcase, kết quả và bằng chứng → truy vết và kết luận. Bộ kiểm thử gồm **8 ca F06-D01–D08**.
 
-### 2.1. Yêu cầu, input/output và dữ liệu kiểm thử
+### 2.1. Yêu cầu và dữ liệu
 
 Nguồn yêu cầu: file `README.md` trong `eshop-sut`, mục SRS, FR-06. Phương pháp: slide “S04 — Domain Testing”. Các mã R06 dùng để truy vết trong báo cáo.
 
@@ -37,7 +37,7 @@ Sau thao tác thêm, đối chiếu sản phẩm và số lượng trong giỏ, 
 
 **Giới hạn đối chiếu:** SRS không quy định cận trên của số lượng hoặc cơ chế xử lý ô rỗng. Bộ ca không đặt giới hạn tồn kho, giá trị mặc định hay nội dung thông báo cụ thể. Với ô rỗng, đánh giá phản hồi theo R06-03 và số lượng thực tế trong giỏ theo R06-02 nếu có thêm sản phẩm.
 
-#### 2.1.1. Dữ liệu kiểm thử và baseline
+**Dữ liệu kiểm thử:**
 
 P là sản phẩm **iPhone 15 Pro Max**. Dữ liệu kỳ vọng được lấy từ seed của baseline dưới đây, độc lập với nội dung hiển thị của trang đang kiểm thử.
 
@@ -57,7 +57,7 @@ P là sản phẩm **iPhone 15 Pro Max**. Dữ liệu kỳ vọng được lấy
 | Tài khoản thử            | `test@eshop.com`, vai trò người dùng theo seed.                                             |
 | Trạng thái trước ca thêm | Đăng nhập hợp lệ; trang P tải xong; giỏ trống trước mỗi ca.                                 |
 
-### 2.2. Phân lớp tương đương
+### 2.2. Phân lớp (EP)
 
 Số lượng hợp lệ thỏa hai điều kiện: **C1** là số nguyên; **C2** là ≥ 1 khi đã là số nguyên. Chuỗi phi số được xét theo kiểu dữ liệu, không so sánh trực tiếp với cận số. Các ca số lượng giữ nguyên P, phiên đăng nhập và trạng thái giỏ ban đầu để cô lập mục tiêu.
 
@@ -80,7 +80,7 @@ Các lớp đầu ra kỳ vọng được xác định theo biến và điều k
 | E06-O2 | O06-A, thêm với q thuộc Q1 | Giỏ có đúng P/q và có toast notification hoặc badge cập nhật. |
 | E06-O3 | O06-V và phản hồi, thử dữ liệu thuộc Q2/Q3/Q4 | Không ghi số lượng ngoài miền nguyên dương vào giỏ; có phản hồi sau khi bấm. Việc từ chối dữ liệu không hợp lệ là kết quả đúng kỳ vọng. |
 
-### 2.3. Chọn đại diện
+### 2.3. Đại diện
 
 | REP-ID      | Đại diện                         | Phủ / lý do giữ                                                                                  |
 | ----------- | -------------------------------- | ------------------------------------------------------------------------------------------------ |
@@ -92,7 +92,7 @@ Các lớp đầu ra kỳ vọng được xác định theo biến và điều k
 | REP06-F     | q = 1.5                          | E06-Q3/O3; kiểm tra phần lẻ, giữ các điều kiện khác hợp lệ.                                      |
 | REP06-T     | s = abc                          | E06-Q4/O3; kiểm tra sai kiểu qua UI, không ép dữ liệu vượt kênh nhập.                            |
 
-### 2.4. Boundary Value Analysis
+### 2.4. Giá trị biên (BVA)
 
 **LB = 1, biên đóng; Δ = 1 sản phẩm.** Ba điểm BVA được dùng chung với ca EP, không tạo bộ ca trùng.
 
@@ -104,17 +104,17 @@ Các lớp đầu ra kỳ vọng được xác định theo biến và điều k
 
 SRS không quy định UB nên bộ ca chỉ phân tích cận dưới có căn cứ. Giá trị -1 là đại diện bổ sung của Q2; 1.5 và abc kiểm tra điều kiện kiểu/miền; ô rỗng kiểm tra thao tác xóa nội dung. Các ca này không được tính thành điểm BVA mới. Các trường thông tin sản phẩm chỉ được xem, không có thao tác chỉnh sửa để thiết kế biên đầu vào trong FR-06.
 
-### 2.5. Testcase, kết quả và bằng chứng
+### 2.5. Testcase và kết quả
 
-#### 2.5.1. Tiền điều kiện và tiêu chí đánh giá
+**Tiền điều kiện và tiêu chí đánh giá:**
 
-**PC:** P theo fixture; đã đăng nhập; giỏ trống; trang chi tiết P tải xong và chưa bấm Thêm trong lượt mở trang đó. Mỗi ca thêm độc lập. Bảng testcase đánh giá một lần bấm; quan sát bấm tiếp lần thứ hai được ghi riêng ở mục 2.5.3.
+**PC:** P theo fixture; đã đăng nhập; giỏ trống; trang chi tiết P tải xong và chưa bấm Thêm trong lượt mở trang đó. Mỗi ca thêm độc lập. Bảng testcase đánh giá một lần bấm; quan sát bấm tiếp lần thứ hai được ghi riêng trong ghi chú thực thi bên dưới.
 
 **R06-03:** Sau một lần bấm, có toast notification hoặc badge cập nhật là đạt mục tiêu phản hồi; không có toast và cũng không có badge cập nhật là không đạt. Tiêu chí áp dụng cho D02–D08 theo câu chữ “sau khi bấm” của FR-06. Chỉ cần một trong hai hình thức, không bắt buộc đồng thời có cả hai.
 
 **R06-02:** Với dữ liệu hợp lệ, đối chiếu sản phẩm và số lượng được thêm. Với dữ liệu không hợp lệ hoặc rỗng, không ghi số lượng ngoài miền nguyên dương vào giỏ. Giỏ trống sau một lần bấm không tự chứng minh cơ chế kiểm tra số lượng hoạt động đúng, vì D02/D03 với số lượng hợp lệ cũng không thêm được. Với D08, không yêu cầu tự điền mặc định hoặc một thông báo lỗi cụ thể.
 
-#### 2.5.2. Bảng testcase
+**Bảng testcase:**
 
 | TC-ID | Mục tiêu / dữ liệu / truy vết | Bước chạy cụ thể | Expected Result | Actual Result | Verdict | Bằng chứng |
 |---|---|---|---|---|---|---|
@@ -127,7 +127,7 @@ SRS không quy định UB nên bộ ca chỉ phân tích cận dưới có căn 
 | F06-D07 | Kiểm tra chuỗi sai kiểu và kiểm tra phản hồi sau bấm Thêm; s = abc; R06-02/03; E06-Q4/O3; REP06-T | Thay nội dung ô bằng abc, rời ô; bấm Thêm một lần; quan sát dữ liệu giữ lại, toast notification/badge và giỏ. | Có toast notification hoặc badge cập nhật sau một lần bấm (R06-03). Không dùng abc làm số lượng trong giỏ; nếu có thêm sản phẩm, số lượng phải là số nguyên dương (R06-02). | UI không giữ chuỗi abc, ô thành rỗng; sau một lần bấm Thêm, không quan sát thấy toast notification và không thấy badge cập nhật; giỏ vẫn trống. | FAIL | [Ô số lượng rỗng](screenshots/FR06/D07-1.png)<br>[Giỏ hàng trống](screenshots/FR06/D07-2.png) |
 | F06-D08 | Kiểm tra ô rỗng và kiểm tra phản hồi sau bấm Thêm; Chuỗi rỗng, độ dài 0; X06-EMPTY; REP06-EMPTY; R06-02/03 | Chọn toàn bộ nội dung ô rồi Delete, không nhập thay thế; rời ô; bấm Thêm một lần; quan sát giá trị còn lại, toast notification/badge và số lượng trong giỏ nếu có thêm. | Có toast notification hoặc badge cập nhật sau một lần bấm (R06-03). Nếu có thêm sản phẩm, số lượng trong giỏ phải là số nguyên dương (R06-02). | Sau khi xóa toàn bộ nội dung, ô Số lượng vẫn rỗng. Bấm Thêm một lần, không quan sát thấy toast notification và không thấy badge cập nhật. Giỏ hàng trống. | FAIL | [Ô số lượng rỗng](screenshots/FR06/D08-1.png)<br>[Giỏ hàng trống](screenshots/FR06/D08-2.png) |
 
-#### 2.5.3. Quan sát bổ sung sau hai lần bấm
+**Ghi chú thực thi:**
 
 Các quan sát sau được ghi nhận khi bấm tiếp lần thứ hai trên cùng trang; chúng được tách khỏi kết quả một lần bấm trong bảng testcase.
 
@@ -157,9 +157,9 @@ Số testcase FAIL không được dùng làm số bug độc lập. Nhật ký 
 
 ## 3. FR-07 — Giỏ hàng
 
-### 3.1. Yêu cầu, input/output và dữ liệu kiểm thử
+### 3.1. Yêu cầu và dữ liệu
 
-Nguồn yêu cầu: [README.md trong eshop-sut](../eshop-sut/README.md), mục SRS, FR-07, dòng 93–100. Phương pháp: [slide S04 — Domain Testing](references/S04_Domain_Testing.txt), bước xác định input/output. Các mã R07 dùng để truy vết trong báo cáo.
+Nguồn yêu cầu: file `README.md` trong `eshop-sut`, mục SRS, FR-07. Phương pháp: slide “S04 — Domain Testing”. Các mã R07 dùng để truy vết trong báo cáo.
 
 | Mã | Yêu cầu FR-07 |
 |---|---|
@@ -190,7 +190,16 @@ Phạm vi là giỏ hàng trên Web: hiển thị giỏ, điều chỉnh số l�
 
 **Giới hạn đối chiếu:** FR-07 chưa quy định miền số lượng, bước tăng/giảm, xử lý số lượng 0, nhập trực tiếp hoặc giới hạn tồn kho; không tự áp min 1 của FR-06 hay đặt cận trên cho giỏ. Công thức thành tiền, tổng tiền, lượng cộng khi thêm trùng và quy tắc làm tròn chưa được nêu cụ thể. Nội dung dialog và hành vi hủy cũng chưa được mô tả chi tiết. Thiết kế chưa đặt kỳ vọng định lượng hoặc cơ chế xử lý cụ thể cho các nội dung này.
 
-### 3.2. Phân lớp tương đương
+**Dữ liệu kiểm thử:**
+
+| Ký hiệu | ID trên seed sạch | Tên sản phẩm | Đơn giá theo seed | Danh mục |
+|---|---|---|---:|---|
+| P | 1 | iPhone 15 Pro Max | 30000000 ₫ | Điện thoại |
+| Q | 2 | Samsung Galaxy S24 Ultra | 28000000 ₫ | Điện thoại |
+
+**Tiền điều kiện chung:** Web dùng baseline nêu tại mục 2.1; phiên đã đăng nhập bằng tài khoản `test@eshop.com`. Giỏ và số lượng dưới đây là dữ liệu cần chuẩn bị cho từng đại diện, không phải dữ liệu giỏ có sẵn trong seed hoặc trạng thái đã được xác minh. Chọn P có số lượng 3 và Q có số lượng 2 làm mẫu cụ thể để dễ đối chiếu hai dòng khác nhau; các số này không xác lập miền hợp lệ, min/max hoặc điểm BVA của FR-07.
+
+### 3.2. Phân lớp (EP)
 
 Nguồn yêu cầu: file `README.md` trong `eshop-sut`, mục SRS, FR-07. Phương pháp: slide “S04 — Domain Testing”. Các lớp được xác định theo input/output và trạng thái ở mục 3.1; hai tình huống cùng lớp có cùng cách xử lý hoặc cùng loại kết quả kỳ vọng, không nhất thiết có cùng giá trị số lượng hay số tiền.
 
@@ -226,16 +235,9 @@ Các lớp đầu ra kỳ vọng được xác định theo điều kiện đầ
 
 **Giới hạn phân lớp:** FR-07 chưa đủ căn cứ để chia miền số lượng thành các lớp valid/invalid theo min/max, kiểu số, ô rỗng hoặc nhập trực tiếp; không kế thừa các cận của FR-06. Các lựa chọn xác nhận/hủy/đóng dialog được nhận diện là đầu vào của bước xác nhận, nhưng chưa tách thành lớp có kỳ vọng xử lý chi tiết khi đặc tả chưa nêu. Giỏ trống không thuộc lớp invalid; nhãn sai, thiếu cột hoặc thêm trùng thành dòng mới là đầu ra không đáp ứng yêu cầu tương ứng, không phải lý do đổi phân loại đầu vào thành invalid.
 
-### 3.3. Chọn đại diện
+### 3.3. Đại diện
 
 Nguồn yêu cầu: file `README.md` trong `eshop-sut`, mục SRS, FR-07. Nguồn sản phẩm: file `backend/database.js`, cùng baseline seed với FR-06. Phương pháp: slide “S04 — Domain Testing”, chọn đại diện và kết hợp các lớp hợp lệ.
-
-| Ký hiệu | ID trên seed sạch | Tên sản phẩm | Đơn giá theo seed | Danh mục |
-|---|---|---|---:|---|
-| P | 1 | iPhone 15 Pro Max | 30000000 ₫ | Điện thoại |
-| Q | 2 | Samsung Galaxy S24 Ultra | 28000000 ₫ | Điện thoại |
-
-**Tiền điều kiện chung:** Web dùng baseline nêu tại mục 2.1.1; phiên đã đăng nhập bằng tài khoản `test@eshop.com`. Giỏ và số lượng dưới đây là dữ liệu cần chuẩn bị cho từng đại diện, không phải dữ liệu giỏ có sẵn trong seed hoặc trạng thái đã được xác minh. Chọn P có số lượng 3 và Q có số lượng 2 làm mẫu cụ thể để dễ đối chiếu hai dòng khác nhau; các số này không xác lập miền hợp lệ, min/max hoặc điểm BVA của FR-07.
 
 | REP-ID | Dữ liệu và thao tác đại diện | Lớp được phủ | Kỳ vọng theo yêu cầu | Lý do chọn / giới hạn |
 |---|---|---|---|---|
@@ -247,9 +249,9 @@ Nguồn yêu cầu: file `README.md` trong `eshop-sut`, mục SRS, FR-07. Nguồ
 
 Năm nhóm đại diện được tổng hợp thành bảng testcase ở mục 3.5. Các lớp đầu ra dùng chung ca với input/trạng thái tạo ra chúng; E07-P2 là điều kiện chuẩn bị dữ liệu, không có ca đánh giá riêng luồng thêm mới trong FR-07.
 
-### 3.4. Boundary Value Analysis
+### 3.4. Giá trị biên (BVA)
 
-Nguồn yêu cầu: file `README.md` trong `eshop-sut`, mục SRS, FR-07. Phương pháp: slide “S04 — Domain Testing”. Dữ liệu P/Q và tiền điều kiện đăng nhập dùng lại mục 3.3.
+Nguồn yêu cầu: file `README.md` trong `eshop-sut`, mục SRS, FR-07. Phương pháp: slide “S04 — Domain Testing”. Dữ liệu P/Q và tiền điều kiện đăng nhập dùng lại mục 3.1.
 
 **Biến áp dụng:** n là số dòng sản phẩm phân biệt trong giỏ (thuộc S07-CART), đơn vị là dòng, n là số nguyên không âm. Giỏ chỉ có P với số lượng 3 vẫn có n = 1, không phải 3 dòng. Hai lớp có căn cứ là E07-C0: n = 0 và E07-C1: n ≥ 1; cả hai đều hợp lệ.
 
@@ -272,11 +274,11 @@ Ba điểm trên phân biệt đầu ra giỏ trống với đầu ra có hàng 
 | Yêu cầu Xóa, trạng thái dialog và Tiếp tục mua sắm | Các thao tác/trạng thái được phân biệt theo loại và trình tự, không phải khoảng số có cận. Giữ kiểm tra EP tương ứng, không gán số để tạo BVA. |
 | Nhãn tổng tiền, thành tiền và tổng tiền | Nhãn là nội dung cần đối chiếu theo R07-05, không có biên độ dài được quy định. FR-07 chưa nêu công thức, giới hạn tiền hoặc quy tắc làm tròn để thiết kế biên tiền; chưa đặt giá trị tổng cụ thể. |
 
-### 3.5. Testcase, kết quả và bằng chứng
+### 3.5. Testcase và kết quả
 
-#### 3.5.1. Tiền điều kiện và tiêu chí đánh giá
+**Tiền điều kiện và tiêu chí đánh giá:**
 
-**PC chung:** Web và dữ liệu P/Q theo mục 3.3; đã đăng nhập bằng tài khoản `test@eshop.com`; trang giỏ tải xong. Chuẩn bị đúng trạng thái trước mỗi ca; không dùng kết quả của ca trước làm tiền điều kiện cho ca sau.
+**PC chung:** Web và dữ liệu P/Q theo mục 3.1; đã đăng nhập bằng tài khoản `test@eshop.com`; trang giỏ tải xong. Chuẩn bị đúng trạng thái trước mỗi ca; không dùng kết quả của ca trước làm tiền điều kiện cho ca sau.
 
 | Mã PC | Trạng thái giỏ trước ca |
 |---|---|
@@ -288,7 +290,7 @@ PC1/PC2 là tiền điều kiện **giỏ đã có hàng**, không phải kết 
 
 **Tiêu chí:** So sánh số lượng sau +/− với giá trị trước thao tác, không mặc định bước ±1 hoặc giới hạn số lượng. Thêm trùng đánh giá đồng thời tăng số lượng và giữ một dòng cho P theo R07-02, không đặt kết quả phải bằng 5. Thành tiền/tổng tiền không có kỳ vọng số cụ thể; nhãn được đánh giá riêng. Ca xóa chỉ đánh giá dialog xuất hiện trước khi xóa, không tự đặt nội dung dialog hoặc kết quả hủy/đóng. Với giỏ trống, không yêu cầu nguyên văn thông báo hay ảnh cụ thể.
 
-#### 3.5.2. Bảng testcase
+**Bảng testcase:**
 
 | TC-ID | Mục tiêu / dữ liệu / truy vết | Bước chạy cụ thể | Expected Result | Actual Result | Verdict | Bằng chứng |
 |---|---|---|---|---|---|---|
@@ -323,9 +325,43 @@ Giới hạn thiết kế giữ theo mục 3.1 và 3.4: không đặt min/max s�
 
 ## 4. FR-14 — Danh mục Admin
 
-### 4.1. Input/output và yêu cầu nguồn
+### 4.1. Yêu cầu và dữ liệu
 
-Chưa thực hiện.
+Nguồn yêu cầu: file `README.md` trong `eshop-sut`, mục SRS, FR-14. Phương pháp: slide “S04 — Domain Testing”. Các mã R14 dùng để truy vết trong báo cáo.
+
+| Mã | Yêu cầu FR-14 |
+|---|---|
+| R14-01 | Admin có thể thêm danh mục. |
+| R14-02 | Admin có thể xem danh mục. |
+| R14-03 | Admin có thể xóa danh mục. |
+| R14-04 | Tên danh mục là bắt buộc, không được để trống. |
+
+Phạm vi là quản lý danh mục trên Web Admin, gồm Thêm/Xem/Xóa và ràng buộc tên. FR-14 không nêu thao tác Sửa dù tiêu đề dùng “Category CRUD”; không bổ sung chức năng này. Phiên Admin là tiền điều kiện; kiểm tra phân quyền riêng thuộc FR-12.
+
+| ID | Loại / biến | Ràng buộc hoặc kỳ vọng |
+|---|---|---|
+| I14-A | Input: thao tác Thêm / Xem / Xóa | Chọn thao tác quản lý danh mục theo R14-01/02/03. Chưa quy định tên nút hoặc cách mở biểu mẫu cụ thể. |
+| I14-N | Input: tên danh mục khi thêm | Chuỗi ký tự; bắt buộc, không được để trống theo R14-04. Chưa quy định độ dài tối đa, tập ký tự, chuẩn hóa khoảng trắng hoặc tính duy nhất. |
+| I14-C | Input: danh mục mục tiêu khi xóa | Chọn một danh mục đang tồn tại; dùng định danh và tên để xác định mục tiêu. Không coi ID seed là giá trị bắt buộc người dùng phải nhập trên Web. |
+| S14-SESSION | Trạng thái: phiên và vai trò | Đã đăng nhập bằng tài khoản có vai trò Admin trước khi thao tác FR-14. |
+| S14-CATEGORIES | Trạng thái / dữ liệu danh mục | Danh sách danh mục hiện có với định danh và tên; làm dữ liệu đối chiếu trước/sau thêm hoặc xóa. Không giả định danh sách đang chạy luôn giống seed. |
+| S14-REFERENCE | Trạng thái: sản phẩm tham chiếu danh mục | Ghi nhận danh mục mục tiêu có đang được sản phẩm tham chiếu hay không; FR-14 chưa nêu tác động của quan hệ này đến việc xóa. |
+| O14-LIST | Output: danh mục được hiển thị | Admin xem được các danh mục tương ứng dữ liệu đã chuẩn bị theo R14-02. Không tự yêu cầu hiển thị cột ID, thứ tự sắp xếp hoặc phân trang. |
+| O14-CREATE | Output: danh mục sau thao tác thêm | Thêm được danh mục với tên đáp ứng ràng buộc đã nêu; danh sách phản ánh danh mục được thêm theo R14-01/02. Các điều kiện tên chưa được đặc tả không có kỳ vọng xử lý cụ thể. |
+| O14-DELETE | Output: danh mục sau thao tác xóa | Danh mục mục tiêu không còn trong danh sách sau khi thực hiện xóa theo R14-03. Chưa đặt kỳ vọng xóa thành công, từ chối hoặc xử lý sản phẩm đối với danh mục đang được tham chiếu. |
+| O14-VALIDATION | Output: kiểm soát tên rỗng | Không tạo danh mục có tên rỗng theo R14-04. Chưa quy định cơ chế chặn, nguyên văn thông báo hoặc hình thức phản hồi. |
+
+**Giới hạn đối chiếu:** FR-14 chưa quy định độ dài tối đa, trùng tên, phân biệt hoa/thường hoặc dấu, trim và cách xử lý tên chỉ gồm khoảng trắng. Không lấy giới hạn tên sản phẩm của FR-15 áp cho tên danh mục. Đặc tả cũng chưa nêu dialog xác nhận xóa, phản hồi thành công/lỗi, hoặc hành vi khi danh mục còn sản phẩm tham chiếu; các điểm này cần xác nhận trước khi đặt kỳ vọng chi tiết.
+
+**Dữ liệu nền:** Lấy từ file `backend/database.js`, cùng baseline SUT ở mục 2.1. Đây là dữ liệu seed để chuẩn bị và đối chiếu, không phải kết quả quan sát mới.
+
+| Ký hiệu dữ liệu | ID trên seed sạch | Tên danh mục | Sản phẩm tham chiếu trong seed |
+|---|---|---|---|
+| C14-DT | 1 | Điện thoại | iPhone 15 Pro Max; Samsung Galaxy S24 Ultra |
+| C14-LT | 2 | Laptop | MacBook Pro M3 |
+| C14-PK | 3 | Phụ kiện | Tai nghe AirPods Pro 2; Bàn phím cơ Keychron Q1 |
+
+**Tiền điều kiện:** Web Admin truy cập được; đăng nhập bằng tài khoản seed `admin@eshop.com`, vai trò `admin`; trang quản lý danh mục tải xong. Trước ca thêm/xóa về sau, cần có danh sách nền và xác định trạng thái tham chiếu của danh mục mục tiêu để đối chiếu thay đổi. Với thao tác xóa, danh mục mục tiêu phải tồn tại. Ba danh mục seed đều có sản phẩm tham chiếu, nên không mặc định dùng chúng cho ca xóa thành công khi hành vi này chưa được quy định. Dữ liệu danh mục mới và mục tiêu cho từng ca sẽ được chọn ở bước đại diện.
 
 ### 4.2. Equivalence partitions
 
