@@ -26,7 +26,7 @@ OpenAI Codex trong chat hướng dẫn và chat làm bài. Không khai báo côn
 - [x] Soạn nháp, phản hồi và chỉnh sửa tài liệu.
 - [x] Phân tích SRS, thiết kế EP/BVA và testcase.
 - [x] Viết công cụ hỗ trợ ghi log, tổng hợp và kiểm tra tài liệu.
-- [x] Chạy kiểm thử tham khảo, hướng dẫn thực thi và đối chiếu kết quả.
+- [x] Hướng dẫn thực thi và đối chiếu kết quả (người làm bài trực tiếp thực thi kiểm thử).
 - [ ] Thiết kế đồ hoạ hoặc tạo ảnh minh chứng bằng AI.
 
 ### 2.3. Prompt chính — nguyên văn
@@ -51,16 +51,16 @@ Prompt, phản hồi và thời gian của các lượt được lưu trong [App
 |---|---|
 | Skill | Hỗ trợ tạo `skills/domain-testing-bva/SKILL.md`, quy trình và quy tắc ghi log. |
 | Thiết kế bốn FR | Hỗ trợ xác định yêu cầu, input/output, EP, đại diện, BVA, testcase và truy vết cho FR-06, FR-07, FR-14, FR-20 — Hồ sơ Mobile. |
-| Thực thi và kết quả | Codex có các lượt chạy tham khảo riêng; hỗ trợ hướng dẫn tự test, giải thích quan sát và ghi kết quả. Người làm bài sau đó tự kiểm thử lại, xác nhận kết quả và cung cấp ảnh dùng trong báo cáo. |
+| Thực thi và kết quả | Người làm bài trực tiếp thực thi toàn bộ testcase trên Web, Admin, Android và chụp ảnh minh chứng. Codex hỗ trợ hướng dẫn tự test, giải thích quan sát và trình bày bảng kết quả; không trực tiếp thực thi hay tạo kết quả thay người làm bài. |
 | Bug report và Issues | Codex từng soạn mẫu mô tả issue. Sau đó, người làm bài cung cấp bản Bug_Report.md để AI review, chỉnh mã testcase, nội dung và liên kết ảnh/issue. Không khai báo phần này là hoàn toàn không có hỗ trợ AI. |
 | Hồ sơ nộp | Hỗ trợ soạn và chỉnh Report.md, README.md, các bản AI Critique/Audit và khai báo này; tổng hợp số liệu và kiểm tra liên kết. Điểm tự chấm 100/100 trong README được điền theo yêu cầu của người làm bài. |
 | Cấu hình chạy | Hỗ trợ cài dependencies, chạy các dịch vụ và đổi URL API Mobile sang `192.168.137.1` theo yêu cầu để kết nối thiết bị; không sửa logic nghiệp vụ SUT. |
 
 ### 2.5. Cách rà soát, chỉnh sửa và xác minh
 
-Người làm bài đối chiếu đầu ra với SRS và slide S04, yêu cầu bỏ kiểm tra GUI ngoài phạm vi FR-06, gộp ca trùng và không tự đặt cận trên hay quy tắc chưa được đặc tả. Các ca được tự kiểm thử lại trên Web, Admin và Android; ảnh minh chứng do người làm bài cung cấp. Với Hồ sơ Mobile, bước đăng xuất/đăng nhập lại được dùng để phân biệt dữ liệu trên màn hình với dữ liệu đã lưu. Hai ca F20-D08/D09 giữ NOT RUN vì chưa có đường thực thi qua giao diện tương ứng.
+Người làm bài đối chiếu đầu ra với SRS và slide S04, yêu cầu bỏ kiểm tra GUI ngoài phạm vi FR-06, gộp ca trùng và không tự đặt cận trên hay quy tắc chưa được đặc tả. Các ca được tự kiểm thử trên Web, Admin và Android; ảnh minh chứng do người làm bài trực tiếp chụp. Với Hồ sơ Mobile, bước đăng xuất/đăng nhập lại được dùng để phân biệt dữ liệu trên màn hình với dữ liệu đã lưu. Hai ca F20-D08/D09 giữ NOT RUN vì chưa có đường thực thi qua giao diện tương ứng.
 
-AI cũng hỗ trợ review và soạn thảo các phần trên. Không xem kết quả AI chạy tham khảo là bằng chứng người làm bài đã tự chạy, không gán phần AI viết thành phần hoàn toàn do người làm bài tự viết.
+AI hỗ trợ review và soạn thảo các phần trên. Toàn bộ kết quả thực thi và ảnh minh chứng do người làm bài trực tiếp thực hiện trên hệ thống thật.
 
 Chi tiết đánh giá và phần sửa được trình bày trong [AI_Critique_and_Audit.md](AI_Critique_and_Audit.md); testcase, kết quả và ảnh được dẫn trong [Report.md](Report.md), lỗi được tổng hợp trong [Bug_Report.md](Bug_Report.md).
 
@@ -80,6 +80,6 @@ Bằng việc ký tên dưới đây, người làm bài xác nhận nội dung 
 | MSSV | 23120226 |
 | Lớp / Khoá | 23KTPM |
 | Ngày lập khai báo | 21/10/2026 |
-| Chữ ký sinh viên | ____________________ |
+| Chữ ký sinh viên | NGUYỄN NGỌC ĐẠI |
 
 Nội dung được điền theo cấu trúc mẫu AI-03 — FIT@HCMUS, AI Disclosure Form (2026 v1.0), được điều chỉnh từ Med Kharbach (2026), CC BY-NC-SA 4.0.

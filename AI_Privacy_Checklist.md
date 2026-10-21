@@ -50,7 +50,7 @@
 | **MSSV:** | 23120226 |
 | **Lớp / Khoá:** | 23KTPM |
 | **Môn học:** | CS423 / CSC13003 – Kiểm chứng Phần mềm |
-| **Giảng viên:** | TS. Lâm Quang Vũ |
+| **Giảng viên:** | Lâm Quang Vũ |
 | **Ngày:** | 2026-10-21 |
 | **Chữ ký:** | Nguyễn Ngọc Đại |
 

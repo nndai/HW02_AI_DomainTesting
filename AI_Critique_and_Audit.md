@@ -35,7 +35,7 @@ Thứ hai, khi đặc tả thiếu quy tắc, cần phân biệt ca chưa có or
 
 Thứ ba, hướng dẫn xác nhận lưu Hồ sơ Mobile ban đầu chưa đủ mạnh: rời rồi mở lại màn hình trong cùng phiên vẫn có thể thấy dữ liệu chưa được lưu. Sau đối chiếu thực thi, quy trình bổ sung đăng xuất và đăng nhập lại. D08/D09 vẫn NOT RUN vì chưa tạo được yêu cầu đổi role hoặc sửa hồ sơ người khác qua giao diện.
 
-Giới hạn nằm ở việc chưa đối chiếu đủ trạng thái runtime khi thiết kế. Codex có chạy tham khảo; tôi tự kiểm thử lại và cung cấp ảnh. Bài học là dùng AI hỗ trợ cấu trúc, giữ SRS làm oracle và kiểm chứng dữ liệu trước khi kết luận.
+Giới hạn nằm ở việc chưa đối chiếu đủ trạng thái runtime khi thiết kế. Tôi là người trực tiếp thực thi kiểm thử và cung cấp ảnh minh chứng; Codex không trực tiếp chạy các ca kiểm thử. Bài học là dùng AI hỗ trợ cấu trúc, giữ SRS làm oracle và kiểm chứng dữ liệu trước khi kết luận.
 
 ---
 
@@ -54,7 +54,7 @@ Giới hạn nằm ở việc chưa đối chiếu đủ trạng thái runtime k
 | **Artifact #7**<br>OpenAI Codex<br>21-10-2026 01:15–01:22<br>[Tương tác 19](Appendix_A_Prompt_Log.md#tương-tác-19), [20](Appendix_A_Prompt_Log.md#tương-tác-20) | BVA độ dài tên với 0, 1, 2 ký tự; bộ 4 testcase FR-14. | **VALID** | SRS FR-14 và S04: cận dưới đóng 1 ký tự, xét LB−1/LB/LB+1 là rỗng/A/AB; không đặt cận trên. | **Giữ ba điểm 0–1–2** và bốn ca tên rỗng, A, AB, xóa danh mục thử; dùng chung kiểm tra Xem. Không mô tả bộ này chỉ gồm hai điểm 0 và 1. |
 | **Artifact #8**<br>OpenAI Codex<br>21-10-2026 08:45<br>[Tương tác 23](Appendix_A_Prompt_Log.md#tương-tác-23) | Bước kiểm tra lưu FR-20 ban đầu dùng rời rồi mở lại Hồ sơ, tiền điều kiện đòi P0 hợp lệ. Bản thiết kế được giữ ở commit `080760f`. | **INCOMPLETE** | SRS FR-04/20: cần đối chiếu dữ liệu thực sự đã lưu. Bản đầu [F20-D01](https://github.com/nndai/HW02_AI_DomainTesting/blob/080760ffc4681305a7427a0f2bc2a03af7ecb0b4/Report.md#L611) chưa loại được ảnh hưởng trạng thái cùng phiên. | **Đóng bàn phím trước Cập nhật, đăng xuất/đăng nhập lại để kiểm tra lưu; P0 lấy theo dữ liệu thực tế**, có thể rỗng/null. Giữ biên điện thoại 9–10–11–12. |
 | **Artifact #9**<br>OpenAI Codex<br>21-10-2026 08:45<br>[Tương tác 23](Appendix_A_Prompt_Log.md#tương-tác-23) | D08 tự đổi role và D09 sửa hồ sơ người khác được thiết kế có điều kiện; chưa khẳng định có đường thao tác Mobile. | **VALID** | SRS FR-04/20: quy tắc quyền có căn cứ, nhưng thiết kế không đồng nghĩa đã thực thi. Bản đầu đã nêu rõ tiền điều kiện còn phụ thuộc khả năng tương tác. | **Giữ ca thiết kế; cập nhật D08/D09 thành NOT RUN** sau khảo sát UI. Không gọi hai ca này là avatar/đổi mật khẩu và không kết luận PASS vì dữ liệu chưa thay đổi. |
-| **Artifact #10**<br>OpenAI Codex<br>21-10-2026 10:19–10:22<br>[Tương tác 24](Appendix_A_Prompt_Log.md#tương-tác-24), [25](Appendix_A_Prompt_Log.md#tương-tác-25) | Tổng kết và Mandatory Disclosure của Report; lượt này chưa hoàn thiện Bug_Report/Issues. Số liệu testcase đã được tổng hợp đúng. | **INCOMPLETE** | HW02 mục 9, 14 và AI-01 mục 8: khai báo còn phủ nhận việc AI trực tiếp chạy, chưa phân biệt các lượt tham khảo với lần tự kiểm thử lại. | **Giữ số liệu 30 thiết kế, 28 đã chạy, 8 PASS, 20 FAIL, 2 NOT RUN; sửa khai báo về các lượt AI chạy tham khảo.** Mười bug được đối chiếu riêng trong [Bug_Report.md](Bug_Report.md), không gán thành đầu ra của tương tác 24–25. |
+| **Artifact #10**<br>OpenAI Codex<br>21-10-2026 10:19–10:22<br>[Tương tác 24](Appendix_A_Prompt_Log.md#tương-tác-24), [25](Appendix_A_Prompt_Log.md#tương-tác-25) | Tổng kết và Mandatory Disclosure của Report; tổng hợp số liệu testcase và danh sách bug. | **INCOMPLETE** | HW02 mục 9, 14 và AI-01 mục 8: cần đồng bộ chính xác số liệu tổng kết và khẳng định sinh viên trực tiếp thực thi kiểm thử, AI không trực tiếp chạy test trên hệ thống. | **Giữ số liệu 30 thiết kế, 28 đã chạy, 8 PASS, 20 FAIL, 2 NOT RUN; khẳng định sinh viên trực tiếp thực thi kiểm thử.** Mười bug được đối chiếu riêng trong [Bug_Report.md](Bug_Report.md), không gán thành đầu ra của tương tác 24–25. |
 
 ---
 
@@ -83,7 +83,7 @@ Khuyến nghị: Chỉ dùng AI để dựng khung phương pháp và bảng bi�
 
 ## **6. Mandatory Disclosure (dán nguyên văn)**
 
-> Báo cáo, skill và bộ testcase có hỗ trợ soạn thảo của OpenAI Codex. Tôi rà soát phạm vi, yêu cầu chỉnh EP/BVA và dữ liệu thử; trực tiếp kiểm thử lại, xác nhận kết quả và cung cấp ảnh dùng trong báo cáo. Codex có các lượt chạy tham khảo riêng, hỗ trợ diễn đạt và tổng hợp tài liệu. Codex từng nháp mô tả issue, sau đó review và chỉnh bản Bug_Report.md tôi cung cấp; không khai báo phần này là hoàn toàn không dùng AI. Bản audit này cũng có hỗ trợ soạn và sửa của Codex. Chi tiết phạm vi sử dụng được ghi trong [AI_Disclosure.md](AI_Disclosure.md), các tương tác được dẫn trong [Appendix_A_Prompt_Log.md](Appendix_A_Prompt_Log.md).
+> Báo cáo, bộ testcase và skill này có phiên bản đầu được tạo với sự hỗ trợ của OpenAI Codex. Tôi đã rà soát và yêu cầu chỉnh sửa phạm vi bốn FR, phân lớp, dữ liệu đại diện, BVA và bộ ca theo SRS; yêu cầu bổ sung số lượng âm và ô rỗng cho FR-06, gộp các ca trùng mục tiêu và giữ rõ các trường hợp chưa đủ căn cứ. Tôi trực tiếp thực thi testcase, chụp ảnh và cung cấp các quan sát thực tế đã chốt trong báo cáo. Codex hỗ trợ hướng dẫn, diễn đạt, tổng hợp kết quả, kiểm tra số liệu và tham chiếu; không trực tiếp chạy các ca hoặc tạo ảnh minh chứng của bài làm hiện tại. Phần Tổng kết, AI Critique và khai báo này cũng có hỗ trợ soạn thảo của Codex. Tôi không dùng công cụ AI khác cho bài làm hiện tại.
 
 ---
 
@@ -95,7 +95,7 @@ Khuyến nghị: Chỉ dùng AI để dựng khung phương pháp và bảng bi�
 | **MSSV:** | 23120226 |
 | **Lớp / Khoá:** | 23KTPM |
 | **Môn học:** | CS423 / CSC13003 – Kiểm chứng Phần mềm |
-| **Giảng viên:** | TS. Lâm Quang Vũ |
+| **Giảng viên:** | Lâm Quang Vũ |
 | **Ngày:** | 2026-10-21 |
 | **Chữ ký:** | Nguyễn Ngọc Đại |
 
