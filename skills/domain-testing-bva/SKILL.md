@@ -10,11 +10,11 @@ description: >-
 
 Hỗ trợ thiết kế cho một tính năng và nền tảng đã được người dùng chọn. Skill này chưa phải minh chứng đã áp dụng hay đã kiểm thử tính năng nào.
 
-Trong bài HW02, đọc các nguồn sau từ thư mục chứa skill:
+Trong bài HW02, đọc các nguồn sau:
 
-- [Slide S04](../../references/S04_Domain_Testing.txt): trang 3–6 về input/output và EP; trang 8–11 về cách chia lớp; trang 21–23 về đại diện/test cases; trang 24–27 về BVA; trang 28 về giới hạn kỹ thuật.
-- [Assignment](../../references/Assignment.md): mục 2, 6–9 và 12 về quy trình từng bước, review, khả năng tái sử dụng, audit và commit do sinh viên thực hiện.
-- [START_HERE](../../START_HERE.md) và phần liên quan trong [SRS](../../references/SRS.md). Dùng SRS làm oracle nghiệp vụ; đọc [API Specification](../../references/API_Specification.md) khi kênh API thuộc phạm vi.
+- **Slide Domain Testing (S04)**: trang 3–6 về input/output và EP; trang 8–11 về cách chia lớp; trang 21–23 về đại diện/test cases; trang 24–27 về BVA; trang 28 về giới hạn kỹ thuật.
+- **Yêu cầu đề bài (Assignment HW02)**: mục 2, 6–9 và 12 về quy trình từng bước, review, khả năng tái sử dụng, audit và commit do sinh viên thực hiện.
+- **Đặc tả yêu cầu (SRS) và README trong SUT**: Dùng SRS và README trong SUT làm oracle nghiệp vụ; đọc tài liệu API Specification khi kênh API thuộc phạm vi.
 
 Khi tái sử dụng ngoài bài này, nhận đặc tả, hướng dẫn kỹ thuật và quy ước log tương ứng từ người dùng. Nếu thiếu nguồn, báo rõ nguồn cần bổ sung. Không mang ràng buộc của tính năng hay ví dụ cũ sang tính năng mới.
 
