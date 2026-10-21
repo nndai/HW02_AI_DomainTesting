@@ -1341,3 +1341,82 @@ Chưa chạy test hay sửa SUT. Prompt và phản hồi được ghi nguyên v�
 **Dừng để bạn review.**
 `````
 
+
+## Tương tác 24
+
+- Công cụ: OpenAI Codex.
+- Thời gian: 21-10-2026 10:19
+
+### Prompt — nguyên văn
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1616 -->
+<!-- prompt-timestamp: 21-10-2026 10:19:06.802 +07:00; source: chat-transcript -->
+`````text
+đọc yêu cầu hw2, hoàn thiện report.md để nộp, giữ nguyên bốn fr và kết quả đã chốt, điền tổng kết và mandatory disclosure đúng thực tế, bỏ chữ khung chưa điền và dòng báo cáo chưa hoàn tất, chỉ bổ sung nội dung còn thiếu mà đề yêu cầu, không thêm mục không bắt buộc, không sửa sut, kiểm tra số liệu và tham chiếu đề mục, log nguyên văn lượt này vào Appendix_A_Prompt_Log.md
+`````
+
+
+### Output 1 — commentary — 21-10-2026 10:19:14.387 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1619 -->
+`````text
+Tôi sẽ đọc yêu cầu HW2, đối chiếu Report.md và các tài liệu khai báo AI, rồi bổ sung phần còn thiếu để chuẩn bị bản nộp. Tôi sẽ giữ nguyên bốn FR và kết quả đã chốt, điền tổng kết và Mandatory Disclosure theo bằng chứng hiện có, kiểm tra số liệu/tham chiếu và ghi log nguyên văn lượt này.
+`````
+
+
+## Tương tác 25
+
+- Công cụ: OpenAI Codex.
+- Thời gian: 21-10-2026 10:22
+
+### Prompt — nguyên văn
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1664 -->
+<!-- prompt-timestamp: 21-10-2026 10:22:11.148 +07:00; source: chat-transcript -->
+`````text
+<send_user_message_question_reply>
+[{"questionItemId":"[\"request_user_input_async\",\"call_a1f1949b475c460ea641458011719b3e\",0]","question":"Để khai báo đúng thực tế: ai trực tiếp chạy các ca và cung cấp ảnh/kết quả đã chốt trong Report?","answer":"Tôi tự chạy; AI chỉ hướng dẫn và hỗ trợ ghi báo cáo"},{"questionItemId":"[\"request_user_input_async\",\"call_a1f1949b475c460ea641458011719b3e\",1]","question":"Ngoài OpenAI Codex trong các chat hỗ trợ, bạn có dùng công cụ AI nào khác cho bài làm hiện tại không?","answer":"Không"}]
+</send_user_message_question_reply>
+`````
+
+
+### Output 1 — commentary — 21-10-2026 10:22:37.256 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1671 -->
+`````text
+Bạn đã xác nhận tự chạy các ca và cung cấp kết quả/ảnh, chỉ dùng OpenAI Codex để hỗ trợ. Tôi đối chiếu được **30 ca thiết kế, 28 ca đã chạy, 8 PASS, 20 FAIL và 2 NOT RUN**. Tôi sẽ dùng đúng số liệu này, không quy đổi số ca FAIL thành số bug, và bổ sung AI Critique bắt buộc cùng khai báo phạm vi hỗ trợ AI.
+`````
+
+
+### Output 2 — commentary — 21-10-2026 10:26:32.983 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1707 -->
+`````text
+Các tham chiếu đề mục đều khớp và 32 liên kết tệp hiện có đều tồn tại. Các file bug report/Issues và bảng AI audit chi tiết vẫn chưa được hoàn thiện, nên tôi sẽ ghi đúng giới hạn đó, không tự tạo số bug hay nhãn audit. Phần AI Critique bắt buộc sẽ dựa trên dữ kiện đã ghi nhận, đặc biệt việc phải đăng nhập lại để phân biệt dữ liệu Mobile đã lưu với trạng thái còn giữ trên màn hình.
+`````
+
+
+### Output 3 — commentary — 21-10-2026 10:29:24.610 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1734 -->
+`````text
+Report đã được bổ sung Tổng kết, AI Critique 266 từ và Mandatory Disclosure theo xác nhận của bạn. Tôi đã kiểm tra: toàn bộ bốn FR và 30 dòng testcase giữ nguyên, số liệu tổng hợp khớp, không có tham chiếu đề mục sai hoặc liên kết tệp bị thiếu. Tôi đang ghi log lượt hoàn thiện này, gồm cả xác nhận của bạn về người thực thi và công cụ AI.
+`````
+
+
+### Output 4 — final_answer — 21-10-2026 10:31:43.814 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1754 -->
+`````text
+Đã hoàn thiện [Report.md](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/23120226_HW02_AI_DomainTesting_work/Report.md):
+
+- Bổ sung tổng kết, AI Critique và Mandatory Disclosure theo xác nhận của bạn.
+- Bỏ nhãn báo cáo chưa hoàn tất; giữ nguyên bốn FR và kết quả đã chốt.
+- Đối chiếu: **30 ca thiết kế, 28 ca đã chạy, 8 PASS, 20 FAIL, 2 NOT RUN**.
+- Kiểm tra tham chiếu đề mục và liên kết tệp.
+
+Prompt, xác nhận của bạn và đầu ra được ghi nguyên văn vào [Appendix_A_Prompt_Log.md](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/23120226_HW02_AI_DomainTesting_work/Appendix_A_Prompt_Log.md), giữ nguyên log cũ. Không chạy test, sửa SUT hay tạo commit.
+
+**Bộ hồ sơ nộp vẫn còn thiếu:** bug report/Issues do bạn viết, bảng AI audit và biểu mẫu disclosure, các bản PDF, tệp git log và phần tự đánh giá/tổng hợp kiểm thử trong README. Các phần này chưa được khai báo là đã hoàn thành.
+`````
+

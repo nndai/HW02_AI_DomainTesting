@@ -1,18 +1,14 @@
-# Báo cáo HW02 — khung chưa điền
+# Báo cáo HW02 — Domain Testing và Boundary Value Analysis
 
-Đây là khung do AI hỗ trợ tạo, chưa phải báo cáo hoàn tất.
+**Sinh viên:** Nguyễn Ngọc Đại — **MSSV:** 23120226. **SUT:** EShop.
 
-## 1. Phạm vi, yêu cầu nguồn và môi trường
-
-Chưa điền. Phân biệt dữ liệu tham khảo trước đây với lần thực hiện mới.
-
-## 2. FR-06 — Chi tiết sản phẩm
+## 1. FR-06 — Chi tiết sản phẩm
 
 Phạm vi kiểm thử là trang chi tiết sản phẩm trên Web, gồm thông tin sản phẩm, số lượng và thao tác thêm vào giỏ hàng. Thiết kế được hỗ trợ bởi [skill domain-testing-bva](skills/domain-testing-bva/SKILL.md).
 
 Quy trình thiết kế: xác định yêu cầu và input/output → phân lớp tương đương → chọn đại diện → phân tích biên → tổng hợp testcase, kết quả và bằng chứng → truy vết và kết luận. Bộ kiểm thử gồm **8 ca F06-D01–D08**.
 
-### 2.1. Yêu cầu và dữ liệu
+### 1.1. Yêu cầu và dữ liệu
 
 Nguồn yêu cầu: file `README.md` trong `eshop-sut`, mục SRS, FR-06. Phương pháp: slide “S04 — Domain Testing”. Các mã R06 dùng để truy vết trong báo cáo.
 
@@ -57,7 +53,7 @@ P là sản phẩm **iPhone 15 Pro Max**. Dữ liệu kỳ vọng được lấy
 | Tài khoản thử            | `test@eshop.com`, vai trò người dùng theo seed.                                             |
 | Trạng thái trước ca thêm | Đăng nhập hợp lệ; trang P tải xong; giỏ trống trước mỗi ca.                                 |
 
-### 2.2. Phân lớp (EP)
+### 1.2. Phân lớp (EP)
 
 Số lượng hợp lệ thỏa hai điều kiện: **C1** là số nguyên; **C2** là ≥ 1 khi đã là số nguyên. Chuỗi phi số được xét theo kiểu dữ liệu, không so sánh trực tiếp với cận số. Các ca số lượng giữ nguyên P, phiên đăng nhập và trạng thái giỏ ban đầu để cô lập mục tiêu.
 
@@ -80,7 +76,7 @@ Các lớp đầu ra kỳ vọng được xác định theo biến và điều k
 | E06-O2 | O06-A, thêm với q thuộc Q1 | Giỏ có đúng P/q và có toast notification hoặc badge cập nhật. |
 | E06-O3 | O06-V và phản hồi, thử dữ liệu thuộc Q2/Q3/Q4 | Không ghi số lượng ngoài miền nguyên dương vào giỏ; có phản hồi sau khi bấm. Việc từ chối dữ liệu không hợp lệ là kết quả đúng kỳ vọng. |
 
-### 2.3. Đại diện
+### 1.3. Đại diện
 
 | REP-ID      | Đại diện                         | Phủ / lý do giữ                                                                                  |
 | ----------- | -------------------------------- | ------------------------------------------------------------------------------------------------ |
@@ -92,7 +88,7 @@ Các lớp đầu ra kỳ vọng được xác định theo biến và điều k
 | REP06-F     | q = 1.5                          | E06-Q3/O3; kiểm tra phần lẻ, giữ các điều kiện khác hợp lệ.                                      |
 | REP06-T     | s = abc                          | E06-Q4/O3; kiểm tra sai kiểu qua UI, không ép dữ liệu vượt kênh nhập.                            |
 
-### 2.4. Giá trị biên (BVA)
+### 1.4. Giá trị biên (BVA)
 
 **LB = 1, biên đóng; Δ = 1 sản phẩm.** Ba điểm BVA được dùng chung với ca EP, không tạo bộ ca trùng.
 
@@ -104,7 +100,7 @@ Các lớp đầu ra kỳ vọng được xác định theo biến và điều k
 
 SRS không quy định UB nên bộ ca chỉ phân tích cận dưới có căn cứ. Giá trị -1 là đại diện bổ sung của Q2; 1.5 và abc kiểm tra điều kiện kiểu/miền; ô rỗng kiểm tra thao tác xóa nội dung. Các ca này không được tính thành điểm BVA mới. Các trường thông tin sản phẩm chỉ được xem, không có thao tác chỉnh sửa để thiết kế biên đầu vào trong FR-06.
 
-### 2.5. Testcase và kết quả
+### 1.5. Testcase và kết quả
 
 **Tiền điều kiện và tiêu chí đánh giá:**
 
@@ -135,7 +131,7 @@ Các quan sát sau được ghi nhận khi bấm tiếp lần thứ hai trên c�
 - **F06-D05 — số lượng `-1`:** Nhập `-1`, ấn hai lần thì vẫn thêm được sản phẩm vào giỏ với số lượng `-1`. [Ảnh giỏ có số lượng -1](screenshots/FR06/D08-3.png).
 - **F06-D08 — ô rỗng:** Xóa ô nhập cho rỗng, ấn hai lần thì số lượng, thành tiền và tổng tiền trong giỏ hiện `NaN`. [Ảnh giỏ hiển thị NaN](screenshots/FR06/D08-3.png).
 
-### 2.6. Truy vết và kết luận
+### 1.6. Truy vết và kết luận
 
 | Yêu cầu / lớp / biên                                                    | Ca hiện hành    |
 | ----------------------------------------------------------------------- | --------------- |
@@ -155,9 +151,9 @@ Bộ kiểm thử gồm **8 ca = 1 ca thông tin/điều khiển + 2 ca nguyên 
 
 Số testcase FAIL không được dùng làm số bug độc lập. Nhật ký hỗ trợ thiết kế được lưu tại [Appendix_A_Prompt_Log.md](Appendix_A_Prompt_Log.md).
 
-## 3. FR-07 — Giỏ hàng
+## 2. FR-07 — Giỏ hàng
 
-### 3.1. Yêu cầu và dữ liệu
+### 2.1. Yêu cầu và dữ liệu
 
 Nguồn yêu cầu: file `README.md` trong `eshop-sut`, mục SRS, FR-07. Phương pháp: slide “S04 — Domain Testing”. Các mã R07 dùng để truy vết trong báo cáo.
 
@@ -197,11 +193,11 @@ Phạm vi là giỏ hàng trên Web: hiển thị giỏ, điều chỉnh số l�
 | P | 1 | iPhone 15 Pro Max | 30000000 ₫ | Điện thoại |
 | Q | 2 | Samsung Galaxy S24 Ultra | 28000000 ₫ | Điện thoại |
 
-**Tiền điều kiện chung:** Web dùng baseline nêu tại mục 2.1; phiên đã đăng nhập bằng tài khoản `test@eshop.com`. Giỏ và số lượng dưới đây là dữ liệu cần chuẩn bị cho từng đại diện, không phải dữ liệu giỏ có sẵn trong seed hoặc trạng thái đã được xác minh. Chọn P có số lượng 3 và Q có số lượng 2 làm mẫu cụ thể để dễ đối chiếu hai dòng khác nhau; các số này không xác lập miền hợp lệ, min/max hoặc điểm BVA của FR-07.
+**Tiền điều kiện chung:** Web dùng baseline nêu tại mục 1.1; phiên đã đăng nhập bằng tài khoản `test@eshop.com`. Giỏ và số lượng dưới đây là dữ liệu cần chuẩn bị cho từng đại diện, không phải dữ liệu giỏ có sẵn trong seed hoặc trạng thái đã được xác minh. Chọn P có số lượng 3 và Q có số lượng 2 làm mẫu cụ thể để dễ đối chiếu hai dòng khác nhau; các số này không xác lập miền hợp lệ, min/max hoặc điểm BVA của FR-07.
 
-### 3.2. Phân lớp (EP)
+### 2.2. Phân lớp (EP)
 
-Nguồn yêu cầu: file `README.md` trong `eshop-sut`, mục SRS, FR-07. Phương pháp: slide “S04 — Domain Testing”. Các lớp được xác định theo input/output và trạng thái ở mục 3.1; hai tình huống cùng lớp có cùng cách xử lý hoặc cùng loại kết quả kỳ vọng, không nhất thiết có cùng giá trị số lượng hay số tiền.
+Nguồn yêu cầu: file `README.md` trong `eshop-sut`, mục SRS, FR-07. Phương pháp: slide “S04 — Domain Testing”. Các lớp được xác định theo input/output và trạng thái ở mục 2.1; hai tình huống cùng lớp có cùng cách xử lý hoặc cùng loại kết quả kỳ vọng, không nhất thiết có cùng giá trị số lượng hay số tiền.
 
 Các lớp input và trạng thái được chia riêng theo từng biến/điều kiện. Một tình huống có thể đồng thời thuộc lớp giỏ có hàng, sản phẩm đã có trong giỏ và thao tác tăng; đây là sự kết hợp giữa các biến, không phải chồng lấn trong cùng một phép phân hoạch.
 
@@ -235,7 +231,7 @@ Các lớp đầu ra kỳ vọng được xác định theo điều kiện đầ
 
 **Giới hạn phân lớp:** FR-07 chưa đủ căn cứ để chia miền số lượng thành các lớp valid/invalid theo min/max, kiểu số, ô rỗng hoặc nhập trực tiếp; không kế thừa các cận của FR-06. Các lựa chọn xác nhận/hủy/đóng dialog được nhận diện là đầu vào của bước xác nhận, nhưng chưa tách thành lớp có kỳ vọng xử lý chi tiết khi đặc tả chưa nêu. Giỏ trống không thuộc lớp invalid; nhãn sai, thiếu cột hoặc thêm trùng thành dòng mới là đầu ra không đáp ứng yêu cầu tương ứng, không phải lý do đổi phân loại đầu vào thành invalid.
 
-### 3.3. Đại diện
+### 2.3. Đại diện
 
 Nguồn yêu cầu: file `README.md` trong `eshop-sut`, mục SRS, FR-07. Nguồn sản phẩm: file `backend/database.js`, cùng baseline seed với FR-06. Phương pháp: slide “S04 — Domain Testing”, chọn đại diện và kết hợp các lớp hợp lệ.
 
@@ -247,11 +243,11 @@ Nguồn yêu cầu: file `README.md` trong `eshop-sut`, mục SRS, FR-07. Nguồ
 | REP07-DELETE | Giỏ P:3, Q:2; dialog chưa mở. Bấm Xóa trên dòng P và quan sát trước khi quyết định xác nhận. | E07-DEL, E07-D0, E07-D1, E07-ODELETE | Dialog xác nhận xuất hiện trước khi xóa P (R07-03). | Gộp hai trạng thái dialog và đầu ra của cùng yêu cầu xóa trong F07-D08. |
 | REP07-NAV | Giỏ P:3, Q:2; bấm Tiếp tục mua sắm. | E07-NAV, E07-ONAV | Hiển thị trang chủ (R07-04). | F07-D09 đánh giá điều hướng riêng, không phụ thuộc kết quả giỏ trống. |
 
-Năm nhóm đại diện được tổng hợp thành bảng testcase ở mục 3.5. Các lớp đầu ra dùng chung ca với input/trạng thái tạo ra chúng; E07-P2 là điều kiện chuẩn bị dữ liệu, không có ca đánh giá riêng luồng thêm mới trong FR-07.
+Năm nhóm đại diện được tổng hợp thành bảng testcase ở mục 2.5. Các lớp đầu ra dùng chung ca với input/trạng thái tạo ra chúng; E07-P2 là điều kiện chuẩn bị dữ liệu, không có ca đánh giá riêng luồng thêm mới trong FR-07.
 
-### 3.4. Giá trị biên (BVA)
+### 2.4. Giá trị biên (BVA)
 
-Nguồn yêu cầu: file `README.md` trong `eshop-sut`, mục SRS, FR-07. Phương pháp: slide “S04 — Domain Testing”. Dữ liệu P/Q và tiền điều kiện đăng nhập dùng lại mục 3.1.
+Nguồn yêu cầu: file `README.md` trong `eshop-sut`, mục SRS, FR-07. Phương pháp: slide “S04 — Domain Testing”. Dữ liệu P/Q và tiền điều kiện đăng nhập dùng lại mục 2.1.
 
 **Biến áp dụng:** n là số dòng sản phẩm phân biệt trong giỏ (thuộc S07-CART), đơn vị là dòng, n là số nguyên không âm. Giỏ chỉ có P với số lượng 3 vẫn có n = 1, không phải 3 dòng. Hai lớp có căn cứ là E07-C0: n = 0 và E07-C1: n ≥ 1; cả hai đều hợp lệ.
 
@@ -269,16 +265,16 @@ Ba điểm trên phân biệt đầu ra giỏ trống với đầu ra có hàng 
 
 | Biến / mục tiêu | Quyết định và lý do |
 |---|---|
-| Số lượng trên mỗi dòng, thao tác +/− và lượng cộng khi thêm trùng | Chưa đủ căn cứ đặt biên số lượng: FR-07 chưa quy định min/max, bước tăng/giảm hoặc xử lý tại 0. Giữ các đại diện EP ở mục 3.3; không lấy min 1 của FR-06 làm biên của FR-07. |
+| Số lượng trên mỗi dòng, thao tác +/− và lượng cộng khi thêm trùng | Chưa đủ căn cứ đặt biên số lượng: FR-07 chưa quy định min/max, bước tăng/giảm hoặc xử lý tại 0. Giữ các đại diện EP ở mục 2.3; không lấy min 1 của FR-06 làm biên của FR-07. |
 | Sản phẩm đã có/chưa có trong giỏ | Quan hệ định danh không có thứ tự số để áp BVA. Kiểm tra gộp dòng bằng REP07-DUP theo R07-02; ID và giá của P/Q không trở thành biên. |
 | Yêu cầu Xóa, trạng thái dialog và Tiếp tục mua sắm | Các thao tác/trạng thái được phân biệt theo loại và trình tự, không phải khoảng số có cận. Giữ kiểm tra EP tương ứng, không gán số để tạo BVA. |
 | Nhãn tổng tiền, thành tiền và tổng tiền | Nhãn là nội dung cần đối chiếu theo R07-05, không có biên độ dài được quy định. FR-07 chưa nêu công thức, giới hạn tiền hoặc quy tắc làm tròn để thiết kế biên tiền; chưa đặt giá trị tổng cụ thể. |
 
-### 3.5. Testcase và kết quả
+### 2.5. Testcase và kết quả
 
 **Tiền điều kiện và tiêu chí đánh giá:**
 
-**PC chung:** Web và dữ liệu P/Q theo mục 3.1; đã đăng nhập bằng tài khoản `test@eshop.com`; trang giỏ tải xong. Chuẩn bị đúng trạng thái trước mỗi ca; không dùng kết quả của ca trước làm tiền điều kiện cho ca sau.
+**PC chung:** Web và dữ liệu P/Q theo mục 2.1; đã đăng nhập bằng tài khoản `test@eshop.com`; trang giỏ tải xong. Chuẩn bị đúng trạng thái trước mỗi ca; không dùng kết quả của ca trước làm tiền điều kiện cho ca sau.
 
 | Mã PC | Trạng thái giỏ trước ca |
 |---|---|
@@ -304,7 +300,7 @@ PC1/PC2 là tiền điều kiện **giỏ đã có hàng**, không phải kết 
 | F07-D08 | Dialog trước khi xóa P; PC2, dialog chưa mở; R07-03; REP07-DELETE; E07-DEL, E07-D0, E07-D1, E07-ODELETE | 1. Mở giỏ với PC2, xác định dòng P và trạng thái chưa có dialog. 2. Bấm Xóa sản phẩm trên dòng P một lần. 3. Quan sát dialog và thời điểm xóa P; chưa chọn xác nhận/hủy/đóng. | Có dialog xác nhận trước khi thực hiện xóa P; không xóa P trước bước xác nhận. | Ngay sau một lần bấm Xóa trên P, dòng P biến mất; giỏ chỉ còn Q q=2. Không xuất hiện dialog xác nhận và không thực hiện lựa chọn xác nhận/hủy/đóng nào. | FAIL | [Giỏ sau khi xóa P, chỉ còn Q](screenshots/FR07/D08.png) |
 | F07-D09 | Tiếp tục mua sắm; PC2; R07-04; REP07-NAV; E07-NAV, E07-ONAV | 1. Mở giỏ với PC2. 2. Bấm Tiếp tục mua sắm một lần. 3. Quan sát trang được hiển thị. | Hiển thị trang chủ; không đặt URL đích cụ thể. | Giỏ có liên kết “← Mua tiếp”. Bấm một lần điều hướng đến http://localhost:5173/ và hiển thị trang chủ “Danh sách sản phẩm”. | PASS |  |
 
-### 3.6. Truy vết và kết luận
+### 2.6. Truy vết và kết luận
 
 | Yêu cầu / lớp / biên | Ca hiện hành |
 |---|---|
@@ -321,11 +317,11 @@ PC1/PC2 là tiền điều kiện **giỏ đã có hàng**, không phải kết 
 
 Bộ thiết kế gồm **9 ca F07-D01–D09**. EP và BVA dùng chung ba trạng thái 0–1–2 dòng; không sinh bộ ca biên trùng với ca EP. Nhãn tổng tiền dùng chung lượt quan sát với hai ca danh sách nhưng có dòng kết quả riêng; tăng và giảm bắt đầu độc lập từ PC2. Hai trạng thái dialog thuộc cùng một yêu cầu xóa nên dùng chung D08. Điều hướng D09 dùng giỏ có hàng và tách khỏi D01 để kết quả không phụ thuộc mục tiêu giỏ trống.
 
-Giới hạn thiết kế giữ theo mục 3.1 và 3.4: không đặt min/max số lượng, bước tăng/giảm, giới hạn tồn kho, công thức tiền hoặc hành vi hủy/đóng dialog ngoài đặc tả.
+Giới hạn thiết kế giữ theo mục 2.1 và 2.4: không đặt min/max số lượng, bước tăng/giảm, giới hạn tồn kho, công thức tiền hoặc hành vi hủy/đóng dialog ngoài đặc tả.
 
-## 4. FR-14 — Danh mục Admin
+## 3. FR-14 — Danh mục Admin
 
-### 4.1. Yêu cầu và dữ liệu
+### 3.1. Yêu cầu và dữ liệu
 
 Nguồn yêu cầu: file `README.md` trong `eshop-sut`, mục SRS, FR-14. Phương pháp: slide “S04 — Domain Testing”. Các mã R14 dùng để truy vết trong báo cáo.
 
@@ -358,7 +354,7 @@ Phạm vi là quản lý danh mục trên Web Admin, gồm Thêm/Xem/Xóa và r�
 - Không đặt tên nút, cách mở biểu mẫu, dialog xác nhận, lựa chọn hủy/đóng, nguyên văn thông báo hoặc hình thức phản hồi ngoài đặc tả. Khi Xem, không yêu cầu cột ID, thứ tự sắp xếp, phân trang, hình minh họa hay thông báo danh sách trống; ID dùng để nhận diện dữ liệu, không phải giá trị bắt buộc nhập trên Web.
 - Giữ nguyên ba danh mục seed làm dữ liệu nền; chỉ thêm/xóa danh mục thử để đối chiếu các thao tác trong bộ ca.
 
-**Dữ liệu nền:** Lấy từ file `backend/database.js`, cùng baseline SUT ở mục 2.1. Dữ liệu seed là căn cứ chuẩn bị và đối chiếu, không phải kết quả quan sát mới; danh sách đang chạy cần được đối chiếu với dữ liệu nền thực tế.
+**Dữ liệu nền:** Lấy từ file `backend/database.js`, cùng baseline SUT ở mục 1.1. Dữ liệu seed là căn cứ chuẩn bị và đối chiếu, không phải kết quả quan sát mới; danh sách đang chạy cần được đối chiếu với dữ liệu nền thực tế.
 
 | Ký hiệu dữ liệu | ID trên seed sạch | Tên danh mục | Sản phẩm tham chiếu trong seed |
 |---|---|---|---|
@@ -366,22 +362,22 @@ Phạm vi là quản lý danh mục trên Web Admin, gồm Thêm/Xem/Xóa và r�
 | C14-LT | 2 | Laptop | MacBook Pro M3 |
 | C14-PK | 3 | Phụ kiện | Tai nghe AirPods Pro 2; Bàn phím cơ Keychron Q1 |
 
-**Tiền điều kiện và dữ liệu thử:** Web Admin truy cập được; đăng nhập bằng tài khoản seed `admin@eshop.com`, vai trò `admin`; trang quản lý danh mục tải xong. Danh sách nền và trạng thái tham chiếu của mục tiêu phải được xác định trước thao tác. Ba danh mục seed đều có sản phẩm tham chiếu, chỉ dùng đối chiếu hiển thị. Tên và mục tiêu thử ở mục 4.3 là dữ liệu thử được lựa chọn khi thiết kế, không thuộc danh mục seed; kết quả thực thi được ghi ở mục 4.5. Chọn tên chưa có để cô lập dữ liệu, không phải quy tắc tên phải duy nhất. C14-DEL được chuẩn bị riêng trước ca xóa, không lấy kết quả ca thêm C14-ADD làm tiền điều kiện; ghi nhận định danh thực tế khi chuẩn bị, không suy ra ID kế tiếp từ seed.
+**Tiền điều kiện và dữ liệu thử:** Web Admin truy cập được; đăng nhập bằng tài khoản seed `admin@eshop.com`, vai trò `admin`; trang quản lý danh mục tải xong. Danh sách nền và trạng thái tham chiếu của mục tiêu phải được xác định trước thao tác. Ba danh mục seed đều có sản phẩm tham chiếu, chỉ dùng đối chiếu hiển thị. Tên và mục tiêu thử ở mục 3.3 là dữ liệu thử được lựa chọn khi thiết kế, không thuộc danh mục seed; kết quả thực thi được ghi ở mục 3.5. Chọn tên chưa có để cô lập dữ liệu, không phải quy tắc tên phải duy nhất. C14-DEL được chuẩn bị riêng trước ca xóa, không lấy kết quả ca thêm C14-ADD làm tiền điều kiện; ghi nhận định danh thực tế khi chuẩn bị, không suy ra ID kế tiếp từ seed.
 
-### 4.2. Phân lớp (EP)
+### 3.2. Phân lớp (EP)
 
-Nguồn yêu cầu: file `README.md` trong `eshop-sut`, mục SRS, FR-14; đối chiếu file `references/SRS.md`, cùng mục FR-14. Phương pháp: slide “S04 — Domain Testing”. Các lớp dùng input/output, trạng thái và giới hạn đối chiếu ở mục 4.1.
+Nguồn yêu cầu: file `README.md` trong `eshop-sut`, mục SRS, FR-14; đối chiếu file `references/SRS.md`, cùng mục FR-14. Phương pháp: slide “S04 — Domain Testing”. Các lớp dùng input/output, trạng thái và giới hạn đối chiếu ở mục 3.1.
 
 Phiên Admin là tiền điều kiện chung. Phân lớp riêng theo tên khi Thêm, dữ liệu danh sách khi Xem và mục tiêu khi Xóa; các biến khác nhau không tạo một phép phân hoạch loại trừ nhau cho toàn bộ chức năng.
 
 | EC-ID | Biến / điều kiện | Miền/lớp | Phân loại và kỳ vọng |
 |---|---|---|---|
-| E14-N1 | I14-N, chọn Thêm theo I14-A | Tên không rỗng, chứa ít nhất một ký tự khác khoảng trắng; trong phạm vi tên ở mục 4.1 | **Đầu vào hợp lệ theo điều kiện tên bắt buộc** của R14-04; thêm được danh mục và danh sách phản ánh danh mục được thêm theo R14-01/02. |
+| E14-N1 | I14-N, chọn Thêm theo I14-A | Tên không rỗng, chứa ít nhất một ký tự khác khoảng trắng; trong phạm vi tên ở mục 3.1 | **Đầu vào hợp lệ theo điều kiện tên bắt buộc** của R14-04; thêm được danh mục và danh sách phản ánh danh mục được thêm theo R14-01/02. |
 | E14-N0 | I14-N, cùng thao tác Thêm | Ô tên không có ký tự nào, do chưa nhập hoặc đã xóa hết nội dung | **Đầu vào không hợp lệ** do vi phạm R14-04; không tạo danh mục có tên rỗng. |
 | E14-C1 | S14-CATEGORIES, chọn Xem theo I14-A | Danh sách danh mục theo fixture hợp lệ đã chuẩn bị; không đặt giới hạn số danh mục | **Trạng thái hợp lệ**; Admin xem được các danh mục tương ứng dữ liệu nền đã chuẩn bị theo R14-02. |
 | E14-D0 | I14-C và S14-REFERENCE, chọn Xóa theo I14-A | Danh mục mục tiêu đang tồn tại và không có sản phẩm tham chiếu trước thao tác | **Đầu vào/trạng thái hợp lệ cho nhánh xóa chính**; xóa được đúng mục tiêu, danh mục đó không còn trong danh sách theo R14-03/02. |
 
-N1/N0 rời nhau trong miền tên đã giới hạn ở mục 4.1. Khi Xem, đối chiếu danh sách với fixture đã chuẩn bị theo R14-02; không đặt hành vi hiển thị riêng hoặc min/max số danh mục. D0 thuộc nhánh xóa chính đã xác định.
+N1/N0 rời nhau trong miền tên đã giới hạn ở mục 3.1. Khi Xem, đối chiếu danh sách với fixture đã chuẩn bị theo R14-02; không đặt hành vi hiển thị riêng hoặc min/max số danh mục. D0 thuộc nhánh xóa chính đã xác định.
 
 | EC-ID | Biến / điều kiện | Lớp đầu ra kỳ vọng |
 |---|---|---|
@@ -390,9 +386,9 @@ N1/N0 rời nhau trong miền tên đã giới hạn ở mục 4.1. Khi Xem, đ�
 | E14-OLIST | O14-LIST, Xem với trạng thái C1 | Các danh mục hiển thị tương ứng dữ liệu nền đã chuẩn bị theo R14-02. |
 | E14-ODELETE | O14-DELETE và O14-LIST, Xóa với mục tiêu thuộc D0 | Danh mục mục tiêu không còn trong danh sách sau khi xóa theo R14-03/02. |
 
-### 4.3. Đại diện
+### 3.3. Đại diện
 
-Nguồn yêu cầu: file `README.md` trong `eshop-sut`, mục SRS, FR-14. Phương pháp: slide “S04 — Domain Testing”, chọn đại diện và kết hợp các lớp hợp lệ. Mã lớp theo mục 4.2; tiền điều kiện và giới hạn dùng chung ở mục 4.1.
+Nguồn yêu cầu: file `README.md` trong `eshop-sut`, mục SRS, FR-14. Phương pháp: slide “S04 — Domain Testing”, chọn đại diện và kết hợp các lớp hợp lệ. Mã lớp theo mục 3.2; tiền điều kiện và giới hạn dùng chung ở mục 3.1.
 
 | Ký hiệu | Tên cụ thể | Trạng thái cần chuẩn bị |
 |---|---|---|
@@ -401,17 +397,17 @@ Nguồn yêu cầu: file `README.md` trong `eshop-sut`, mục SRS, FR-14. Phươ
 
 | REP-ID | Dữ liệu và thao tác đại diện | Lớp được phủ | Kỳ vọng theo yêu cầu | Lý do chọn / giới hạn |
 |---|---|---|---|---|
-| REP14-ADDVIEW | Danh sách nền có danh mục; đối chiếu các tên seed ở mục 4.1. Nhập tên C14-ADD, thực hiện Thêm rồi xem lại danh sách. | E14-N1, E14-OCREATE; E14-C1, E14-OLIST | Xem được các danh mục tương ứng dữ liệu nền; thêm được C14-ADD và danh sách phản ánh tên đã nhập (R14-01/02/04). | Gộp Thêm với Xem và đầu ra tương ứng trong một nhóm đại diện. |
+| REP14-ADDVIEW | Danh sách nền có danh mục; đối chiếu các tên seed ở mục 3.1. Nhập tên C14-ADD, thực hiện Thêm rồi xem lại danh sách. | E14-N1, E14-OCREATE; E14-C1, E14-OLIST | Xem được các danh mục tương ứng dữ liệu nền; thêm được C14-ADD và danh sách phản ánh tên đã nhập (R14-01/02/04). | Gộp Thêm với Xem và đầu ra tương ứng trong một nhóm đại diện. |
 | REP14-EMPTYNAME | Danh sách nền có danh mục, phiên Admin hợp lệ. Mở thao tác Thêm, xóa hết nội dung ô tên, giữ chuỗi rỗng `""`, rồi thử Thêm. | E14-N0, E14-OVALIDATION | Không tạo danh mục có tên rỗng (R14-04). | Chỉ vi phạm điều kiện tên bắt buộc, giữ các tiền điều kiện khác hợp lệ. |
 | REP14-DELVIEW | Trước ca đã có C14-DEL, xác định đúng tên/định danh và không có sản phẩm tham chiếu. Xem danh sách, chọn đúng C14-DEL để Xóa rồi xem lại danh sách. | E14-D0, E14-ODELETE; E14-C1, E14-OLIST | Xem được C14-DEL trước thao tác; sau khi xóa, mục tiêu không còn trong danh sách (R14-02/03). | Gộp Xóa với Xem trước/sau trên cùng mục tiêu thử được chuẩn bị riêng. |
 
 Tám lớp trong bộ thiết kế được ánh xạ tới REP14-ADDVIEW, REP14-EMPTYNAME và REP14-DELVIEW. Các lớp đầu ra dùng chung thao tác tạo ra chúng; không tạo một testcase cho mỗi dòng phân lớp.
 
-### 4.4. Giá trị biên (BVA)
+### 3.4. Giá trị biên (BVA)
 
-Nguồn: file `README.md` trong `eshop-sut` và `references/SRS.md`, FR-14; slide “S04 — Domain Testing”.
+Nguồn: file `README.md` trong `eshop-sut`, FR-14; slide “S04 — Domain Testing”.
 
-**Biến: độ dài tên I14-N; LB = 1 ký tự, biên đóng; Δ = 1 ký tự**, suy từ yêu cầu tên bắt buộc, không được để trống (R14-04). Giữ phiên Admin, danh sách nền và cách cô lập dữ liệu theo mục 4.1; chỉ thay tên khi Thêm.
+**Biến: độ dài tên I14-N; LB = 1 ký tự, biên đóng; Δ = 1 ký tự**, suy từ yêu cầu tên bắt buộc, không được để trống (R14-04). Giữ phiên Admin, danh sách nền và cách cô lập dữ liệu theo mục 3.1; chỉ thay tên khi Thêm.
 
 | BVA-ID | Dữ liệu / độ dài | Lớp | Ca EP dùng chung | Kỳ vọng |
 |---|---|---|---|---|
@@ -419,13 +415,13 @@ Nguồn: file `README.md` trong `eshop-sut` và `references/SRS.md`, FR-14; slid
 | B14-AT | `"A"`; 1 = LB | E14-N1, E14-OCREATE, E14-OLIST | Biến thể REP14-ADDVIEW, thay tên bằng `A` | Thêm được danh mục tên `A`; xem lại danh sách có danh mục tương ứng (R14-01/02/04). |
 | B14-ABOVE | `"AB"`; 2 = LB + Δ | E14-N1, E14-OCREATE, E14-OLIST | Biến thể REP14-ADDVIEW, thay tên bằng `AB` | Thêm được danh mục tên `AB`; xem lại danh sách có danh mục tương ứng (R14-01/02/04). |
 
-Ba điểm 0–1–2 ký tự dùng chung luồng và kỳ vọng EP. Khi tổng hợp testcase, `A` và `AB` là hai dữ liệu Thêm/Xem vừa phủ E14-N1 vừa phủ BVA; không tạo ca riêng cho tên mẫu C14-ADD ở mục 4.3 vì không bổ sung mục tiêu cần phủ. Dữ liệu xóa C14-DEL được giữ riêng. SRS không quy định UB nên chỉ phân tích cận dưới có căn cứ; các giới hạn đối chiếu và việc giữ nguyên seed theo mục 4.1.
+Ba điểm 0–1–2 ký tự dùng chung luồng và kỳ vọng EP. Khi tổng hợp testcase, `A` và `AB` là hai dữ liệu Thêm/Xem vừa phủ E14-N1 vừa phủ BVA; không tạo ca riêng cho tên mẫu C14-ADD ở mục 3.3 vì không bổ sung mục tiêu cần phủ. Dữ liệu xóa C14-DEL được giữ riêng. SRS không quy định UB nên chỉ phân tích cận dưới có căn cứ; các giới hạn đối chiếu và việc giữ nguyên seed theo mục 3.1.
 
-### 4.5. Testcase và kết quả
+### 3.5. Testcase và kết quả
 
 **Tiền điều kiện và tiêu chí đánh giá:**
 
-**PC chung:** Web dùng baseline và dữ liệu nền ở mục 4.1; đã đăng nhập bằng tài khoản `admin@eshop.com`, vai trò `admin`; trang quản lý danh mục tải xong. Trước mỗi ca, xác định danh sách nền để đối chiếu khi Xem trước/sau thao tác; giữ nguyên ba danh mục seed. Mỗi ca có tiền điều kiện riêng, không phụ thuộc kết quả ca trước.
+**PC chung:** Web dùng baseline và dữ liệu nền ở mục 3.1; đã đăng nhập bằng tài khoản `admin@eshop.com`, vai trò `admin`; trang quản lý danh mục tải xong. Trước mỗi ca, xác định danh sách nền để đối chiếu khi Xem trước/sau thao tác; giữ nguyên ba danh mục seed. Mỗi ca có tiền điều kiện riêng, không phụ thuộc kết quả ca trước.
 
 | Mã PC | Dữ liệu cần chuẩn bị |
 |---|---|
@@ -443,7 +439,7 @@ Chỉ đối chiếu điều kiện tên bắt buộc và kết quả Thêm/Xem/
 | F14-D03 | Thêm/Xem tên `AB`; PC14-NAME, tên `AB` chưa có; 2 ký tự; R14-01/02/04; biến thể REP14-ADDVIEW; E14-N1, E14-OCREATE, E14-C1, E14-OLIST; B14-ABOVE | 1. Xem và đối chiếu danh sách nền, xác định tên `AB` chưa có theo tiền điều kiện. 2. Mở thao tác Thêm, nhập `AB`, thực hiện Thêm một lần. 3. Xem lại danh sách, đối chiếu tên vừa thêm. | Danh sách trước thao tác phản ánh dữ liệu nền; thêm được danh mục tên `AB`, danh sách sau thao tác hiển thị danh mục tương ứng tên đã nhập. | Trước thao tác chưa có danh mục tên AB. Nhập AB, bấm Thêm mới một lần; danh mục tên AB xuất hiện trong danh sách, ba danh mục seed vẫn hiển thị. | PASS | |
 | F14-D04 | Xóa/Xem danh mục thử; PC14-DELETE; C14-DEL = `Danh mục thử xóa FR14 23120226`; R14-02/03; REP14-DELVIEW; E14-D0, E14-ODELETE, E14-C1, E14-OLIST | 1. Xem danh sách, đối chiếu C14-DEL với tên/định danh mục tiêu đã chuẩn bị; bảo đảm điều kiện không có sản phẩm tham chiếu. 2. Thực hiện Xóa đúng C14-DEL. 3. Xem lại danh sách, đối chiếu mục tiêu với trước thao tác. | Xem được C14-DEL trong danh sách trước thao tác; xóa được danh mục thử, mục tiêu không còn trong danh sách sau thao tác. Danh sách vẫn có các danh mục seed. | Danh mục thử xóa FR14 23120226 được chuẩn bị riêng và hiển thị trước thao tác. Bấm Xóa tại đúng dòng mục tiêu một lần; danh mục thử biến mất khỏi danh sách, ba danh mục seed vẫn hiển thị. | PASS | |
 
-### 4.6. Truy vết và kết luận
+### 3.6. Truy vết và kết luận
 
 **Truy vết thiết kế:**
 
@@ -457,15 +453,15 @@ Chỉ đối chiếu điều kiện tên bắt buộc và kết quả Thêm/Xem/
 
 Bộ thiết kế gồm **4 ca F14-D01–D04 = 1 ca tên rỗng + 2 ca Thêm/Xem tại các điểm BVA hợp lệ + 1 ca Xóa/Xem danh mục thử**. Ba điểm BVA dùng chung ca EP; không giữ ca riêng cho tên mẫu dài cùng lớp E14-N1. Kiểm tra Xem được kết hợp trước/sau mỗi thao tác, không tạo ca Xem riêng.
 
-Bốn ca đã thực thi ánh xạ tới tám lớp trong bộ thiết kế ở mục 4.2 và ba điểm BVA 0–1–2 ký tự ở mục 4.4. Phạm vi kết luận giới hạn ở dữ liệu và các ca đã thực hiện.
+Bốn ca đã thực thi ánh xạ tới tám lớp trong bộ thiết kế ở mục 3.2 và ba điểm BVA 0–1–2 ký tự ở mục 3.4. Phạm vi kết luận giới hạn ở dữ liệu và các ca đã thực hiện.
 
 **Kết quả thực thi:** Đã chạy 4 ca F14-D01–D04, gồm **3 PASS và 1 FAIL**. F14-D01 không đáp ứng R14-04 vì tên rỗng vẫn tạo được danh mục; bằng chứng được liên kết trong bảng testcase. F14-D02–D04 đáp ứng kỳ vọng của các ca tương ứng trong phạm vi đã kiểm tra.
 
-## 5. FR-20 — Hồ sơ Mobile
+## 4. FR-20 — Hồ sơ Mobile
 
-### 5.1. Yêu cầu và dữ liệu
+### 4.1. Yêu cầu và dữ liệu
 
-Nguồn: file `README.md` trong `eshop-sut` và `references/SRS.md`, FR-04 và phần Hồ sơ của FR-20. Phương pháp: slide “S04 — Domain Testing”, xác định input/output. FR-20 xác định chức năng Hồ sơ trên Mobile; các quy tắc hồ sơ ở FR-04 được dùng để đối chiếu trong phạm vi này.
+Nguồn: file `README.md` trong `eshop-sut`, FR-04 và phần Hồ sơ của FR-20. Phương pháp: slide “S04 — Domain Testing”, xác định input/output. FR-20 xác định chức năng Hồ sơ trên Mobile; các quy tắc hồ sơ ở FR-04 được dùng để đối chiếu trong phạm vi này.
 
 | Mã | Yêu cầu áp dụng cho Hồ sơ Mobile | Nguồn |
 |---|---|---|
@@ -503,16 +499,16 @@ Phạm vi là mở Hồ sơ và cập nhật các trường được phép trên
 - Không yêu cầu một kiểu thông báo, toast, thời gian phản hồi hay cơ chế hoàn tác. Khi số điện thoại sai, chỉ đặt kỳ vọng không lưu số sai; SRS chưa nói việc lưu các trường khác trong cùng yêu cầu có phải thành công/thất bại đồng thời hay không.
 - Email được kiểm tra qua cơ chế khóa chỉnh sửa trên UI. Chưa tìm thấy đường tự đổi role hoặc chọn hồ sơ người khác trong phạm vi Hồ sơ Mobile đã quan sát; không tự tạo ô nhập hoặc chuyển sang API để nhận hai ca này là đã thực thi.
 
-### 5.2. Phân lớp (EP)
+### 4.2. Phân lớp (EP)
 
-Nguồn yêu cầu: file `README.md` trong `eshop-sut` và `references/SRS.md`, FR-04 và FR-20. Phương pháp: slide “S04 — Domain Testing”. Phân lớp theo từng biến/điều kiện ở mục 5.1; các biến khác nhau có thể kết hợp trong cùng tình huống. Phiên đã đăng nhập được giữ làm tiền điều kiện chung.
+Nguồn yêu cầu: file `README.md` trong `eshop-sut`, FR-04 và FR-20. Phương pháp: slide “S04 — Domain Testing”. Phân lớp theo từng biến/điều kiện ở mục 4.1; các biến khác nhau có thể kết hợp trong cùng tình huống. Phiên đã đăng nhập được giữ làm tiền điều kiện chung.
 
 Với số điện thoại không rỗng, xét theo thứ tự **ký tự → ký tự đầu → độ dài**: chuỗi có ký tự không phải chữ số thuộc P-TYPE; nếu toàn chữ số thì tách sai/đúng ký tự đầu; chỉ khi bắt đầu bằng `0` mới tách ba khoảng độ dài. Nhờ đó các lớp điện thoại dưới đây rời nhau và phủ miền chuỗi không rỗng. Trường hợp rỗng được ghi riêng ở phần chưa đủ căn cứ.
 
 | EC-ID | Biến / điều kiện | Miền/lớp | Phân loại và kỳ vọng |
 |---|---|---|---|
 | E20-SELF | I20-TARGET, S20-SESSION | Hồ sơ mục tiêu thuộc U đang đăng nhập | **Trạng thái hợp lệ**; truy cập Hồ sơ của U và được cập nhật các trường cho phép với dữ liệu hợp lệ (R20-01/02/05). |
-| E20-OTHER | I20-TARGET, cùng điều kiện chủ sở hữu | Yêu cầu cập nhật hồ sơ của V khác U | **Yêu cầu không hợp lệ về quyền**; không cập nhật hồ sơ V bởi U (R20-05). Khả năng đưa yêu cầu này qua Mobile theo giới hạn mục 5.1. |
+| E20-OTHER | I20-TARGET, cùng điều kiện chủ sở hữu | Yêu cầu cập nhật hồ sơ của V khác U | **Yêu cầu không hợp lệ về quyền**; không cập nhật hồ sơ V bởi U (R20-05). Khả năng đưa yêu cầu này qua Mobile theo giới hạn mục 4.1. |
 | E20-NAME | I20-NAME, thao tác cập nhật của U | Thay Họ Tên bằng chuỗi có nội dung, không rỗng và không chỉ gồm khoảng trắng | **Thao tác được phép trong phạm vi đối chiếu**; lưu tên mới cho U khi các dữ liệu đi kèm đáp ứng ràng buộc đã biết (R20-02/05). Không suy ra tên là trường bắt buộc. |
 | E20-ADDRESS | I20-ADDRESS, thao tác cập nhật của U | Thay Địa chỉ giao hàng mặc định bằng chuỗi có nội dung, không rỗng và không chỉ gồm khoảng trắng | **Thao tác được phép trong phạm vi đối chiếu**; lưu địa chỉ mới cho U khi dữ liệu đi kèm đáp ứng ràng buộc đã biết (R20-02/05). Không suy ra địa chỉ là trường bắt buộc. |
 | E20-P-TYPE | I20-PHONE, chuỗi không rỗng | Có ít nhất một ký tự không phải chữ số, không phụ thuộc ký tự đầu hoặc độ dài | **Không hợp lệ về định dạng**; không lưu chính số điện thoại này (R20-03). |
@@ -523,7 +519,7 @@ Với số điện thoại không rỗng, xét theo thứ tự **ký tự → k�
 | E20-EMAIL | I20-EMAIL, thao tác qua giao diện | Thử đổi Email của U sang giá trị khác Email ban đầu qua giao diện | **Thao tác thay đổi không được phép**; Email không bị thay đổi qua giao diện (R20-04). Cơ chế khóa nhập được đánh giá ngay tại UI, không yêu cầu gửi được yêu cầu sửa Email. |
 | E20-ROLE | I20-ROLE, thao tác của U | Yêu cầu tự đổi role sang giá trị khác role ban đầu | **Yêu cầu thay đổi không được phép**; role không bị U tự thay đổi (R20-06). Không giả định có ô chọn role trên Mobile. |
 
-Các lớp tên/địa chỉ xác định thao tác chỉnh sửa có nội dung, không phân hoạch đầy đủ các dạng chuỗi chưa có quy định. Với điện thoại, P-TYPE hoặc P-PREFIX có thể chứa dữ liệu vi phạm thêm điều kiện khác; các đại diện invalid ở mục 5.3 chỉ vi phạm điều kiện mục tiêu, giữ các điều kiện còn lại đúng để tránh che lỗi.
+Các lớp tên/địa chỉ xác định thao tác chỉnh sửa có nội dung, không phân hoạch đầy đủ các dạng chuỗi chưa có quy định. Với điện thoại, P-TYPE hoặc P-PREFIX có thể chứa dữ liệu vi phạm thêm điều kiện khác; các đại diện invalid ở mục 4.3 chỉ vi phạm điều kiện mục tiêu, giữ các điều kiện còn lại đúng để tránh che lỗi.
 
 | EC-ID | Biến / điều kiện | Lớp đầu ra kỳ vọng |
 |---|---|---|
@@ -542,11 +538,11 @@ Các lớp tên/địa chỉ xác định thao tác chỉnh sửa có nội dung
 | Tên/địa chỉ rỗng, chỉ gồm khoảng trắng, chuẩn hóa hoặc giới hạn độ dài | Chưa có quy tắc trong FR-04/FR-20 để tách lớp với kỳ vọng chấp nhận/từ chối cụ thể. |
 | Đường nhập cho mục tiêu OTHER hoặc role | Quy tắc bảo vệ có oracle, nhưng chưa tìm thấy luồng tạo yêu cầu và nguồn quan sát tương ứng trong Hồ sơ Mobile. Không kết luận PASS chỉ từ việc không thấy ô nhập. Email được đánh giá riêng bằng D07. |
 
-### 5.3. Đại diện
+### 4.3. Đại diện
 
-Nguồn yêu cầu: file `README.md` trong `eshop-sut` và `references/SRS.md`, FR-04/FR-20. Phương pháp: slide “S04 — Domain Testing”, chọn đại diện và kết hợp các lớp hợp lệ. Mã lớp theo mục 5.2.
+Nguồn yêu cầu: file `README.md` trong `eshop-sut`, FR-04/FR-20. Phương pháp: slide “S04 — Domain Testing”, chọn đại diện và kết hợp các lớp hợp lệ. Mã lớp theo mục 4.2.
 
-**Dữ liệu và tiền điều kiện:** U dùng tài khoản thử `test@eshop.com`, role `user`; V là tài khoản thử khác U, `admin@eshop.com`, theo file seed `backend/database.js`. Cần đối chiếu đúng tài khoản trên baseline Mobile trước khi dùng; không suy ra ID hoặc hồ sơ đang chạy chỉ từ tên tài khoản. Gọi hồ sơ đã lưu trước từng ca của U là N0/P0/A0/Email0/Role0. P0 có thể rỗng trên UI hoặc null trong dữ liệu nền; không yêu cầu P0 hợp lệ vì mỗi ca điện thoại thay giá trị mục tiêu trước khi lưu. Tên và địa chỉ mới dưới đây là dữ liệu thử; kết quả lưu được ghi ở mục 5.5.
+**Dữ liệu và tiền điều kiện:** U dùng tài khoản thử `test@eshop.com`, role `user`; V là tài khoản thử khác U, `admin@eshop.com`, theo file seed `backend/database.js`. Cần đối chiếu đúng tài khoản trên baseline Mobile trước khi dùng; không suy ra ID hoặc hồ sơ đang chạy chỉ từ tên tài khoản. Gọi hồ sơ đã lưu trước từng ca của U là N0/P0/A0/Email0/Role0. P0 có thể rỗng trên UI hoặc null trong dữ liệu nền; không yêu cầu P0 hợp lệ vì mỗi ca điện thoại thay giá trị mục tiêu trước khi lưu. Tên và địa chỉ mới dưới đây là dữ liệu thử; kết quả lưu được ghi ở mục 4.5.
 
 | Ký hiệu | Dữ liệu cụ thể / điều kiện |
 |---|---|
@@ -569,11 +565,11 @@ Giữ phiên U hợp lệ và mục tiêu là U trong các đại diện điện
 | REP20-ROLE | U có Role0 = `user`; yêu cầu tự đổi sang `admin`, giữ các dữ liệu khác hợp lệ. | E20-ROLE, E20-O-ROLE-KEEP | U không tự thay đổi được role (R20-06). | Giá trị role là dữ liệu tài khoản seed, không phải một miền được phép sửa. Chưa có đường tương tác hoặc cách đối chiếu role qua Mobile được xác nhận. |
 | REP20-OTHER | Phiên U nhưng yêu cầu cập nhật hồ sơ V, dùng tên đề xuất N1; giữ dữ liệu khác đáp ứng ràng buộc đã biết. | E20-OTHER, E20-O-OTHER-PROTECTED | Hồ sơ V không bị yêu cầu của U cập nhật (R20-05). | U/V khác nhau theo tài khoản được kiểm soát. Định danh thực tế và đường tương tác phải được xác định; không tự tạo ô ID hoặc chuyển sang API. |
 
-Các lớp đầu ra được đối chiếu cùng thao tác tạo ra chúng. REP20-EMAIL kiểm tra cơ chế khóa chỉnh sửa tại UI. REP20-ROLE/OTHER vẫn là đại diện thiết kế nhưng chưa có đường thực thi qua Hồ sơ Mobile; không nhận việc role/hồ sơ V giữ nguyên là bằng chứng đã thử yêu cầu bị cấm. Các tình huống thiếu quy định ở mục 5.2 không tự được gán valid/invalid.
+Các lớp đầu ra được đối chiếu cùng thao tác tạo ra chúng. REP20-EMAIL kiểm tra cơ chế khóa chỉnh sửa tại UI. REP20-ROLE/OTHER vẫn là đại diện thiết kế nhưng chưa có đường thực thi qua Hồ sơ Mobile; không nhận việc role/hồ sơ V giữ nguyên là bằng chứng đã thử yêu cầu bị cấm. Các tình huống thiếu quy định ở mục 4.2 không tự được gán valid/invalid.
 
-### 5.4. Giá trị biên (BVA)
+### 4.4. Giá trị biên (BVA)
 
-Nguồn: file `README.md` trong `eshop-sut` và `references/SRS.md`, FR-04/FR-20; slide “S04 — Domain Testing”.
+Nguồn: file `README.md` trong `eshop-sut`, FR-04/FR-20; slide “S04 — Domain Testing”.
 
 **Biến: độ dài số điện thoại I20-PHONE; LB = 10, UB = 11, hai biên đóng; Δ = 1 chữ số** (R20-03). Giữ toàn chữ số và ký tự đầu `0` để chỉ xét độ dài. Quanh LB có 9–10–11; quanh UB có 10–11–12; gộp hai điểm trùng 10 và 11 thành bốn dữ liệu dưới đây.
 
@@ -584,13 +580,13 @@ Nguồn: file `README.md` trong `eshop-sut` và `references/SRS.md`, FR-04/FR-20
 | B20-AT-UB | `09123456789`; 11 = UB = LB + Δ | E20-P-VALID, E20-O-UPDATE | REP20-UPDATE với P11 | Được cập nhật số điện thoại 11 chữ số này cho U khi các dữ liệu đi kèm hợp lệ (R20-02/03/05); không giới hạn chỉ 10 chữ số. |
 | B20-HIGH | `091234567890`; 12 = UB + Δ | E20-P-LONG, E20-O-PHONE-REJECT | REP20-P-LONG | Không lưu số điện thoại 12 chữ số (R20-03). |
 
-Bốn điểm độ dài dùng chung dữ liệu và kỳ vọng EP, không tạo bộ biên trùng. Sai ký tự đầu và sai kiểu ký tự giữ các đại diện EP riêng; không áp ±1 lên giá trị số điện thoại, Email, role hoặc ID. SRS chưa quy định độ dài tên/địa chỉ nên không tạo biên cho các trường này. Điện thoại rỗng vẫn thuộc phần chưa đủ căn cứ ở mục 5.2, không tự coi là ca invalid bổ sung. Chuỗi thử nhập, giá trị còn trong ô và kết quả lưu được ghi theo quan sát ở mục 5.5; không suy ra giới hạn kênh nhập từ SRS.
+Bốn điểm độ dài dùng chung dữ liệu và kỳ vọng EP, không tạo bộ biên trùng. Sai ký tự đầu và sai kiểu ký tự giữ các đại diện EP riêng; không áp ±1 lên giá trị số điện thoại, Email, role hoặc ID. SRS chưa quy định độ dài tên/địa chỉ nên không tạo biên cho các trường này. Điện thoại rỗng vẫn thuộc phần chưa đủ căn cứ ở mục 4.2, không tự coi là ca invalid bổ sung. Chuỗi thử nhập, giá trị còn trong ô và kết quả lưu được ghi theo quan sát ở mục 4.5; không suy ra giới hạn kênh nhập từ SRS.
 
-### 5.5. Testcase và kết quả
+### 4.5. Testcase và kết quả
 
 **Tiền điều kiện và tiêu chí đánh giá:**
 
-**PC chung:** Mobile đúng baseline; U = `test@eshop.com` đã đăng nhập, mở Hồ sơ của mình. Trước mỗi ca, lấy lại và ghi nhận N0/P0/A0/Email0/Role0 đã lưu; giữ N0/A0 đáp ứng ràng buộc đã biết. P0 là giá trị thực tế, có thể rỗng/null, không bắt buộc đang hợp lệ; mỗi ca thay toàn bộ số điện thoại bằng dữ liệu mục tiêu trước khi lưu. Dữ liệu mới N1/A1 và các số điện thoại theo mục 5.3. Mỗi ca xác định lại dữ liệu đã lưu bằng phiên đăng nhập mới; không mặc định thao tác của ca trước đã thành công hoặc dữ liệu nền luôn giống seed.
+**PC chung:** Mobile đúng baseline; U = `test@eshop.com` đã đăng nhập, mở Hồ sơ của mình. Trước mỗi ca, lấy lại và ghi nhận N0/P0/A0/Email0/Role0 đã lưu; giữ N0/A0 đáp ứng ràng buộc đã biết. P0 là giá trị thực tế, có thể rỗng/null, không bắt buộc đang hợp lệ; mỗi ca thay toàn bộ số điện thoại bằng dữ liệu mục tiêu trước khi lưu. Dữ liệu mới N1/A1 và các số điện thoại theo mục 4.3. Mỗi ca xác định lại dữ liệu đã lưu bằng phiên đăng nhập mới; không mặc định thao tác của ca trước đã thành công hoặc dữ liệu nền luôn giống seed.
 
 | Mã PC | Điều kiện riêng |
 |---|---|
@@ -618,7 +614,7 @@ D07 đánh giá khóa chỉnh sửa Email tại UI. D08–D09 ghi **NOT RUN (ch�
 | F20-D08 | Bảo vệ role — có điều kiện PC20-ROLE; `user` → `admin`, giữ dữ liệu khác hợp lệ; R20-06; REP20-ROLE; E20-ROLE, E20-O-ROLE-KEEP | 1. Xác định Role0 của U và đường tương tác Mobile thực tế theo PC. 2. Qua đường đó, thử yêu cầu tự đổi sang `admin`. 3. Đối chiếu role bằng nguồn quan sát Mobile đã xác định. Không thực hiện ca khi còn thiếu PC. | U không tự thay đổi được role; Role0 không bị yêu cầu này đổi thành `admin`. | Trong Hồ sơ chỉ có Email bị khóa, Họ Tên, Số điện thoại, Địa chỉ, Cập nhật và Thoát; không thấy trường/luồng tự đổi role hoặc nguồn hiển thị role trong Mobile. Chưa tạo được yêu cầu user → admin theo PC20-ROLE; chưa đánh giá khả năng chống tự đổi role. | NOT RUN | |
 | F20-D09 | Bảo vệ hồ sơ người khác — có điều kiện PC20-OTHER; phiên U, mục tiêu V, tên đề xuất N1; R20-05; REP20-OTHER; E20-OTHER, E20-O-OTHER-PROTECTED | 1. Xác định hồ sơ nền V và luồng Mobile thực tế theo PC. 2. Giữ phiên U, dùng luồng đó yêu cầu đổi tên hồ sơ V thành N1; giữ dữ liệu khác hợp lệ. 3. Đối chiếu hồ sơ V bằng phiên Mobile hợp lệ riêng. Không thay ID bằng API hoặc tự tạo đường nhập. | Hồ sơ V không bị yêu cầu từ U cập nhật; tên V không bị đổi thành N1 bởi thao tác này. | Hồ sơ gắn với tài khoản đăng nhập; giao diện không có ô ID, danh sách người dùng hoặc lựa chọn hồ sơ mục tiêu khác U. Chưa tạo được yêu cầu sửa hồ sơ admin@eshop.com từ phiên U theo PC20-OTHER. Việc hồ sơ V không đổi không thay thế một lượt thử truy cập trái quyền. | NOT RUN | |
 
-### 5.6. Truy vết và kết luận
+### 4.6. Truy vết và kết luận
 
 **Truy vết thiết kế** — quy tắc hồ sơ lấy từ FR-04, chức năng Mobile lấy từ FR-20:
 
@@ -633,18 +629,40 @@ D07 đánh giá khóa chỉnh sửa Email tại UI. D08–D09 ghi **NOT RUN (ch�
 | R20-06: E20-ROLE, E20-O-ROLE-KEEP; REP20-ROLE | F20-D08 — NOT RUN; chưa có đường tự đổi role và nguồn quan sát role qua Mobile. |
 | R20-05: E20-OTHER, E20-O-OTHER-PROTECTED; REP20-OTHER | F20-D09 — NOT RUN; chưa có đường yêu cầu sửa hồ sơ V từ phiên U qua Mobile. |
 | B20-LOW / B20-AT-LB / B20-AT-UB / B20-HIGH: 9–10–11–12 chữ số | F20-D03 / F20-D01 / F20-D02 / F20-D04 |
-| Điện thoại rỗng; tên/địa chỉ rỗng, chuẩn hóa hoặc giới hạn độ dài chưa có quy định | Giữ giới hạn ở mục 5.1–5.2; không thêm ca với kỳ vọng tự đặt. |
+| Điện thoại rỗng; tên/địa chỉ rỗng, chuẩn hóa hoặc giới hạn độ dài chưa có quy định | Giữ giới hạn ở mục 4.1–4.2; không thêm ca với kỳ vọng tự đặt. |
 
 Bộ thiết kế gồm **7 ca F20-D01–D07 có thể thực hiện qua UI và 2 ca F20-D08–D09 chưa đủ tiền điều kiện**. Bốn điểm BVA dùng chung ca EP; sai ký tự đầu và sai kiểu ký tự mỗi điều kiện có một ca riêng. D01 gộp xem và cập nhật ba trường hợp lệ; D02 chỉ đổi điện thoại ở cận 11 chữ số. D07 kiểm tra cơ chế khóa Email tại UI.
 
-D01–D07 ánh xạ **13/17 lớp trong thiết kế** ở mục 5.2; không đồng nghĩa mọi đầu ra kỳ vọng đều đã đạt. D08–D09 ánh xạ **4 lớp còn lại**, chưa được thực thi trong phạm vi Mobile.
+D01–D07 ánh xạ **13/17 lớp trong thiết kế** ở mục 4.2; không đồng nghĩa mọi đầu ra kỳ vọng đều đã đạt. D08–D09 ánh xạ **4 lớp còn lại**, chưa được thực thi trong phạm vi Mobile.
 
 **Kết quả thực thi:** 9 ca thiết kế, 7 ca đã thực thi, **4 PASS, 3 FAIL và 2 NOT RUN**. D01/D02 từ chối số điện thoại hợp lệ 10/11 chữ số bắt đầu bằng `0`; D05 lưu số không bắt đầu bằng `0`. Ba ca FAIL có ảnh minh chứng trong bảng testcase. D03/D04/D06 không lưu các chuỗi invalid tương ứng; D07 PASS cho khóa Email tại UI. D01 bị chặn ở điện thoại nên chưa kết luận riêng việc lưu tên/địa chỉ thành công. D08/D09 chưa thực thi vì thiếu đường tương tác qua Mobile; không kết luận hai yêu cầu bảo vệ quyền đã PASS.
 
-## 6. Tổng kết
+## 5. Tổng kết
 
-Chưa điền.
+Báo cáo bao gồm **4 tính năng**, tương ứng bốn pool: FR-06 — Chi tiết sản phẩm (Web), FR-07 — Giỏ hàng (Web), FR-14 — Danh mục Admin và FR-20 — Hồ sơ Mobile, dùng quy tắc hồ sơ FR-04. Mỗi tính năng trình bày yêu cầu/input-output, EP, đại diện, BVA, testcase và truy vết. EP và BVA dùng chung các ca trùng dữ liệu/mục tiêu.
 
-## 7. Mandatory Disclosure
+**Tổng hợp kết quả đã chốt:**
 
-Chưa điền. Dùng mẫu trong AI-02 và phản ánh đúng phạm vi hỗ trợ AI và phân công thực hiện.
+| Tính năng | Ca thiết kế | Đã thực thi | PASS | FAIL | NOT RUN |
+|---|---:|---:|---:|---:|---:|
+| FR-06 — Chi tiết sản phẩm | 8 | 8 | 0 | 8 | 0 |
+| FR-07 — Giỏ hàng | 9 | 9 | 1 | 8 | 0 |
+| FR-14 — Danh mục Admin | 4 | 4 | 3 | 1 | 0 |
+| FR-20 — Hồ sơ Mobile | 9 | 7 | 4 | 3 | 2 |
+| **Tổng** | **30** | **28** | **8** | **20** | **2** |
+
+
+**AI Critique — 200–300 từ:**
+
+AI hỗ trợ chuyển SRS thành bảng input/output, phân lớp, đại diện và BVA, đồng thời giảm các ca trùng mục tiêu. Tuy nhiên, đầu ra có giới hạn khi chưa quan sát giao diện và cách ứng dụng lưu dữ liệu. Ví dụ, thiết kế Hồ sơ Mobile ban đầu dùng thao tác rời rồi mở lại màn hình để kiểm tra lưu. Kết quả F20-D01 cho thấy dữ liệu vừa nhập vẫn xuất hiện trong cùng phiên dù cập nhật bị từ chối. Người kiểm thử đã bổ sung đăng xuất và đăng nhập lại, nhờ đó phân biệt trạng thái giao diện với dữ liệu được lưu. Cách quan sát ban đầu chưa đủ mạnh vì AI dựa vào luồng chức năng tổng quát, chưa biết cơ chế giữ trạng thái của ứng dụng. Tương tự, các yêu cầu đổi role hoặc sửa hồ sơ người khác có oracle trong SRS nhưng không có đường thao tác qua Mobile đã xác định; vì vậy D08/D09 phải giữ NOT RUN, không kết luận PASS chỉ vì chưa thấy dữ liệu thay đổi. Quá trình review cũng cần gộp EP với BVA và giữ các giới hạn chưa được đặc tả. Bài học là dùng AI để tạo cấu trúc và truy vết, còn người kiểm thử phải kiểm tra tính khả thi, nguồn dữ liệu và độ tin cậy của phép quan sát. Kết quả FAIL cần được phân tích thành lỗi độc lập; không dùng số ca thất bại làm số bug hoặc dựng thiếu sót AI từ kết quả kiểm thử cũ.
+
+## 6. Mandatory Disclosure
+
+> Báo cáo, bộ testcase và skill này có phiên bản đầu được tạo với sự hỗ trợ của OpenAI Codex. Tôi đã rà soát và yêu cầu chỉnh sửa phạm vi bốn FR, phân lớp, dữ liệu đại diện, BVA và bộ ca theo SRS; yêu cầu bổ sung số lượng âm và ô rỗng cho FR-06, gộp các ca trùng mục tiêu và giữ rõ các trường hợp chưa đủ căn cứ. Tôi trực tiếp thực thi testcase, chụp ảnh và cung cấp các quan sát thực tế đã chốt trong báo cáo. Codex hỗ trợ hướng dẫn, diễn đạt, tổng hợp kết quả, kiểm tra số liệu và tham chiếu; không trực tiếp chạy các ca hoặc tạo ảnh minh chứng của bài làm hiện tại. Phần Tổng kết, AI Critique và khai báo này cũng có hỗ trợ soạn thảo của Codex. Tôi không dùng công cụ AI khác cho bài làm hiện tại.
+
+| Phần có hỗ trợ AI | Đóng góp được khai báo |
+|---|---|
+| Khung tài liệu và skill | Chat hướng dẫn và chat làm bài bằng OpenAI Codex hỗ trợ tạo cấu trúc, đọc yêu cầu và xây dựng skill tái sử dụng. |
+| Thiết kế ở mục 1–4 | Codex hỗ trợ input/output, EP, đại diện, BVA, testcase và truy vết; phạm vi và các lần sửa được lưu trong prompt log. |
+| Kết quả và bằng chứng | Người làm bài trực tiếp thực thi, cung cấp ảnh/quan sát và chốt verdict; Codex hỗ trợ ghi nhận và trình bày, không sinh kết quả hay bằng chứng thay người kiểm thử. |
+| Hoàn thiện báo cáo | Codex tổng hợp số liệu từ testcase, hỗ trợ AI Critique, Mandatory Disclosure và kiểm tra tham chiếu; không thay đổi kết quả đã chốt. |
