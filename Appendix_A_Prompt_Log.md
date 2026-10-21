@@ -1158,3 +1158,186 @@ Chưa chạy test; SUT và các FR khác giữ nguyên. Prompt và đầu ra đ�
 **Bước 5 — chờ review.**
 `````
 
+
+## Tương tác 21
+
+- Công cụ: OpenAI Codex.
+- Thời gian: 21-10-2026 08:29
+
+### Prompt — nguyên văn
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1379 -->
+<!-- prompt-timestamp: 21-10-2026 08:29:31.083 +07:00; source: chat-transcript -->
+`````text
+dùng skill domain-tesing-bva làm fr20 mục hồ sơ mobile, đọc srs fr04 và fr20 hồ sơ, viết yêu cầu, input/output và ep vào report, giải thích từng bước ra khung chat, chưa chạy test, log đầy đủ prompt này
+`````
+
+
+### Output 1 — commentary — 21-10-2026 08:29:47.159 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1384 -->
+`````text
+Tôi sẽ dùng skill `domain-testing-bva` hiện có để đọc FR-04 và phần hồ sơ Mobile trong FR-20, rồi viết yêu cầu, input/output và EP vào Report.md. Tôi sẽ giải thích cách làm từng bước trong chat, ghi rõ phần SRS chưa đủ căn cứ, chưa chạy test và lưu nguyên văn prompt cùng các phản hồi vào log hiện tại.
+`````
+
+
+### Output 2 — commentary — 21-10-2026 08:32:04.751 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1409 -->
+`````text
+Bước 1: FR-20 xác định có chức năng Hồ sơ trên Mobile; tôi dùng FR-04 làm quy tắc nghiệp vụ cho phần này. Người dùng đã đăng nhập được sửa Họ tên, Số điện thoại và Địa chỉ giao hàng mặc định; số điện thoại phải bắt đầu bằng `0`, gồm 10–11 chữ số. Email không được sửa qua giao diện, hồ sơ chỉ được cập nhật cho chính mình và người dùng không được tự đổi role. SRS chưa quy định độ dài tên/địa chỉ hoặc các trường này có bắt buộc hay không; trường hợp số điện thoại rỗng cũng cần để riêng vì chưa rõ có được bỏ trống.
+`````
+
+
+### Output 3 — commentary — 21-10-2026 08:33:29.512 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1422 -->
+`````text
+Bước 2: Tôi phân lớp số điện thoại theo thứ tự: rỗng → có ký tự không phải chữ số → sai ký tự đầu → thiếu/đủ/thừa độ dài. Cách này giúp các lớp không chồng lấn; số gồm 10–11 chữ số bắt đầu bằng `0` thuộc cùng một lớp hợp lệ. Tôi cũng tách các yêu cầu sửa tên/địa chỉ, sửa hồ sơ người khác, đổi Email và đổi role. Các lớp bảo vệ có kỳ vọng từ SRS, nhưng chưa được coi là ca khả thi khi chưa xác định được đường tương tác trên Mobile.
+`````
+
+
+### Output 4 — commentary — 21-10-2026 08:35:02.928 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1442 -->
+`````text
+Mục 5.1–5.2 đã có 6 yêu cầu, 13 biến input/trạng thái/output, 11 lớp input/trạng thái và 6 lớp output. Tôi đã ghi riêng các điểm chưa đủ căn cứ: trường rỗng, giới hạn tên/địa chỉ và khả năng tương tác với Email, role hoặc hồ sơ khác. Nội dung ngoài FR-20 và tài liệu nguồn giữ nguyên; chưa chọn đại diện, làm BVA hay chạy test.
+`````
+
+
+### Output 5 — final_answer — 21-10-2026 08:35:52.587 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1453 -->
+`````text
+Đã viết [mục 5.1–5.2 FR-20](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/23120226_HW02_AI_DomainTesting_work/Report.md:466) theo skill `domain-testing-bva`.
+
+1. **Yêu cầu và input/output:** Dùng FR-20 xác định phạm vi Hồ sơ Mobile, FR-04 xác định ba trường được sửa, định dạng điện thoại và các quy tắc bảo vệ Email, role, hồ sơ người khác. Số điện thoại được xét như chuỗi để giữ số `0` đầu.
+
+2. **EP:** Chia điện thoại thành các nhóm sai kiểu ký tự, sai ký tự đầu, thiếu độ dài, hợp lệ 10–11 chữ số và thừa độ dài. Bổ sung lớp cho cập nhật tên/địa chỉ, quyền và đầu ra tương ứng.
+
+Các trường rỗng, giới hạn tên/địa chỉ và đường tương tác với trường được bảo vệ được ghi rõ là chưa đủ căn cứ.
+
+Chưa chọn đại diện, làm BVA hay chạy test; các FR khác và SUT giữ nguyên. Prompt và phản hồi được ghi nguyên văn vào [log](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/23120226_HW02_AI_DomainTesting_work/Appendix_A_Prompt_Log.md).
+
+**Dừng sau bước EP để bạn review.**
+`````
+
+
+## Tương tác 22
+
+- Công cụ: OpenAI Codex.
+- Thời gian: 21-10-2026 08:38
+
+### Prompt — nguyên văn
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1461 -->
+<!-- prompt-timestamp: 21-10-2026 08:38:21.711 +07:00; source: chat-transcript -->
+`````text
+tiếp tục chọn đại diện và làm bva, chỉ dùng ràng buộc có trong srs, cập nhật report theo cấu trúc như fr14, fr06,... log đầy đủ prompt này
+`````
+
+
+### Output 1 — commentary — 21-10-2026 08:38:26.302 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1464 -->
+`````text
+Tôi sẽ làm tiếp phần đại diện và BVA cho Hồ sơ Mobile, chỉ dựa trên ràng buộc FR-04/FR-20 đã có trong SRS. Tôi sẽ trình bày mục 5.3–5.4 theo cấu trúc các FR trước, giữ rõ các phần chưa đủ căn cứ hoặc chưa xác định đường tương tác, chưa chạy test và ghi log đầy đủ lượt này.
+`````
+
+
+### Output 2 — commentary — 21-10-2026 08:40:27.542 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1487 -->
+`````text
+Biên có căn cứ là độ dài số điện thoại: **10–11 chữ số, hai cận đóng**. Các điểm quanh hai cận gộp còn 9, 10, 11 và 12 chữ số; mỗi số sẽ giữ ký tự đầu `0` để chỉ kiểm tra độ dài. Sai ký tự đầu và có ký tự không phải chữ số dùng đại diện EP riêng. Tên/địa chỉ chưa có giới hạn độ dài trong SRS nên tôi không tạo biên cho chúng.
+`````
+
+
+### Output 3 — commentary — 21-10-2026 08:42:27.485 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1504 -->
+`````text
+Các đại diện điện thoại đã được chọn để tách từng lỗi: `1912345678` chỉ sai ký tự đầu; `091234567A` giữ đầu `0` và độ dài chuỗi 10 để kiểm tra ký tự không phải chữ số. Phần cập nhật hợp lệ gộp tên, địa chỉ và điện thoại. Email, role và hồ sơ người khác có dữ liệu đại diện thiết kế riêng, nhưng vẫn ghi rõ chưa xác nhận khả thi qua giao diện Mobile.
+`````
+
+
+### Output 4 — commentary — 21-10-2026 08:43:15.035 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1515 -->
+`````text
+Mục 5.3–5.4 đã có 8 nhóm đại diện và 4 điểm BVA, với độ dài 9–10–11–12 được đối chiếu đúng. Report dùng sáu đề mục như FR-14; phần testcase tổng hợp và kết quả vẫn để trống. Các FR khác và tài liệu nguồn giữ nguyên, chưa có thao tác trên SUT.
+`````
+
+
+### Output 5 — final_answer — 21-10-2026 08:44:11.419 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1528 -->
+`````text
+Đã cập nhật [mục 5.3–5.4 FR-20](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/23120226_HW02_AI_DomainTesting_work/Report.md:547):
+
+- Chọn **8 nhóm đại diện thiết kế**, có dữ liệu, lớp được phủ và kỳ vọng.
+- BVA điện thoại: cận đóng **10–11 chữ số**, gộp thành bốn điểm **9–10–11–12**, dùng chung với EP.
+- Không tạo biên tên/địa chỉ khi SRS chưa quy định.
+- Đại diện đổi Email, role và hồ sơ khác được ghi rõ **chưa xác nhận khả thi trên Mobile**.
+
+Chưa chạy test; SUT và các FR khác giữ nguyên. Prompt và phản hồi được ghi nguyên văn vào [log](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/23120226_HW02_AI_DomainTesting_work/Appendix_A_Prompt_Log.md).
+
+**Dừng sau BVA để bạn review.**
+`````
+
+
+## Tương tác 23
+
+- Công cụ: OpenAI Codex.
+- Thời gian: 21-10-2026 08:45
+
+### Prompt — nguyên văn
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1536 -->
+<!-- prompt-timestamp: 21-10-2026 08:45:38.609 +07:00; source: chat-transcript -->
+`````text
+gộp ep và bva thành bộ testcase gọn đủ mục tiêu, thêm truy vết, đồng bộ đề mục với fr04, để trống kết quả, cập nhật report và log đầy đủ prompt
+`````
+
+
+### Output 1 — commentary — 21-10-2026 08:45:43.759 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1539 -->
+`````text
+Tôi sẽ gộp EP và BVA của Hồ sơ Mobile thành bộ testcase gọn, thêm truy vết và để trống kết quả. Tôi cũng sẽ kiểm tra mẫu đề mục FR-04 hiện có để đồng bộ cách trình bày, giữ riêng các mục tiêu chưa xác nhận khả thi trên Mobile và ghi log đầy đủ lượt này.
+`````
+
+
+### Output 2 — commentary — 21-10-2026 08:47:57.454 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1568 -->
+`````text
+Trong workspace, FR-04 là phần SRS về hồ sơ, không có mẫu báo cáo riêng. Tôi sẽ giữ sáu đề mục chung đang dùng trong Report và dẫn FR-04 làm nguồn nghiệp vụ. Bộ thiết kế gồm 6 ca chính cho cập nhật hợp lệ và kiểm soát điện thoại, cùng 3 ca có điều kiện cho Email, role và hồ sơ người khác; không thêm ca Xem riêng.
+`````
+
+
+### Output 3 — commentary — 21-10-2026 08:50:41.936 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1595 -->
+`````text
+Bảng 5.5 đã có 6 ca chính và 3 ca có điều kiện; bốn điểm BVA dùng chung ca EP. Truy vết 5.6 phân biệt 11 lớp được ánh xạ vào ca chính với 6 lớp còn phụ thuộc khả năng tương tác trên Mobile. Actual, Verdict và Bằng chứng đều trống; tôi đã kiểm tra chỉ mục 5.5–5.6 thay đổi, chưa chạy test hay sửa SUT.
+`````
+
+
+### Output 4 — final_answer — 21-10-2026 08:51:41.667 +07:00
+
+<!-- chat-message:01a1586b-b6ad-7fe0-9be8-0fcfeeb0dda9:1608 -->
+`````text
+Đã cập nhật [mục 5.5–5.6](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/23120226_HW02_AI_DomainTesting_work/Report.md:591):
+
+- Gộp EP/BVA thành **6 ca chính và 3 ca có điều kiện** cho Email, role, hồ sơ người khác.
+- Có tiền điều kiện, dữ liệu, bước chạy, expected và truy vết.
+- Actual, Verdict và Bằng chứng để trống.
+
+FR-04 là nguồn nghiệp vụ, không có mẫu báo cáo riêng trong workspace; Report giữ sáu đề mục chung như FR-06/FR-14.
+
+Chưa chạy test hay sửa SUT. Prompt và phản hồi được ghi nguyên văn vào [log](C:/Users/daila/Documents/HocTap/N4K1/Testing/HW2/23120226_HW02_AI_DomainTesting_work/Appendix_A_Prompt_Log.md).
+
+**Dừng để bạn review.**
+`````
+

@@ -463,37 +463,181 @@ Bốn ca đã thực thi ánh xạ tới tám lớp trong bộ thiết kế ở 
 
 ## 5. FR-20 — Hồ sơ Mobile
 
-### 5.1. Input/output và yêu cầu nguồn
+### 5.1. Yêu cầu và dữ liệu
 
-Chưa thực hiện.
+Nguồn: file `README.md` trong `eshop-sut` và `references/SRS.md`, FR-04 và phần Hồ sơ của FR-20. Phương pháp: slide “S04 — Domain Testing”, xác định input/output. FR-20 xác định chức năng Hồ sơ trên Mobile; các quy tắc hồ sơ ở FR-04 được dùng để đối chiếu trong phạm vi này.
 
-### 5.2. Equivalence partitions
+| Mã | Yêu cầu áp dụng cho Hồ sơ Mobile | Nguồn |
+|---|---|---|
+| R20-01 | Mobile có chức năng Hồ sơ. | FR-20 |
+| R20-02 | Người dùng đã đăng nhập có thể cập nhật Họ Tên, Số điện thoại và Địa chỉ giao hàng mặc định. | FR-04 |
+| R20-03 | Số điện thoại hợp lệ bắt đầu bằng `0`, có từ 10 đến 11 chữ số. | FR-04 |
+| R20-04 | Email không được phép thay đổi qua giao diện. | FR-04 |
+| R20-05 | Người dùng chỉ được cập nhật hồ sơ của chính mình. | FR-04 |
+| R20-06 | Người dùng không thể tự thay đổi thuộc tính `role`. | FR-04 |
 
-Chưa thực hiện.
+Phạm vi là mở Hồ sơ và cập nhật các trường được phép trên Mobile, kiểm soát số điện thoại và bảo vệ Email, role, hồ sơ người khác. Các chức năng Mobile khác, đăng nhập/đăng ký, hủy đơn hàng và yêu cầu GUI riêng không thuộc phần này; phiên đăng nhập là tiền điều kiện.
 
-### 5.3. Đại diện và test cases
+| ID | Loại / biến | Ràng buộc hoặc kỳ vọng |
+|---|---|---|
+| I20-NAME | Input: Họ Tên mới | Chuỗi ký tự được phép cập nhật theo R20-02; SRS chưa nêu bắt buộc, độ dài hoặc tập ký tự. |
+| I20-PHONE | Input: Số điện thoại mới | Chuỗi chữ số để giữ ký tự `0` đầu; định dạng hợp lệ gồm toàn chữ số, bắt đầu bằng `0`, dài 10–11 chữ số theo R20-03. Không coi đây là một số để bỏ số 0 đầu hoặc tính toán. |
+| I20-ADDRESS | Input: Địa chỉ giao hàng mặc định mới | Chuỗi ký tự được phép cập nhật theo R20-02; chưa nêu bắt buộc, độ dài hoặc cấu trúc địa chỉ. |
+| I20-A | Input: mở Hồ sơ / yêu cầu lưu cập nhật | Mở chức năng theo R20-01; lưu các thay đổi được phép của người dùng đã đăng nhập theo R20-02/05. Chưa đặt tên nút hay luồng màn hình cụ thể. |
+| I20-TARGET | Input/điều kiện: hồ sơ được yêu cầu cập nhật | Đối chiếu định danh mục tiêu với người dùng trong phiên; chỉ cập nhật hồ sơ của chính mình theo R20-05. Đây là biến phân tích quyền, không khẳng định Mobile có ô nhập ID. |
+| I20-EMAIL | Input/điều kiện: yêu cầu thay đổi Email qua giao diện | Không được thay đổi Email theo R20-04; không dùng quy tắc định dạng Email đăng ký để mở rộng phần Hồ sơ. |
+| I20-ROLE | Input/điều kiện: yêu cầu tự đổi role | Không được tự đổi role theo R20-06; chưa khẳng định giao diện có trường hoặc luồng chỉnh role. |
+| S20-SESSION | Trạng thái: người dùng đã đăng nhập | Gọi người dùng hiện tại là U; xác định U từ phiên, không từ một giá trị người dùng tự thay thế. |
+| S20-PROFILE | Trạng thái / dữ liệu hồ sơ ban đầu | Hồ sơ chuẩn của U trước thao tác gồm tên, số điện thoại, địa chỉ, Email và role để đối chiếu thay đổi. Nếu xét yêu cầu tác động đến người khác, cần hồ sơ của tài khoản thử V khác U làm dữ liệu nền. |
+| O20-VIEW | Output: Hồ sơ trên Mobile | Truy cập được chức năng Hồ sơ; thông tin dùng để xem/cập nhật tương ứng tài khoản U theo R20-01/02/05. Không yêu cầu role phải được hiển thị trên màn hình. |
+| O20-UPDATE | Output: dữ liệu được cập nhật | Các trường được phép của U phản ánh nội dung đã lưu với dữ liệu hợp lệ theo R20-02/03/05. |
+| O20-PHONE | Output: kiểm soát số điện thoại | Không lưu số điện thoại vi phạm R20-03; SRS chưa quy định cơ chế chặn hoặc nguyên văn phản hồi. |
+| O20-PROTECTED | Output: Email, role và phạm vi tác động | Email không bị thay đổi qua giao diện, role không bị người dùng tự thay đổi, hồ sơ người khác không bị cập nhật bởi U theo R20-04/05/06. |
 
-Chưa thực hiện. Không điền Actual/Verdict trước khi chạy.
+**Tiền điều kiện và dữ liệu nền:** Ứng dụng Mobile đúng bản SUT có thể truy cập hệ thống; U đã đăng nhập và có hồ sơ được xác định từ dữ liệu chuẩn trước khi cập nhật. Giữ các trường không phải mục tiêu ở dữ liệu nền đáp ứng ràng buộc đã biết; dùng tài khoản thử do người kiểm thử kiểm soát khi cần V khác U. Giá trị hồ sơ ban đầu cần được xác nhận khi chuẩn bị từng đại diện; dữ liệu nền không phải kết quả thực thi.
 
-### 5.4. Boundary Value Analysis
+**Giới hạn đối chiếu dùng chung:**
 
-Chưa thực hiện.
+- Không đặt độ dài tối đa, điều kiện bắt buộc, trim, tập ký tự cho tên/địa chỉ hoặc cách chuẩn hóa số điện thoại ngoài SRS. Chưa đủ căn cứ kết luận việc để rỗng số điện thoại là được phép bỏ trống, giữ giá trị cũ hay phải bị từ chối.
+- Chỉ đối chiếu số điện thoại theo ba điều kiện đã nêu; không thêm quy tắc nhà mạng, đầu số chi tiết hoặc giới hạn chỉ 10 chữ số.
+- Không yêu cầu một kiểu thông báo, toast, thời gian phản hồi hay cơ chế hoàn tác. Khi số điện thoại sai, chỉ đặt kỳ vọng không lưu số sai; SRS chưa nói việc lưu các trường khác trong cùng yêu cầu có phải thành công/thất bại đồng thời hay không.
+- Email, role và hồ sơ người khác có quy tắc bảo vệ rõ, nhưng đường tương tác tương ứng trên Mobile chưa được xác minh. Không tự tạo ô nhập hoặc giả định có thể thay ID/role qua UI; không mở rộng sang API để biến một lớp thiết kế thành ca đã khả thi.
 
-### 5.5. Đánh giá thiết kế
 
-Chưa thực hiện.
 
-### 5.6. Thực thi và bằng chứng
+### 5.2. Phân lớp (EP)
 
-Chưa thực hiện trong quy trình mới.
+Nguồn yêu cầu: file `README.md` trong `eshop-sut` và `references/SRS.md`, FR-04 và FR-20. Phương pháp: slide “S04 — Domain Testing”. Phân lớp theo từng biến/điều kiện ở mục 5.1; các biến khác nhau có thể kết hợp trong cùng tình huống. Phiên đã đăng nhập được giữ làm tiền điều kiện chung.
 
-### 5.7. Liên kết bug report và GitHub Issues
+Với số điện thoại không rỗng, xét theo thứ tự **ký tự → ký tự đầu → độ dài**: chuỗi có ký tự không phải chữ số thuộc P-TYPE; nếu toàn chữ số thì tách sai/đúng ký tự đầu; chỉ khi bắt đầu bằng `0` mới tách ba khoảng độ dài. Nhờ đó các lớp điện thoại dưới đây rời nhau và phủ miền chuỗi không rỗng. Trường hợp rỗng được ghi riêng ở phần chưa đủ căn cứ.
 
-Liên kết báo cáo lỗi và GitHub Issues được bổ sung sau khi hoàn thành báo cáo lỗi và tạo issue.
+| EC-ID | Biến / điều kiện | Miền/lớp | Phân loại và kỳ vọng |
+|---|---|---|---|
+| E20-SELF | I20-TARGET, S20-SESSION | Hồ sơ mục tiêu thuộc U đang đăng nhập | **Trạng thái hợp lệ**; truy cập Hồ sơ của U và được cập nhật các trường cho phép với dữ liệu hợp lệ (R20-01/02/05). |
+| E20-OTHER | I20-TARGET, cùng điều kiện chủ sở hữu | Yêu cầu cập nhật hồ sơ của V khác U | **Yêu cầu không hợp lệ về quyền**; không cập nhật hồ sơ V bởi U (R20-05). Khả năng đưa yêu cầu này qua Mobile theo giới hạn mục 5.1. |
+| E20-NAME | I20-NAME, thao tác cập nhật của U | Thay Họ Tên bằng chuỗi có nội dung, không rỗng và không chỉ gồm khoảng trắng | **Thao tác được phép trong phạm vi đối chiếu**; lưu tên mới cho U khi các dữ liệu đi kèm đáp ứng ràng buộc đã biết (R20-02/05). Không suy ra tên là trường bắt buộc. |
+| E20-ADDRESS | I20-ADDRESS, thao tác cập nhật của U | Thay Địa chỉ giao hàng mặc định bằng chuỗi có nội dung, không rỗng và không chỉ gồm khoảng trắng | **Thao tác được phép trong phạm vi đối chiếu**; lưu địa chỉ mới cho U khi dữ liệu đi kèm đáp ứng ràng buộc đã biết (R20-02/05). Không suy ra địa chỉ là trường bắt buộc. |
+| E20-P-TYPE | I20-PHONE, chuỗi không rỗng | Có ít nhất một ký tự không phải chữ số, không phụ thuộc ký tự đầu hoặc độ dài | **Không hợp lệ về định dạng**; không lưu chính số điện thoại này (R20-03). |
+| E20-P-PREFIX | I20-PHONE, chuỗi không rỗng gồm toàn chữ số | Ký tự đầu khác `0`, không phụ thuộc độ dài | **Không hợp lệ về ký tự đầu**; không lưu chính số điện thoại này (R20-03). |
+| E20-P-SHORT | I20-PHONE, toàn chữ số, bắt đầu bằng `0` | Độ dài từ 1 đến dưới 10 chữ số | **Không hợp lệ về độ dài**; không lưu chính số điện thoại này (R20-03). |
+| E20-P-VALID | I20-PHONE, toàn chữ số, bắt đầu bằng `0` | Độ dài từ 10 đến 11 chữ số | **Đầu vào hợp lệ**; được cập nhật số điện thoại của U khi dữ liệu đi kèm hợp lệ (R20-02/03/05). Hai độ dài cùng loại xử lý nên dùng chung một lớp EP. |
+| E20-P-LONG | I20-PHONE, toàn chữ số, bắt đầu bằng `0` | Độ dài trên 11 chữ số | **Không hợp lệ về độ dài**; không lưu chính số điện thoại này (R20-03). |
+| E20-EMAIL | I20-EMAIL, thao tác qua giao diện | Yêu cầu đổi Email sang giá trị khác Email ban đầu của U | **Yêu cầu thay đổi không được phép**; Email không bị thay đổi qua giao diện (R20-04). Không giả định có ô Email chỉnh sửa được. |
+| E20-ROLE | I20-ROLE, thao tác của U | Yêu cầu tự đổi role sang giá trị khác role ban đầu | **Yêu cầu thay đổi không được phép**; role không bị U tự thay đổi (R20-06). Không giả định có ô chọn role trên Mobile. |
 
-### 5.8. AI audit và gap quan sát được
+Các lớp tên/địa chỉ xác định thao tác chỉnh sửa có nội dung, không phân hoạch đầy đủ các dạng chuỗi chưa có quy định. Với điện thoại, P-TYPE hoặc P-PREFIX có thể chứa dữ liệu vi phạm thêm điều kiện khác; các đại diện invalid ở mục 5.3 chỉ vi phạm điều kiện mục tiêu, giữ các điều kiện còn lại đúng để tránh che lỗi.
 
-Chưa đánh giá. Không dựng thiếu sót AI.
+| EC-ID | Biến / điều kiện | Lớp đầu ra kỳ vọng |
+|---|---|---|
+| E20-O-VIEW | O20-VIEW, mở Hồ sơ của U | Truy cập được Hồ sơ trên Mobile; dữ liệu dùng để xem/cập nhật tương ứng hồ sơ chuẩn của U (R20-01/02/05). |
+| E20-O-UPDATE | O20-UPDATE, cập nhật trường được phép với dữ liệu hợp lệ và mục tiêu SELF | Tên, số điện thoại hoặc địa chỉ được cập nhật tương ứng dữ liệu đã lưu cho U (R20-02/03/05). |
+| E20-O-PHONE-REJECT | O20-PHONE, điện thoại thuộc P-TYPE/P-PREFIX/P-SHORT/P-LONG | Không lưu số điện thoại sai định dạng; đây là đầu ra đúng kỳ vọng của input invalid (R20-03). Không suy ra toàn bộ các trường khác phải được hoàn tác. |
+| E20-O-EMAIL-KEEP | O20-PROTECTED, cập nhật hồ sơ hoặc yêu cầu đổi Email qua UI | Email của U giữ giá trị được bảo vệ, không bị thay đổi qua giao diện (R20-04). |
+| E20-O-ROLE-KEEP | O20-PROTECTED, cập nhật hồ sơ hoặc yêu cầu tự đổi role | Role của U không bị tự thay đổi (R20-06). |
+| E20-O-OTHER-PROTECTED | O20-PROTECTED, yêu cầu cập nhật với mục tiêu OTHER | Hồ sơ V không bị cập nhật bởi yêu cầu của U (R20-05). |
+
+**Phần chưa đủ căn cứ phân lớp:**
+
+| Biến / tình huống | Giới hạn |
+|---|---|
+| Số điện thoại rỗng | Chưa rõ trường có bắt buộc hay được bỏ trống; chưa kết luận valid/invalid hoặc đặt kỳ vọng giữ cũ/từ chối. Không gộp vào P-SHORT vì lớp đó chỉ xét chuỗi chữ số không rỗng. |
+| Tên/địa chỉ rỗng, chỉ gồm khoảng trắng, chuẩn hóa hoặc giới hạn độ dài | Chưa có quy tắc trong FR-04/FR-20 để tách lớp với kỳ vọng chấp nhận/từ chối cụ thể. |
+| Đường nhập cho mục tiêu OTHER, Email hoặc role | Quy tắc bảo vệ đã có oracle; khả năng tạo thao tác qua Mobile cần được xác định trước khi thiết kế bước chạy. Không nhận lớp thiết kế này là bằng chứng đường nhập tồn tại hoặc đã kiểm thử. |
+
+### 5.3. Đại diện
+
+Nguồn yêu cầu: file `README.md` trong `eshop-sut` và `references/SRS.md`, FR-04/FR-20. Phương pháp: slide “S04 — Domain Testing”, chọn đại diện và kết hợp các lớp hợp lệ. Mã lớp theo mục 5.2.
+
+**Dữ liệu và tiền điều kiện:** U dùng tài khoản thử `test@eshop.com`, role `user`; V là tài khoản thử khác U, `admin@eshop.com`, theo file seed `backend/database.js`. Cần đối chiếu đúng tài khoản trên baseline Mobile trước khi dùng; không suy ra ID hoặc hồ sơ đang chạy chỉ từ tên tài khoản. Gọi hồ sơ ban đầu đã xác định của U là N0/P0/A0/Email0/Role0. Tên và địa chỉ mới dưới đây là dữ liệu giả lập để thiết kế, không phải dữ liệu đã được lưu.
+
+| Ký hiệu | Dữ liệu cụ thể / điều kiện |
+|---|---|
+| N1 | `Nguyễn Văn Kiểm Thử`, dùng với hồ sơ có N0 khác N1 để nhận diện thay đổi. |
+| A1 | `20 Đường Thử Nghiệm, Phường A, Thành phố B`, dùng với A0 khác A1. |
+| P10 / P11 | `0912345678` / `09123456789`; lần lượt 10/11 chữ số, đều bắt đầu bằng `0`. Khi kiểm tra cập nhật điện thoại, P0 khác giá trị được thử. |
+| P9 / P12 | `091234567` / `091234567890`; lần lượt 9/12 chữ số, giữ đúng kiểu ký tự và ký tự đầu. |
+| P-PREFIX / P-TYPE | `1912345678` / `091234567A`; đều dài 10 ký tự, lần lượt chỉ sai ký tự đầu hoặc điều kiện toàn chữ số. |
+
+Giữ phiên U hợp lệ và mục tiêu là U trong các đại diện điện thoại. Với dữ liệu invalid, giữ tên/địa chỉ ở N0/A0 đáp ứng các ràng buộc đã biết, chỉ thay số điện thoại mục tiêu. Mỗi biến thể valid bắt đầu từ dữ liệu nền được xác định riêng; không lấy thành công của lượt trước làm tiền điều kiện.
+
+| REP-ID | Dữ liệu và thao tác đại diện | Lớp được phủ | Kỳ vọng theo yêu cầu | Lý do chọn / giới hạn |
+|---|---|---|---|---|
+| REP20-UPDATE | Mở Hồ sơ của U, đối chiếu dữ liệu nền; cập nhật N1, A1 và P10 rồi lưu, xem lại. Dùng cùng luồng với P11 khi xét BVA. | E20-SELF, E20-NAME, E20-ADDRESS, E20-P-VALID; E20-O-VIEW, E20-O-UPDATE | Truy cập được Hồ sơ; các trường được phép của U phản ánh N1/A1 và số điện thoại đã lưu (R20-01/02/03/05). | Gộp xem và cập nhật ba trường hợp lệ. P10/P11 dùng chung lớp EP và hai điểm biên hợp lệ, không thêm ca valid cùng mục tiêu. |
+| REP20-P-SHORT | Hồ sơ U; chỉ thay điện thoại bằng P9 = `091234567`, yêu cầu lưu. | E20-P-SHORT, E20-O-PHONE-REJECT | Không lưu số điện thoại 9 chữ số này (R20-03). | Chỉ sai độ dài dưới khoảng; dùng chung điểm BVA dưới cận. |
+| REP20-P-LONG | Hồ sơ U; chỉ thay điện thoại bằng P12 = `091234567890`, yêu cầu lưu. | E20-P-LONG, E20-O-PHONE-REJECT | Không lưu số điện thoại 12 chữ số này (R20-03). | Chỉ sai độ dài trên khoảng; dùng chung điểm BVA trên cận. |
+| REP20-P-PREFIX | Hồ sơ U; chỉ thay điện thoại bằng `1912345678`, yêu cầu lưu. | E20-P-PREFIX, E20-O-PHONE-REJECT | Không lưu số điện thoại không bắt đầu bằng `0` (R20-03). | Giữ toàn chữ số và dài 10, chỉ sai ký tự đầu; không coi giá trị ký tự đầu là biên số. |
+| REP20-P-TYPE | Hồ sơ U; chỉ thay điện thoại bằng `091234567A`, yêu cầu lưu nếu kênh nhập cho phép. | E20-P-TYPE, E20-O-PHONE-REJECT | Không lưu chuỗi chứa ký tự không phải chữ số (R20-03). | Giữ ký tự đầu `0` và độ dài chuỗi 10. Nếu bàn phím/ô nhập chặn ký tự, đối chiếu tại điểm chặn; không ép nhập bằng API hoặc tính là đã gửi chuỗi đó. |
+| REP20-EMAIL | U; yêu cầu đổi Email0 sang `fr20.change@example.test` (khác Email0), giữ các dữ liệu khác hợp lệ. | E20-EMAIL, E20-O-EMAIL-KEEP | Email không bị thay đổi qua giao diện (R20-04). | Đại diện thiết kế cho yêu cầu bị cấm; đường tương tác Mobile chưa được xác định. Không giả định có ô Email chỉnh sửa được. |
+| REP20-ROLE | U có Role0 = `user`; yêu cầu tự đổi sang `admin`, giữ các dữ liệu khác hợp lệ. | E20-ROLE, E20-O-ROLE-KEEP | U không tự thay đổi được role (R20-06). | Giá trị role là dữ liệu tài khoản seed, không phải một miền được phép sửa. Chưa có đường tương tác hoặc cách đối chiếu role qua Mobile được xác nhận. |
+| REP20-OTHER | Phiên U nhưng yêu cầu cập nhật hồ sơ V, dùng tên đề xuất N1; giữ dữ liệu khác đáp ứng ràng buộc đã biết. | E20-OTHER, E20-O-OTHER-PROTECTED | Hồ sơ V không bị yêu cầu của U cập nhật (R20-05). | U/V khác nhau theo tài khoản được kiểm soát. Định danh thực tế và đường tương tác phải được xác định; không tự tạo ô ID hoặc chuyển sang API. |
+
+Các lớp đầu ra được đối chiếu cùng thao tác tạo ra chúng. REP20-EMAIL/ROLE/OTHER có dữ liệu đại diện về mặt thiết kế nhưng **chưa xác nhận khả thi trên Mobile**; không tính việc đã chọn dữ liệu là đã có ca chạy được hoặc đã phủ thực thi. Việc giữ Email/role sau cập nhật hợp lệ cũng có thể đối chiếu cùng REP20-UPDATE nếu có nguồn quan sát phù hợp; không thay thế bằng chứng cho thao tác bị cấm chưa thể tạo. Các tình huống chưa đủ căn cứ ở mục 5.2 vẫn được giữ riêng, không tự gán đại diện valid/invalid.
+
+### 5.4. Giá trị biên (BVA)
+
+Nguồn: file `README.md` trong `eshop-sut` và `references/SRS.md`, FR-04/FR-20; slide “S04 — Domain Testing”.
+
+**Biến: độ dài số điện thoại I20-PHONE; LB = 10, UB = 11, hai biên đóng; Δ = 1 chữ số** (R20-03). Giữ toàn chữ số và ký tự đầu `0` để chỉ xét độ dài. Quanh LB có 9–10–11; quanh UB có 10–11–12; gộp hai điểm trùng 10 và 11 thành bốn dữ liệu dưới đây.
+
+| BVA-ID | Dữ liệu / độ dài | Lớp | Ca EP dùng chung | Kỳ vọng |
+|---|---|---|---|---|
+| B20-LOW | `091234567`; 9 = LB − Δ | E20-P-SHORT, E20-O-PHONE-REJECT | REP20-P-SHORT | Không lưu số điện thoại 9 chữ số (R20-03). |
+| B20-AT-LB | `0912345678`; 10 = LB = UB − Δ | E20-P-VALID, E20-O-UPDATE | REP20-UPDATE với P10 | Được cập nhật số điện thoại này cho U khi các dữ liệu đi kèm hợp lệ (R20-02/03/05). |
+| B20-AT-UB | `09123456789`; 11 = UB = LB + Δ | E20-P-VALID, E20-O-UPDATE | REP20-UPDATE với P11 | Được cập nhật số điện thoại 11 chữ số này cho U khi các dữ liệu đi kèm hợp lệ (R20-02/03/05); không giới hạn chỉ 10 chữ số. |
+| B20-HIGH | `091234567890`; 12 = UB + Δ | E20-P-LONG, E20-O-PHONE-REJECT | REP20-P-LONG | Không lưu số điện thoại 12 chữ số (R20-03). |
+
+Bốn điểm độ dài dùng chung dữ liệu và kỳ vọng EP, không tạo bộ biên trùng. Sai ký tự đầu và sai kiểu ký tự giữ các đại diện EP riêng; không áp ±1 lên giá trị số điện thoại, Email, role hoặc ID. SRS chưa quy định độ dài tên/địa chỉ nên không tạo biên cho các trường này. Điện thoại rỗng vẫn thuộc phần chưa đủ căn cứ ở mục 5.2, không tự coi là ca invalid bổ sung. Khả năng nhập/giữ từng dữ liệu trên Mobile chưa được kiểm tra; không suy ra giới hạn kênh nhập từ SRS.
+
+### 5.5. Testcase và kết quả
+
+**Tiền điều kiện và tiêu chí đánh giá:**
+
+**PC chung:** Mobile đúng baseline; U = `test@eshop.com` đã đăng nhập, mở Hồ sơ của mình. Đối chiếu hồ sơ nền N0/P0/A0/Email0/Role0 từ nguồn chuẩn trước mỗi ca; N0/A0 đáp ứng ràng buộc đã biết, P0 gồm 10–11 chữ số và bắt đầu bằng `0`. Dữ liệu mới N1/A1 và các số điện thoại theo mục 5.3. Mỗi ca bắt đầu riêng từ tiền điều kiện đã chuẩn bị, không phụ thuộc kết quả ca trước.
+
+| Mã PC | Điều kiện riêng |
+|---|---|
+| PC20-UPDATE | P0 khác số điện thoại được thử. Với D01, N0 khác N1 và A0 khác A1 để nhận diện cả ba thay đổi; D02 giữ tên/địa chỉ ở N0/A0 và chỉ đổi điện thoại. |
+| PC20-PHONE | Giữ N0/A0 và các thuộc tính được bảo vệ; chỉ thử đổi điện thoại. Cần ghi nhận chuỗi thử nhập, giá trị còn lại trong ô và giá trị thực sự được lưu. |
+| PC20-EMAIL | Có cách đối chiếu Email0 trên Mobile; cần xác định cách giao diện cho phép hoặc ngăn yêu cầu thay Email. Không tự tạo trường nhập hay chuyển sang API. |
+| PC20-ROLE | U có Role0 = `user`; phải xác định được đường tương tác và nguồn quan sát role trên Mobile trước khi đánh giá yêu cầu đổi sang `admin`. |
+| PC20-OTHER | V = `admin@eshop.com`, khác U, có hồ sơ nền được xác định và tên ban đầu khác N1. Cần luồng Mobile thực tế tạo yêu cầu tác động đến V từ phiên U và cách đối chiếu hồ sơ V bằng phiên hợp lệ riêng. |
+
+D07–D09 là **ca thiết kế có điều kiện, chưa xác nhận khả thi trên Mobile**. Nếu thiếu đường tương tác hoặc nguồn quan sát, giữ ca ở trạng thái chưa đủ tiền điều kiện, không tự nhận đã phủ yêu cầu. Với dữ liệu điện thoại bị UI chặn hoặc chuyển đổi, chỉ đối chiếu theo chuỗi hiệu lực; không nhận là đã gửi chuỗi gốc để kiểm tra lưu. SRS không quy định thông báo cụ thể hoặc việc các trường khác phải được hoàn tác khi điện thoại sai.
+
+**Bảng testcase:**
+
+| TC-ID | Mục tiêu / dữ liệu / truy vết | Bước chạy cụ thể | Expected Result | Actual Result | Verdict | Bằng chứng |
+|---|---|---|---|---|---|---|
+| F20-D01 | Xem và cập nhật hồ sơ U; PC20-UPDATE; N1 = `Nguyễn Văn Kiểm Thử`, A1 = `20 Đường Thử Nghiệm, Phường A, Thành phố B`, P10 = `0912345678`; R20-01/02/03/05; REP20-UPDATE; E20-SELF, E20-NAME, E20-ADDRESS, E20-P-VALID, E20-O-VIEW, E20-O-UPDATE; B20-AT-LB | 1. Mở Hồ sơ, đối chiếu dữ liệu ban đầu đúng U. 2. Thay tên bằng N1, địa chỉ bằng A1, điện thoại bằng P10; thực hiện lưu một lần. 3. Rời rồi mở lại Hồ sơ, đối chiếu dữ liệu đã lưu. | Truy cập được Hồ sơ của U; tên, địa chỉ và điện thoại phản ánh N1/A1/P10 đã lưu cho U. Số điện thoại 10 chữ số bắt đầu bằng `0` được chấp nhận. | | | |
+| F20-D02 | Cập nhật điện thoại 11 chữ số; PC20-UPDATE; `09123456789`, giữ N0/A0; R20-02/03/05; REP20-UPDATE với P11; E20-SELF, E20-P-VALID, E20-O-VIEW, E20-O-UPDATE; B20-AT-UB | 1. Mở Hồ sơ U với dữ liệu nền đã chuẩn bị. 2. Chỉ thay điện thoại bằng `09123456789`, giữ tên/địa chỉ ở dữ liệu nền; lưu một lần. 3. Rời rồi mở lại Hồ sơ, đối chiếu số điện thoại đã lưu. | Điện thoại của U được cập nhật thành `09123456789`; không giới hạn hợp lệ chỉ ở 10 chữ số. | | | |
+| F20-D03 | Điện thoại thiếu độ dài; PC20-PHONE; `091234567`, 9 chữ số; R20-03; REP20-P-SHORT; E20-P-SHORT, E20-O-PHONE-REJECT; B20-LOW | 1. Mở Hồ sơ U. 2. Thử thay điện thoại bằng `091234567`, quan sát giá trị hiệu lực và yêu cầu lưu nếu UI cho phép. 3. Mở lại Hồ sơ, đối chiếu số thực sự được lưu. | Không lưu số điện thoại 9 chữ số `091234567`; không đặt cơ chế chặn hoặc thông báo cụ thể. | | | |
+| F20-D04 | Điện thoại thừa độ dài; PC20-PHONE; `091234567890`, 12 chữ số; R20-03; REP20-P-LONG; E20-P-LONG, E20-O-PHONE-REJECT; B20-HIGH | 1. Mở Hồ sơ U. 2. Thử thay điện thoại bằng `091234567890`, quan sát giá trị hiệu lực và yêu cầu lưu nếu UI cho phép. 3. Mở lại Hồ sơ, đối chiếu số thực sự được lưu. | Không lưu số điện thoại 12 chữ số `091234567890`; không tự quy định UI phải chặn bằng cách nào. | | | |
+| F20-D05 | Điện thoại sai ký tự đầu; PC20-PHONE; `1912345678`, toàn chữ số, dài 10; R20-03; REP20-P-PREFIX; E20-P-PREFIX, E20-O-PHONE-REJECT | 1. Mở Hồ sơ U. 2. Chỉ thử đổi điện thoại thành `1912345678`, quan sát giá trị hiệu lực; yêu cầu lưu nếu UI cho phép. 3. Mở lại Hồ sơ, đối chiếu số thực sự được lưu. | Không lưu số `1912345678` vì không bắt đầu bằng `0`. | | | |
+| F20-D06 | Điện thoại có ký tự không phải chữ số; PC20-PHONE; `091234567A`, dài 10 ký tự, bắt đầu bằng `0`; R20-03; REP20-P-TYPE; E20-P-TYPE, E20-O-PHONE-REJECT | 1. Mở Hồ sơ U. 2. Thử nhập/dán `091234567A` qua UI và quan sát chuỗi hiệu lực. 3. Nếu chuỗi được giữ, yêu cầu lưu rồi mở lại Hồ sơ; nếu bị chặn/chuyển đổi, ghi nhận điểm chặn và giá trị hiệu lực. | Không lưu `091234567A`. Chặn ký tự tại UI chỉ chứng minh kết quả tại kênh nhập, không chứng minh đã kiểm tra lưu chính chuỗi invalid này. | | | |
+| F20-D07 | Bảo vệ Email — có điều kiện PC20-EMAIL; yêu cầu đổi Email0 sang `fr20.change@example.test` khác Email0, giữ dữ liệu khác hợp lệ; R20-04; REP20-EMAIL; E20-EMAIL, E20-O-EMAIL-KEEP | 1. Mở Hồ sơ U, xác định Email0 và cơ chế giao diện cho phép/ngăn sửa. 2. Nếu có đường chỉnh sửa thực tế, thử giá trị mới và lưu theo luồng đó. 3. Đối chiếu lại Email qua Mobile. Nếu không tạo được yêu cầu, chỉ ghi phạm vi kiểm tra cơ chế khóa, không nhận là đã gửi yêu cầu đổi Email. | Email không bị thay đổi qua giao diện; giữ Email0. Không yêu cầu bắt buộc phải có ô Email để thử nhập. | | | |
+| F20-D08 | Bảo vệ role — có điều kiện PC20-ROLE; `user` → `admin`, giữ dữ liệu khác hợp lệ; R20-06; REP20-ROLE; E20-ROLE, E20-O-ROLE-KEEP | 1. Xác định Role0 của U và đường tương tác Mobile thực tế theo PC. 2. Qua đường đó, thử yêu cầu tự đổi sang `admin`. 3. Đối chiếu role bằng nguồn quan sát Mobile đã xác định. Không thực hiện ca khi còn thiếu PC. | U không tự thay đổi được role; Role0 không bị yêu cầu này đổi thành `admin`. | | | |
+| F20-D09 | Bảo vệ hồ sơ người khác — có điều kiện PC20-OTHER; phiên U, mục tiêu V, tên đề xuất N1; R20-05; REP20-OTHER; E20-OTHER, E20-O-OTHER-PROTECTED | 1. Xác định hồ sơ nền V và luồng Mobile thực tế theo PC. 2. Giữ phiên U, dùng luồng đó yêu cầu đổi tên hồ sơ V thành N1; giữ dữ liệu khác hợp lệ. 3. Đối chiếu hồ sơ V bằng phiên Mobile hợp lệ riêng. Không thay ID bằng API hoặc tự tạo đường nhập. | Hồ sơ V không bị yêu cầu từ U cập nhật; tên V không bị đổi thành N1 bởi thao tác này. | | | |
+
+### 5.6. Truy vết và kết luận
+
+**Truy vết thiết kế** — quy tắc hồ sơ lấy từ FR-04, chức năng Mobile lấy từ FR-20:
+
+| Yêu cầu / lớp / biên | Ca hiện hành / giới hạn |
+|---|---|
+| R20-01: E20-O-VIEW; mở Hồ sơ Mobile | F20-D01, dùng chung luồng xem với các ca cập nhật |
+| R20-02/05: E20-SELF, E20-NAME, E20-ADDRESS, E20-O-UPDATE; REP20-UPDATE | F20-D01; F20-D02 bổ sung điện thoại tại cận trên |
+| R20-03: E20-P-VALID; B20-AT-LB, B20-AT-UB | F20-D01, F20-D02 |
+| R20-03: E20-P-SHORT/P-LONG, E20-O-PHONE-REJECT; B20-LOW/B20-HIGH | F20-D03 / F20-D04 |
+| R20-03: E20-P-PREFIX/P-TYPE, E20-O-PHONE-REJECT | F20-D05 / F20-D06; D06 cần ghi đúng chuỗi hiệu lực hoặc điểm chặn của UI |
+| R20-04: E20-EMAIL, E20-O-EMAIL-KEEP; REP20-EMAIL | F20-D07 — có điều kiện, chưa xác nhận khả thi đầy đủ trên Mobile |
+| R20-06: E20-ROLE, E20-O-ROLE-KEEP; REP20-ROLE | F20-D08 — có điều kiện, cần đường tương tác và nguồn quan sát role |
+| R20-05: E20-OTHER, E20-O-OTHER-PROTECTED; REP20-OTHER | F20-D09 — có điều kiện, cần đường yêu cầu và đối chiếu hồ sơ V |
+| B20-LOW / B20-AT-LB / B20-AT-UB / B20-HIGH: 9–10–11–12 chữ số | F20-D03 / F20-D01 / F20-D02 / F20-D04 |
+| Điện thoại rỗng; tên/địa chỉ rỗng, chuẩn hóa hoặc giới hạn độ dài chưa có quy định | Giữ giới hạn ở mục 5.1–5.2; không thêm ca với kỳ vọng tự đặt. |
+
+Bộ thiết kế gồm **6 ca chính F20-D01–D06 và 3 ca có điều kiện F20-D07–D09**. Bốn điểm BVA dùng chung ca EP; sai ký tự đầu và sai kiểu ký tự mỗi điều kiện có một ca riêng. D01 gộp xem và cập nhật ba trường hợp lệ; D02 chỉ đổi điện thoại để bổ sung cận 11 chữ số, không lặp kiểm tra tên/địa chỉ hoặc tạo ca Xem riêng.
+
+Sáu ca chính ánh xạ **11/17 lớp** ở mục 5.2; ba ca có điều kiện ánh xạ **6 lớp còn lại**, không được tính là đã có ca khả thi khi tiền điều kiện chưa được xác định. Đây là truy vết và phạm vi thiết kế, không phải kết luận kết quả kiểm thử.
 
 ## 6. Tổng kết
 
